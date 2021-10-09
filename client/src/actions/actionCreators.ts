@@ -1,4 +1,4 @@
-//Action types for the Redux store. 
+//Action types for the Redux store.
 
 /*
 import * as actionTypes from "./actionTypes"
