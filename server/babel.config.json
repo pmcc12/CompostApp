@@ -1,0 +1,4 @@
+// solve can't import outside module in test
+{
+    "presets": [["@babel/preset-env", { "targets": { "node": "current" } }]]
+}
