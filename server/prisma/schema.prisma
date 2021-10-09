@@ -1,0 +1,67 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id               Int         @id @default(autoincrement())
+  email            String      @unique
+  password         String
+  username         String?
+  location         Json?
+  balance          Int         @default(0)
+  createdAt        DateTime    @default(now())
+  Product          Product[]
+  OrderItem        OrderItem[]
+  sentMessages     Message[]   @relation("sentMessages")
+  receivedMessages Message[]   @relation("receivedMessages")
+}
+
+model Product {
+  id                Int         @id @default(autoincrement())
+  seller            User        @relation(fields: [sellerId], references: [id])
+  sellerId          Int
+  title             String
+  category          Category[]
+  images            String
+  desc              String
+  retailPrice       Float
+  negotiable        Boolean
+  availableQuantity Int
+  readyDate         DateTime
+  OrderItem         OrderItem[]
+}
+
+model Category {
+  id       Int       @id @default(autoincrement())
+  products Product[]
+}
+
+model OrderItem {
+  id            Int      @id @default(autoincrement())
+  buyer         User     @relation(fields: [buyerId], references: [id])
+  buyerId       Int
+  product       Product  @relation(fields: [productId], references: [id])
+  productId     Int
+  orderPrice    Float
+  orderQuantity Int
+  resolved      Boolean
+  createdAt     DateTime @default(now())
+}
+
+model Message {
+  id         Int      @id @default(autoincrement())
+  content    String
+  createAt   DateTime @default(now())
+  sender     User     @relation("sentMessages", fields: [senderId], references: [id])
+  senderId   Int
+  receiver   User     @relation("receivedMessages", fields: [receiverId], references: [id])
+  receiverId Int
+}
