@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 // To make req.user silent
 export interface IGetUserAuthInfoRequest extends Request {
-  user: any
+  user?: any
 }
 import jwt from '../utils/jwt';
 import createError from 'http-errors';
@@ -27,4 +27,5 @@ const auth = async (req: IGetUserAuthInfoRequest, res: Response, next: NextFunct
     })
 
 }
+
 export default auth;
