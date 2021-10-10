@@ -1,5 +1,10 @@
 //This file holds Typescript types. Is placed in src root in order to be accessible for used in other files without importing
 
+export type ILogin = {
+  email: string;
+  password: string
+}
+
 /*
 interface IArticle {
   id: number
@@ -7,9 +12,6 @@ interface IArticle {
   body: string
 }
 
-type ArticleState = {
-  articles: IArticle[]
-}
 
 type ArticleAction = {
   type: string
