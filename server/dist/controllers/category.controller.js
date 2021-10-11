@@ -12,57 +12,37 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getBuyProductsByCategory = exports.getBuyProducts = void 0;
+exports.postCategory = exports.getAllCategories = void 0;
 const http_errors_1 = __importDefault(require("http-errors"));
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
-const getBuyProducts = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const postCategory = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        if (!req.body.userId) {
-            throw new http_errors_1.default.NotFound("Need to provide userId in body");
-        }
-        const products = yield prisma.product.findMany({
-            where: {
-                sellerId: {
-                    not: req.body.userId,
-                }
-            },
+        const newCategory = yield prisma.category.create({
+            data: req.body,
         });
-        res.status(200).json({
+        res.status(201).json({
             status: true,
-            message: 'All buy products',
-            data: products,
+            message: 'Create category successfully',
+            data: newCategory
         });
     }
     catch (e) {
         next((0, http_errors_1.default)(e.statusCode, e.message));
     }
 });
-exports.getBuyProducts = getBuyProducts;
-const getBuyProductsByCategory = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.postCategory = postCategory;
+const getAllCategories = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        if (!req.body.userId) {
-            throw new http_errors_1.default.NotFound("Need to provide userId in body");
-        }
-        if (!req.body.category) {
-            throw new http_errors_1.default.NotFound("Need to provide category in body");
-        }
-        const products = yield prisma.product.findMany({
-            where: {
-                sellerId: {
-                    not: req.body.userId,
-                },
-                category: req.body.category,
-            },
-        });
+        const categories = yield prisma.category.findMany();
         res.status(200).json({
             status: true,
-            message: 'All buy products',
-            data: products,
+            message: 'All categories',
+            data: categories
         });
     }
     catch (e) {
         next((0, http_errors_1.default)(e.statusCode, e.message));
     }
 });
-exports.getBuyProductsByCategory = getBuyProductsByCategory;
+exports.getAllCategories = getAllCategories;

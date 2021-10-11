@@ -40,7 +40,8 @@ model Product {
 }
 
 model Category {
-  categroyId       Int       @id @default(autoincrement())
+  categoryId       Int       @id @default(autoincrement())
+  categoryName String
   products Product[]
 }
 
