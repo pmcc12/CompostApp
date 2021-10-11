@@ -2,20 +2,19 @@
 import React from 'react'
 import { myReducersTypeof } from '../state/reducers'
 import { useSelector, useDispatch } from 'react-redux'
-import { bindActionCreators } from 'redux';
 import * as actionCreators from '../state/actions/actionCreators'
-import { store } from '../state/store';
 
 export default function Balance() {
 
     const clickHandlerDeposit = () => {
-        console.log('deposit clickes!')
-        store.dispatch(depositBalance(500));
+        console.log('deposit clicked!')
+        dispatch(actionCreators.depositBalance(500));
+        // depositBalance(500);
     }
 
     const clickHandlerWithdraw = () => {
         console.log('Withdraw clicked!')
-        store.dispatch(withdrawBalance(200));
+        dispatch(actionCreators.withdrawBalance(200));
     }
 
     //state retrieving
@@ -23,7 +22,9 @@ export default function Balance() {
 
     //actions retrieving
     const dispatch = useDispatch();
-    const { depositBalance, withdrawBalance } = bindActionCreators(actionCreators, dispatch);
+    // const { depositBalance, withdrawBalance } = bindActionCreators(actionCreators, dispatch);
+
+
 
     return (
         <div className="App">

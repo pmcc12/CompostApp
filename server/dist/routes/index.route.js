@@ -24,12 +24,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const authController = __importStar(require("../controllers/auth.controller"));
+const sellController = __importStar(require("../controllers/sell.controller"));
+const buyController = __importStar(require("../controllers/buy.controller"));
 const router = express_1.default.Router();
 router.get("/", (req, res) => {
-    res.send("Hello world!");
+    res.send("Hello sfdasdf");
 });
 // Authentication
 router.post("/register", authController.register);
 router.post("/login", authController.login);
-router.get("/all", authController.login);
+router.get("/all", authController.all);
+// Sell 
+router.post("/sell/product", sellController.postSellProduct);
+router.get("/sell/getAllProducts", sellController.getSellProducts);
+// Buy
+router.get("/buy/getAllProducts", buyController.getBuyProducts);
 exports.default = router;
