@@ -1,12 +1,12 @@
 import * as AT from './actionTypes' 
 
 interface DepositAction {
-    type: AT.ActionType.DEPOSIT,
+    type: AT.ActionType.BALANCE_DEPOSIT,
     payload: number
 }
 
 interface WithdrawAction {
-    type: AT.ActionType.WITHDRAW,
+    type: AT.ActionType.BALANCE_WITHDRAW,
     payload: number
 }
 
