@@ -1,6 +1,6 @@
 import { ActionType } from "./actionTypes"
 import {Dispatch} from 'redux'
-import { IactionBalance, IactionLogin, ILogin} from "."
+import { IactionBalance, IactionLogin, I_initial_Login} from "."
 import { store } from "../store"
 
 export const depositBalance = (amount: number) => {
@@ -18,7 +18,7 @@ export const withdrawBalance = (amount: number) => {
      }
 }
 
-export const login = (credentials: ILogin) => {
+export const login = (credentials: I_initial_Login) => {
  
         return {
           type: 'LOGIN',

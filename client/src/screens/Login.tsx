@@ -14,11 +14,14 @@ export const Login = () => {
         password: ''
     })
 
-    const state = useSelector((state: myReducersTypeof) => state.login)
+    /* Define  */
+
+    const myState = useSelector((state: myReducersTypeof) => state.login)
 
     const dispatch = useDispatch();
     const {login} = bindActionCreators(actionCreators, dispatch)
 
+    /* call to state to get the updated state */
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         console.log('here in submit');
@@ -56,7 +59,7 @@ export const Login = () => {
                 <Col xs={12} md={10} lg={8}>
                     <Stack gap={2} className="col-md-4 mx-auto">
                         <h1>Login Screen</h1>
-                        <h2>my email: {state.email}</h2>
+                        <h2>my username: {myState.data.username}</h2>
                     </Stack>
                         <Form onSubmit={(event) => handleSubmit(event as React.FormEvent<HTMLFormElement>)}>
                             <Form.Group className="mb-3" controlId="formBasicEmail">

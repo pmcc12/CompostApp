@@ -1,12 +1,13 @@
 import { Middleware } from "redux"
 import { RootState } from "../store"
+import { store } from "../store";
 
 export const loginMiddleware: Middleware<
 {},
 RootState
 > = store => next => action => {
     if(action.type !== 'LOGIN') {
-        console.log('not login!');
+        console.log('you shal not pass login!');
         console.log(action.type);
         return next(action)
     };
@@ -16,9 +17,28 @@ RootState
     const body = action.payload ? JSON.stringify(action.payload) : undefined;
     const defaultHeaders = {'Content-Type': 'application/json'};
     const headers = {...defaultHeaders}
-    if(action.payload.email === 'miguel@gmail.com'){
-        return next({type: `LOGIN_SUCCESS`, payload: action.payload})
-    }
-    console.log('FAILURE!')
-    return next({type: `LOGIN_FAILURE`, payload: action.payload})
+    fetch('http://localhost:5001/login',{method,body,headers})
+    .then(res => res.json())
+    .then(data => {
+        store.dispatch({
+            type: `${action.type}_SUCCESS`,
+            payload: data
+        })
+    })
+    .catch(error => {
+        store.dispatch({
+            type: `${action.type}_FAILURE`,
+            payload: error
+        })
+    });
+
+    return next({
+        type: `${action.type}_REQUEST`,
+    })
+
+    // if(action.payload.email === 'miguel@gmail.com'){
+    //     return next({type: `LOGIN_SUCCESS`, payload: action.payload})
+    // }
+    // console.log('FAILURE!')
+    // return next({type: `LOGIN_FAILURE`, payload: action.payload})
 }

@@ -2,21 +2,28 @@ import { IactionLogin } from "../actions"
 import { ActionType } from "../actions/actionTypes"
 
 const initialStateLogin = {
-    email: '',
-    password: '',
-    loading: false,
-    error: {},
-    response: {}
+    status: true,
+    message: '',
+    data: {
+        userId: 0,
+        email: '',
+        username: '',
+        balance: 0,
+        createdAt: '',
+        accessToken: ''
+    }
 }
 
 const LoginReducer = (state = initialStateLogin, action: IactionLogin) => {
     switch (action.type) {
         case ActionType.LOGIN_REQUEST:
+            console.log('in reducer request');
             return {...state, loading: true}
         case ActionType.LOGIN_SUCCESS:
-            return {...state, loading: false, response: action.payload, email: action.payload.email}
+            console.log('in reducer');
+            return {...state, loading: false, data: action.payload.data, status: action.payload.status}
         case ActionType.LOGIN_FAILURE:
-            return {...state, loading: false, error: action.payload}
+            return {...state, loading: false, error: action.payload.message}
         default:
             return state;
     }
