@@ -6,22 +6,20 @@ import { store } from "../store"
 export const depositBalance = (amount: number) => {
   //It would work without the <IactionBalance>, however here we're just enforcing a strict type, and ensuring the dispatch action type is this one
   return {
-      type: `${ActionType.BALANCE_DEPOSIT}`,
+      type: 'BALANCE_DEPOSIT',
       payload: amount
     }
 }
 
 export const withdrawBalance = (amount: number) => {
-   return{
-       type: `${ActionType.BALANCE_WITHDRAW}`,
+   return {
+       type: 'BALANCE_WITHDRAW',
        payload: amount
      }
 }
 
 export const login = (credentials: ILogin) => {
-       
-        // store.dispatch({type: 'LOGIN',
-        // payload: credentials})
+ 
         return {
           type: 'LOGIN',
           payload: credentials
