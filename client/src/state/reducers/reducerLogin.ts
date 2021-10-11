@@ -14,7 +14,7 @@ const LoginReducer = (state = initialStateLogin, action: IactionLogin) => {
         case ActionType.LOGIN_REQUEST:
             return {...state, loading: true}
         case ActionType.LOGIN_SUCCESS:
-            return {...state, loading: false, response: action.payload}
+            return {...state, loading: false, response: action.payload, email: action.payload.email}
         case ActionType.LOGIN_FAILURE:
             return {...state, loading: false, error: action.payload}
         default:

@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import * as actionCreators from '../state/actions/actionCreators'
 import { myReducersTypeof } from '../state/reducers'
 import { useState } from 'react'
+import { store } from '../state/store'
 
 export const Login = () => {
 
@@ -22,8 +23,7 @@ export const Login = () => {
         event.preventDefault();
         console.log('here in submit');
         console.log(credentials);
-        login(credentials);
-        
+        store.dispatch(login(credentials));
     }
 
     //event: any ?
@@ -56,6 +56,7 @@ export const Login = () => {
                 <Col xs={12} md={10} lg={8}>
                     <Stack gap={2} className="col-md-4 mx-auto">
                         <h1>Login Screen</h1>
+                        <h2>my email: {state.email}</h2>
                     </Stack>
                         <Form onSubmit={(event) => handleSubmit(event as React.FormEvent<HTMLFormElement>)}>
                             <Form.Group className="mb-3" controlId="formBasicEmail">

@@ -1,11 +1,11 @@
-import {Provider} from 'react-redux'
 import {createStore, applyMiddleware} from 'redux'
 import reducers from './reducers';
-import thunk from "redux-thunk"
 import { loginMiddleware } from './middleware/loginMiddleware';
+import { balanceMiddleware } from './middleware/balanceMiddleware';
+
 
 //more than one store is not acceptable in redux
-export const store: any = createStore(reducers, applyMiddleware(loginMiddleware));
+export const store: any = createStore(reducers, applyMiddleware(loginMiddleware,balanceMiddleware));
 
 export type RootState = ReturnType<typeof store.getState> 
 
