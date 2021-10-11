@@ -67,7 +67,7 @@ const all = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
         const users = yield auth.all();
         res.status(200).json({
             status: true,
-            message: 'get All users',
+            message: 'All users',
             data: users
         });
     }

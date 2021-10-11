@@ -34,7 +34,7 @@ const all = async (req: Request, res: Response, next: NextFunction) => {
         const users = await auth.all();
         res.status(200).json({
             status: true,
-            message: 'get All users',
+            message: 'All users',
             data: users
         })
     }
@@ -42,5 +42,6 @@ const all = async (req: Request, res: Response, next: NextFunction) => {
         next(createError(e.statusCode, e.message))
     }
 }
+
 
 export { register, login, all };
