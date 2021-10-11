@@ -22,11 +22,9 @@ dotenv_1.default.config();
 const prisma = new client_1.PrismaClient();
 const register = (data) => __awaiter(void 0, void 0, void 0, function* () {
     // TODO: Throw error if email is exist
-    /* tslint:disable-next-line */
-    console.log(data);
     const userExist = yield prisma.user.findUnique({
         where: {
-            email: "mock.user@gmail.com",
+            email: data.email
         },
     });
     if (userExist) {
@@ -51,7 +49,7 @@ const login = (data) => __awaiter(void 0, void 0, void 0, function* () {
     // Check email
     const user = yield prisma.user.findUnique({
         where: {
-            email: "mock.user@gmail.com"
+            email
         }
     });
     if (!user) {

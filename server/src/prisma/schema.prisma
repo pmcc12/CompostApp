@@ -11,7 +11,7 @@ generator client {
 }
 
 model User {
-  id               Int         @id @default(autoincrement())
+  userId               Int         @id @default(autoincrement())
   email            String      @unique
   password         String
   username         String?
@@ -25,30 +25,30 @@ model User {
 }
 
 model Product {
-  id                Int         @id @default(autoincrement())
-  seller            User        @relation(fields: [sellerId], references: [id])
+  productId                Int         @id @default(autoincrement())
+  seller            User        @relation(fields: [sellerId], references: [userId])
   sellerId          Int
-  title             String
+  title             String 
   category          Category[]
   images            String
   desc              String
   retailPrice       Float
   negotiable        Boolean
-  availableQuantity Int
-  readyDate         DateTime
+  availableQuantity Int 
+  readyDate         DateTime  
   OrderItem         OrderItem[]
 }
 
 model Category {
-  id       Int       @id @default(autoincrement())
+  categroyId       Int       @id @default(autoincrement())
   products Product[]
 }
 
 model OrderItem {
-  id            Int      @id @default(autoincrement())
-  buyer         User     @relation(fields: [buyerId], references: [id])
+  orderId            Int      @id @default(autoincrement())
+  buyer         User     @relation(fields: [buyerId], references: [userId])
   buyerId       Int
-  product       Product  @relation(fields: [productId], references: [id])
+  product       Product  @relation(fields: [productId], references: [productId])
   productId     Int
   orderPrice    Float
   orderQuantity Int
@@ -60,8 +60,8 @@ model Message {
   id         Int      @id @default(autoincrement())
   content    String
   createAt   DateTime @default(now())
-  sender     User     @relation("sentMessages", fields: [senderId], references: [id])
+  sender     User     @relation("sentMessages", fields: [senderId], references: [userId])
   senderId   Int
-  receiver   User     @relation("receivedMessages", fields: [receiverId], references: [id])
+  receiver   User     @relation("receivedMessages", fields: [receiverId], references: [userId])
   receiverId Int
 }
