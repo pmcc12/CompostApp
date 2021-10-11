@@ -39,4 +39,5 @@ router.post("/sell/product", sellController.postSellProduct);
 router.get("/sell/getAllProducts", sellController.getSellProducts);
 // Buy
 router.get("/buy/getAllProducts", buyController.getBuyProducts);
+// router.get("/buy/products/categories/:category", buyController.getBuyCategoryProducts);
 exports.default = router;

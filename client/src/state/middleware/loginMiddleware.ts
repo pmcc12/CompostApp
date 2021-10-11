@@ -12,7 +12,10 @@ RootState
     };
     console.log('here in middleware')
     console.log(action);
-    console.log(store.getState());
+    const method = 'POST';
+    const body = action.payload ? JSON.stringify(action.payload) : undefined;
+    const defaultHeaders = {'Content-Type': 'application/json'};
+    const headers = {...defaultHeaders}
     if(action.payload.email === 'miguel@gmail.com'){
         return next({type: `LOGIN_SUCCESS`, payload: action.payload})
     }
