@@ -2,9 +2,12 @@ import {Provider} from 'react-redux'
 import {createStore, applyMiddleware} from 'redux'
 import reducers from './reducers';
 import thunk from "redux-thunk"
+import { loginMiddleware } from './middleware/loginMiddleware';
 
 //more than one store is not acceptable in redux
-export const store = createStore(reducers,{}, applyMiddleware(thunk));
+export const store: any = createStore(reducers, applyMiddleware(loginMiddleware));
+
+export type RootState = ReturnType<typeof store.getState> 
 
 // import React from 'react'
 

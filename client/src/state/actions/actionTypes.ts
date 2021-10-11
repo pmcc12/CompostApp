@@ -1,4 +1,4 @@
-export enum ActionType {
+export enum ActionType  {
     DEPOSIT = "BALANCE_DEPOSIT",
     WITHDRAW = "BALANCE_WITHDRAW",
     LOGIN_REQUEST = "LOGIN_REQUEST",

@@ -9,12 +9,13 @@ import {bindActionCreators} from 'redux'
 import * as actionCreators from './state/actions/actionCreators'
 import { myReducersTypeof } from './state/reducers'
 import { Login } from './screens/Login'
+import Balance from './screens/Balance';
 
 export default function App() {
 
   const dispatch = useDispatch();
 
-  const { depositBalance, withdrawBalance } = bindActionCreators(actionCreators, dispatch);
+  // const { depositBalance, withdrawBalance } = bindActionCreators(actionCreators, dispatch);
 
   //escolho o state.balance
   const state = useSelector((state: myReducersTypeof) => state.balance)
@@ -23,6 +24,7 @@ export default function App() {
     <Router>
       <Switch>
         <Route exact path="/login" component={Login}/>
+        <Route exact path="/balance" component={Balance}/>
       </Switch>
     </Router>
   )
