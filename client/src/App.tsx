@@ -10,6 +10,7 @@ import * as actionCreators from './state/actions/actionCreators'
 import { myReducersTypeof } from './state/reducers'
 import { Login } from './screens/Login'
 import Balance from './screens/Balance';
+import { Register } from './screens/Register';
 
 export default function App() {
 
@@ -22,6 +23,7 @@ export default function App() {
       <Switch>
         <Route exact path="/login" component={Login}/>
         <Route exact path="/balance" component={Balance}/>
+        <Route exact path="/register" component={Register}/>
       </Switch>
     </Router>
   )
