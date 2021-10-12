@@ -11,22 +11,23 @@ const initialStateLogin = {
         balance: 0,
         createdAt: '',
         accessToken: ''
-    }
+    },
+    loading: false
 }
 
-const LoginReducer = (state = initialStateLogin, action: IactionLoginRegister) => {
+const RegisterReducer = (state = initialStateLogin, action: IactionLoginRegister) => {
     switch (action.type) {
-        case ActionType.LOGIN_REQUEST:
+        case ActionType.REGISTER_REQ:
             console.log('in reducer request');
             return {...state, loading: true}
-        case ActionType.LOGIN_SUCCESS:
+        case ActionType.REGISTER_SUC:
             console.log('in reducer');
             return {...state, loading: false, data: action.payload.data, status: action.payload.status}
-        case ActionType.LOGIN_FAILURE:
+        case ActionType.REGISTER_FAIL:
             return {...state, loading: false, error: action.payload.message}
         default:
             return state;
     }
 }
 
-export default LoginReducer;
+export default RegisterReducer;

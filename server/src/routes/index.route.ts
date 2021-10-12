@@ -1,7 +1,8 @@
 import express, { Request, Response } from "express";
 import * as authController from "../controllers/auth.controller";
 import * as sellController from "../controllers/sell.controller";
-import * as buyController from "../controllers/buy.controller"
+import * as buyController from "../controllers/buy.controller";
+import * as categoryController from "../controllers/category.controller"
 import auth from "../middlewares/auth.middleware";
 
 const router = express.Router();
@@ -19,8 +20,18 @@ router.get("/all", authController.all);
 router.post("/sell/product", sellController.postSellProduct);
 router.get("/sell/getAllProducts",sellController.getSellProducts);
 
+// Category
+router.post("/category", categoryController.postCategory);
+router.get("/getAllCategories", categoryController.getAllCategories);
+
 // Buy
 router.get("/buy/getAllProducts", buyController.getBuyProducts );
-// router.get("/buy/products/categories/:category", buyController.getBuyCategoryProducts);
+router.get("/buy/products/category", buyController.getBuyProductsByCategory);
 
 export default router
+
+category: {
+    create: [
+        { categoryName: "" }
+    ]
+}

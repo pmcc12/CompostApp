@@ -26,6 +26,7 @@ const express_1 = __importDefault(require("express"));
 const authController = __importStar(require("../controllers/auth.controller"));
 const sellController = __importStar(require("../controllers/sell.controller"));
 const buyController = __importStar(require("../controllers/buy.controller"));
+const categoryController = __importStar(require("../controllers/category.controller"));
 const router = express_1.default.Router();
 router.get("/", (req, res) => {
     res.send("Hello sfdasdf");
@@ -37,6 +38,15 @@ router.get("/all", authController.all);
 // Sell 
 router.post("/sell/product", sellController.postSellProduct);
 router.get("/sell/getAllProducts", sellController.getSellProducts);
+// Category
+router.post("/category", categoryController.postCategory);
+router.get("/getAllCategories", categoryController.getAllCategories);
 // Buy
 router.get("/buy/getAllProducts", buyController.getBuyProducts);
+router.get("/buy/products/category", buyController.getBuyProductsByCategory);
 exports.default = router;
+category: {
+    create: [
+        { categoryName: "" }
+    ];
+}

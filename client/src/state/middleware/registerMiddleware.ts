@@ -2,22 +2,22 @@ import { Middleware } from "redux"
 import { RootState } from "../store"
 import { store } from "../store";
 
-export const loginMiddleware: Middleware<
+export const registerMiddleware: Middleware<
 {},
 RootState
 > = store => next => action => {
-    if(action.type !== 'LOGIN') {
-        console.log('you shal not pass login!');
+    if(action.type !== 'REGISTER') {
+        console.log('you shall not pass register!');
         console.log(action.type);
         return next(action)
     };
-    console.log('here in middleware')
+    console.log('here in Register')
     console.log(action);
     const method = 'POST';
     const body = action.payload ? JSON.stringify(action.payload) : undefined;
     const defaultHeaders = {'Content-Type': 'application/json'};
     const headers = {...defaultHeaders}
-    fetch('http://localhost:5001/login',{method,body,headers})
+    fetch('http://localhost:5001/register',{method,body,headers})
     .then(res => res.json())
     .then(data => {
         store.dispatch({
@@ -35,10 +35,4 @@ RootState
     return next({
         type: `${action.type}_REQUEST`,
     })
-
-    // if(action.payload.email === 'miguel@gmail.com'){
-    //     return next({type: `LOGIN_SUCCESS`, payload: action.payload})
-    // }
-    // console.log('FAILURE!')
-    // return next({type: `LOGIN_FAILURE`, payload: action.payload})
 }
