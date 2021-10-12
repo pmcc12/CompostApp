@@ -18,14 +18,27 @@ const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
 const postSellProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const userId = req.body.userId;
+        const { userId, categoryId } = req.body;
+        delete req.body.categoryId;
         delete req.body.userId;
         const product = yield prisma.product.create({
             data: Object.assign({ seller: {
                     connect: {
                         userId: userId
                     }
-                } }, req.body)
+                }, categories: {
+                    create: [
+                        { category: { connect: { categoryId: categoryId } } },
+                    ]
+                } }, req.body),
+            //   Showing categories in the return statement
+            include: {
+                categories: {
+                    select: {
+                        category: true,
+                    },
+                },
+            },
         });
         res.status(201).json({
             status: true,
@@ -46,6 +59,14 @@ const getSellProducts = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
         const products = yield prisma.product.findMany({
             where: {
                 sellerId: req.body.userId,
+            },
+            //   Showing categories in the return statement
+            include: {
+                categories: {
+                    select: {
+                        category: true,
+                    },
+                },
             },
         });
         res.status(200).json({
