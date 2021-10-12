@@ -62,7 +62,7 @@ model OrderItem {
   productId     Int
   orderPrice    Float
   orderQuantity Int
-  resolved      Boolean
+  resolved      Boolean  @default(false)
   createdAt     DateTime @default(now())
 }
 

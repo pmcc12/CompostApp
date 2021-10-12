@@ -44,9 +44,5 @@ router.get("/getAllCategories", categoryController.getAllCategories);
 // Buy
 router.get("/buy/getAllProducts", buyController.getBuyProducts);
 router.get("/buy/products/category", buyController.getBuyProductsByCategory);
+router.post("/user/cart/add", buyController.postAddToCart);
 exports.default = router;
-category: {
-    create: [
-        { categoryName: "" }
-    ];
-}
