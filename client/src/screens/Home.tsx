@@ -8,21 +8,18 @@ import {
   Col,
   Image,
 } from 'react-bootstrap';
-import Nav from '../components/Nav';
+import Navigation from '../components/Navigation';
 
 export default function Home() {
   return (
     <>
-      <Nav />
-      <>
-        <style type="text/css">
-          {`
-		.nav {
-			background-color: #d09a42
-		}
+      <Navigation />
+
+      <style type="text/css">
+        {`
 
 		.btn-1 {
-			background-color: #8badab;
+			background-color: #768C7F;
       color: white;
 		}
 
@@ -35,7 +32,7 @@ export default function Home() {
 		}
 
 		.btn-4 {
-			background-color: #d09a42
+			background-color: #AE7F61
 		}
 
 		.btn-5 {
@@ -47,19 +44,9 @@ export default function Home() {
       font-size: 1.5rem;
     }
     `}
-        </style>
-      </>
+      </style>
 
       <Container>
-        <Col md={12} lg={6}>
-          <div
-            className="row justify-content-center"
-            style={{ display: 'block', width: 700, padding: 10 }}
-          >
-            {' '}
-          </div>
-        </Col>
-
         <div className="row justify-content-center mt-5">
           <Row>
             <Image
@@ -67,6 +54,8 @@ export default function Home() {
               className="img-fluid "
               alt="..."
             />
+          </Row>
+          <Row style={{ padding: '10px' }}>
             <Col lg={12}>
               <Stack gap={5}>
                 <Button variant="1" size="lg" href="/buy">
