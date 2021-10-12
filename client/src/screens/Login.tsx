@@ -1,11 +1,9 @@
 import React from 'react'
-import { Form, Button, Container, Row, Col, Stack, FormControlProps} from 'react-bootstrap'
-import { useSelector, useDispatch, useStore } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import * as actionCreators from '../state/actions/actionCreators'
+import { Form, Button, Container, Row, Col, Stack} from 'react-bootstrap'
+import { useSelector, useDispatch } from 'react-redux'
 import { myReducersTypeof } from '../state/reducers'
 import { useState } from 'react'
-import { store } from '../state/store'
+import { login } from '../state/actions/actionCreators'
 
 export const Login = () => {
 
@@ -18,15 +16,16 @@ export const Login = () => {
 
     const myState = useSelector((state: myReducersTypeof) => state.login)
 
+    const registerState = useSelector((state: myReducersTypeof) => state.register)
+
     const dispatch = useDispatch();
-    const {login} = bindActionCreators(actionCreators, dispatch)
 
     /* call to state to get the updated state */
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         console.log('here in submit');
         console.log(credentials);
-        store.dispatch(login(credentials));
+        dispatch(login(credentials))
     }
 
     //event: any ?
@@ -59,7 +58,8 @@ export const Login = () => {
                 <Col xs={12} md={10} lg={8}>
                     <Stack gap={2} className="col-md-4 mx-auto">
                         <h1>Login Screen</h1>
-                        <h2>my username: {myState.data.username}</h2>
+                        <h2>my username (Login): {myState.data.username}</h2>
+                        <h2>my username (Register): {registerState.data.username}</h2>
                     </Stack>
                         <Form onSubmit={(event) => handleSubmit(event as React.FormEvent<HTMLFormElement>)}>
                             <Form.Group className="mb-3" controlId="formBasicEmail">

@@ -31,17 +31,15 @@ export interface I_initial_Login {
     password: string;
 }
 
-// export interface ILogin {
-//     email: string;
-//     password: string;
-//     error: string;
-//     loading: boolean;
-//     response: IloginRespObj
-// }
+export interface I_initial_Register {
+    email: string;
+    password: string;
+    username: string;
+}
 
 export type IactionBalance = DepositAction | WithdrawAction;
 
-export type IactionLogin = {
+export type IactionLoginRegister = {
     type: string;
     payload : IloginRespObj;
 }
