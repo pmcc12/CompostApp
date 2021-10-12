@@ -2,7 +2,8 @@ import express, { Request, Response } from "express";
 import * as authController from "../controllers/auth.controller";
 import * as sellController from "../controllers/sell.controller";
 import * as buyController from "../controllers/buy.controller";
-import * as categoryController from "../controllers/category.controller"
+import * as categoryController from "../controllers/category.controller";
+import * as cartController from "../controllers/cart.controller"
 import auth from "../middlewares/auth.middleware";
 
 const router = express.Router();
@@ -14,7 +15,7 @@ router.get("/", (req: Request, res: Response) => {
 // Authentication
 router.post("/register", authController.register);
 router.post("/login", authController.login);
-router.get("/all", authController.all);
+router.get("/all", auth, authController.all);
 
 // Sell 
 router.post("/sell/product", sellController.postSellProduct);
@@ -28,5 +29,12 @@ router.get("/getAllCategories", categoryController.getAllCategories);
 router.get("/buy/getAllProducts", buyController.getBuyProducts );
 router.get("/buy/products/category", buyController.getBuyProductsByCategory);
 router.post("/user/cart/add", buyController.postAddToCart);
+
+// cart
+router.put("/cart/buyAllItems", cartController.buyAllItems);
+router.put("/cart/buyItem", cartController.buyItem);
+router.delete("/cart/deleteItemFromCart", cartController.deleteCartItem);
+router.get("/cart/getCartOrder", cartController.getCartOrder);
+router.get("/cart/getOrderHistory", cartController.getOrderHistory);
 
 export default router
