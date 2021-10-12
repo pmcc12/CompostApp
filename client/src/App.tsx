@@ -1,14 +1,15 @@
-//Will be used essentially for routing proposes 
+//Will be used essentially for routing proposes
 
-import React from 'react'
+import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css'
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import {bindActionCreators} from 'redux'
-import * as actionCreators from './state/actions/actionCreators'
-import { myReducersTypeof } from './state/reducers'
-import { Login } from './screens/Login'
+
+import './App.css';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as actionCreators from './state/actions/actionCreators';
+import { myReducersTypeof } from './state/reducers';
+import { Login } from './screens/Login';
 import Balance from './screens/Balance';
 import { Register } from './screens/Register';
 import { Sell } from './screens/Sell';
@@ -26,5 +27,5 @@ export default function App() {
         <Route exact path="/sell" component={Sell}/>
       </Switch>
     </Router>
-  )
+  );
 }
