@@ -8,7 +8,7 @@ export default function Navigation() {
         collapseOnSelect
         expand="sm"
         style={{
-          backgroundColor: '#e3f2fd',
+          backgroundColor: '#dbc1a3',
           paddingBottom: '30px',
         }}
       >

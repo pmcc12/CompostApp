@@ -19,24 +19,24 @@ export default function Home() {
         {`
 
 		.btn-1 {
-			background-color: #768C7F;
+			background-color: #9ab1a3;
       color: white;
 		}
 
 		.btn-2 {
-			background-color: #96A7B6
+			background-color: #b1bdc9
 		}
 
 		.btn-3 {
-			background-color: #f0b101
+			background-color: #fed971
 		}
 
 		.btn-4 {
-			background-color: #AE7F61
+			background-color: #a97351
 		}
 
 		.btn-5 {
-			background-color: #eb4343
+			background-color: #cb1515
 		}
 
     .btn-lg {
@@ -51,13 +51,13 @@ export default function Home() {
           <Row>
             <Image
               src="https://media.istockphoto.com/photos/get-sowing-get-growing-picture-id889031338?s=612x612"
-              className="img-fluid "
+              className="img-fluid"
               alt="..."
             />
           </Row>
           <Row style={{ padding: '10px' }}>
             <Col lg={12}>
-              <Stack gap={5}>
+              <Stack gap={4}>
                 <Button variant="1" size="lg" href="/buy">
                   BUY
                 </Button>
