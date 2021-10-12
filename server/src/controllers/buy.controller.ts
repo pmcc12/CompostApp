@@ -15,6 +15,14 @@ const getBuyProducts = async(req:Request, res:Response, next:NextFunction) =>{
                not: req.body.userId,
            }
          },
+         //   Showing categories in the return statement
+            include: {
+                categories: {
+                    select: {
+                        category: true,
+                    },
+                },
+            },
        });
        res.status(200).json({
          status: true,
@@ -39,7 +47,7 @@ const getBuyProductsByCategory = async(req:Request, res:Response, next:NextFunct
             sellerId: {
               not: req.body.userId,
             },
-            category: req.body.category,
+            categories: req.body.category,
           },
         });
        res.status(200).json({

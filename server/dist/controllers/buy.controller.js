@@ -27,6 +27,14 @@ const getBuyProducts = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
                     not: req.body.userId,
                 }
             },
+            //   Showing categories in the return statement
+            include: {
+                categories: {
+                    select: {
+                        category: true,
+                    },
+                },
+            },
         });
         res.status(200).json({
             status: true,
@@ -52,7 +60,7 @@ const getBuyProductsByCategory = (req, res, next) => __awaiter(void 0, void 0, v
                 sellerId: {
                     not: req.body.userId,
                 },
-                category: req.body.category,
+                categories: req.body.category,
             },
         });
         res.status(200).json({

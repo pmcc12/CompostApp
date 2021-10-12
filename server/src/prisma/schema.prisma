@@ -11,7 +11,7 @@ generator client {
 }
 
 model User {
-  userId               Int         @id @default(autoincrement())
+  userId           Int         @id @default(autoincrement())
   email            String      @unique
   password         String
   username         String?
@@ -25,28 +25,37 @@ model User {
 }
 
 model Product {
-  productId                Int         @id @default(autoincrement())
-  seller            User        @relation(fields: [sellerId], references: [userId])
+  productId         Int                    @id @default(autoincrement())
+  seller            User                   @relation(fields: [sellerId], references: [userId])
   sellerId          Int
-  title             String 
-  category          Category[]
+  title             String
+  categories        CategoriesOnProducts[]
   images            String
   desc              String
   retailPrice       Float
   negotiable        Boolean
-  availableQuantity Int 
-  readyDate         DateTime  
+  availableQuantity Int
+  readyDate         DateTime
   OrderItem         OrderItem[]
 }
 
 model Category {
-  categoryId       Int       @id @default(autoincrement())
-  categoryName String
-  products Product[]
+  categoryId   Int                    @id @default(autoincrement())
+  categoryName String                 @unique
+  products     CategoriesOnProducts[]
+}
+
+model CategoriesOnProducts {
+  product    Product  @relation(fields: [productId], references: [productId])
+  productId  Int // relation scalar field (used in the `@relation` attribute above)
+  category   Category @relation(fields: [categoryId], references: [categoryId])
+  categoryId Int // relation scalar field (used in the `@relation` attribute above)
+
+  @@id([productId, categoryId])
 }
 
 model OrderItem {
-  orderId            Int      @id @default(autoincrement())
+  orderId       Int      @id @default(autoincrement())
   buyer         User     @relation(fields: [buyerId], references: [userId])
   buyerId       Int
   product       Product  @relation(fields: [productId], references: [productId])
