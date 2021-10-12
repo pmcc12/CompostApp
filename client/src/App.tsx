@@ -12,20 +12,19 @@ import { myReducersTypeof } from './state/reducers';
 import { Login } from './screens/Login';
 import Balance from './screens/Balance';
 import { Register } from './screens/Register';
-import Home from './screens/Home';
+import { Sell } from './screens/Sell';
 
 export default function App() {
-  const dispatch = useDispatch();
 
-  const state = useSelector((state: myReducersTypeof) => state.balance);
+  const state = useSelector((state: myReducersTypeof) => state.login)
 
   return (
     <Router>
       <Switch>
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/home" component={Home} />
-        <Route exact path="/balance" component={Balance} />
-        <Route exact path="/register" component={Register} />
+        <Route exact path="/login" component={Login}/>
+        <Route exact path="/balance" component={Balance}/>
+        <Route exact path="/register" component={Register}/>
+        <Route exact path="/sell" component={Sell}/>
       </Switch>
     </Router>
   );
