@@ -6,6 +6,7 @@ export const loginMiddleware: Middleware<
 {},
 RootState
 > = store => next => action => {
+    const BASE_URL = process.env.REACT_APP_HOST;
     if(action.type !== 'LOGIN') {
         console.log('you shal not pass login!');
         console.log(action.type);
@@ -17,7 +18,7 @@ RootState
     const body = action.payload ? JSON.stringify(action.payload) : undefined;
     const defaultHeaders = {'Content-Type': 'application/json'};
     const headers = {...defaultHeaders}
-    fetch('http://localhost:5001/login',{method,body,headers})
+    fetch(`${BASE_URL}/login`,{method,body,headers})
     .then(res => res.json())
     .then(data => {
         store.dispatch({

@@ -1,7 +1,8 @@
-import { IactionLoginRegister } from "../actions"
+import { IactionLoginRegister, IactionLocationUpdate } from "../actions"
 import { ActionType } from "../actions/actionTypes"
 
 const initialStateLogin = {
+    loading: false,
     status: true,
     message: '',
     data: {
@@ -10,9 +11,9 @@ const initialStateLogin = {
         username: '',
         balance: 0,
         createdAt: '',
-        accessToken: ''
-    },
-    loading: false
+        accessToken: '',
+        location: {}
+    }
 }
 
 const RegisterReducer = (state = initialStateLogin, action: IactionLoginRegister) => {

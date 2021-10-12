@@ -20,10 +20,17 @@ interface dataBackEnd {
     userId: number,
     email: string,
     username: string,
-    location?: string,
+    location: ILocationUpdate,
     balance: number,
     createdAt: string,
     accessToken: string
+}
+export interface  ILocationUpdate {
+    availability: boolean,
+    error: boolean,
+    latitude: number,
+    longitude: number
+
 }
 
 export interface I_initial_Login {
@@ -41,5 +48,14 @@ export type IactionBalance = DepositAction | WithdrawAction;
 
 export type IactionLoginRegister = {
     type: string;
-    payload : IloginRespObj;
+    payload : IloginRespObj ;
 }
+
+export interface IactionLocationUpdate {
+    type: string,
+    payload: ILocationUpdate
+}
+
+
+ 
+

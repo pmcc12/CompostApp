@@ -11,7 +11,8 @@ const initialStateLogin = {
         balance: 0,
         createdAt: '',
         accessToken: ''
-    }
+    },
+    auth: false
 }
 
 const LoginReducer = (state = initialStateLogin, action: IactionLoginRegister) => {
@@ -21,7 +22,7 @@ const LoginReducer = (state = initialStateLogin, action: IactionLoginRegister) =
             return {...state, loading: true}
         case ActionType.LOGIN_SUCCESS:
             console.log('in reducer');
-            return {...state, loading: false, data: action.payload.data, status: action.payload.status}
+            return {...state, loading: false, data: action.payload.data, status: action.payload.status, auth: true}
         case ActionType.LOGIN_FAILURE:
             return {...state, loading: false, error: action.payload.message}
         default:

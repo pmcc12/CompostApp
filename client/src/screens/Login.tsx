@@ -59,6 +59,7 @@ export const Login = () => {
                     <Stack gap={2} className="col-md-4 mx-auto">
                         <h1>Login Screen</h1>
                         <h2>my username (Login): {myState.data.username}</h2>
+                        <h2>my auth: {myState.auth ? 'True' : 'False'}</h2>
                         <h2>my username (Register): {registerState.data.username}</h2>
                     </Stack>
                         <Form onSubmit={(event) => handleSubmit(event as React.FormEvent<HTMLFormElement>)}>
