@@ -2,13 +2,12 @@ import React from 'react';
 import { Form, Button, Container, Row, Col, Stack } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { myReducersTypeof } from '../state/reducers';
-import { useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom';
 import { useState } from 'react';
 import { login } from '../state/actions/actionCreators';
 import Navigation from '../components/Navigation';
 
 export const Login = () => {
-
   let history = useHistory();
 
   const [credentials, setCredentials] = useState({
@@ -20,8 +19,8 @@ export const Login = () => {
 
   const myState = useSelector((state: myReducersTypeof) => state.login);
 
-  if(myState.auth){
-    history.push("/");
+  if (myState.auth) {
+    history.push('/');
   }
 
   const registerState = useSelector(
@@ -36,8 +35,8 @@ export const Login = () => {
     console.log('here in submit');
     console.log(credentials);
     await dispatch(login(credentials));
-    if(myState.auth){
-      history.push("/home");
+    if (myState.auth) {
+      history.push('/');
     }
   };
 
