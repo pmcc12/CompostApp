@@ -17,8 +17,7 @@ import { Details } from './screens/Details';
 import Home from './screens/Home';
 
 export default function App() {
-
-  const state = useSelector((state: myReducersTypeof) => state.login)
+  const state = useSelector((state: myReducersTypeof) => state.login);
 
   return (
     <Router>
@@ -28,7 +27,8 @@ export default function App() {
         <Route exact path="/register" component={Register}/>
         <Route exact path="/sell" component={()=><Sell authorization={state.auth} />}/>
         <Route exact path="/details" component={()=><Details authorization={state.auth}/>}/>
-        <Route exact path="/home" component={()=><Home authorization={state.auth}/>}/>
+        
+        <Route exact path="/" component={()=><Home authorization={state.auth}/>}/>
       </Switch>
     </Router>
   );

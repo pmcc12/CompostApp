@@ -50,7 +50,7 @@ const Home: React.FC<Props> = ({authorization}) => {
 
       <Container>
         <div className="row justify-content-center mt-5">
-          <Row>
+          <Row className="row justify-content-center mt-5">
             <Image
               src="https://media.istockphoto.com/photos/get-sowing-get-growing-picture-id889031338?s=612x612"
               className="img-fluid"
