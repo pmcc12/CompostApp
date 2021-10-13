@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { register } from '../state/actions/actionCreators'
 import { useHistory } from 'react-router-dom'
 import MyMap from '../components/Map'
+import { Icoordinates } from '../state/actions'
 
 export const Register = () => {
 
@@ -57,6 +58,20 @@ export const Register = () => {
         history.push("/login")
     }
 
+    const handleCurrentLocationMap = (userSelectedLocation: Icoordinates) => {
+        console.log('handleCurrent called!');
+        console.log(userSelectedLocation);
+        setForm((prevForm) => ({
+            ...prevForm,
+            location:{
+                latitude: userSelectedLocation.latitude,
+                longitude: userSelectedLocation.longitude,
+                availability: form.location.availability,
+                error: false
+            }
+        }))
+    }
+
     const handleEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
         console.log('here');
         console.log(event.currentTarget.value);
@@ -88,6 +103,7 @@ export const Register = () => {
     }
 
     return(
+        <>
         <Form onSubmit={(event) => handleSubmit(event as React.FormEvent<HTMLFormElement>)}>
             <Row>
                 <Col xs={0} md={1} lg={2}></Col>
@@ -116,6 +132,8 @@ export const Register = () => {
                     {/* <MyMap latitude={form.location.latitude} longitude={form.location.longitude} availability={form.location.availability} error={form.location.error}/> */}
                     {/* <MyMap location={form.location}/> */}
 
+                    <MyMap location={form.location} locationUpdater={handleCurrentLocationMap}/>
+
                     <div className="d-grid gap-2">
                         <Button variant="primary" type="submit">
                             Register
@@ -125,6 +143,6 @@ export const Register = () => {
                 <Col xs={0} md={1} lg={2}></Col>
             </Row>
         </Form>
-        
+        </>
     )
 }

@@ -4,7 +4,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { myReducersTypeof } from '../state/reducers'
 import { useState } from 'react'
 import { login } from '../state/actions/actionCreators'
-import { Redirect } from 'react-router-dom' 
+import { Redirect } from 'react-router-dom'
+import MyMap from '../components/Map' 
 
 export const Sell = () => {
 
