@@ -1,16 +1,18 @@
 import React from 'react';
-import {
-  Card,
-  Container,
-  Button,
-  Stack,
-  Row,
-  Col,
-  Image,
-} from 'react-bootstrap';
+import {Card,Container,Button,Stack,Row,Col,Image} from 'react-bootstrap';
 import Navigation from '../components/Navigation';
+import { Redirect } from 'react-router-dom'
 
-export default function Home() {
+type Props = {
+  authorization: boolean
+}
+
+const Home: React.FC<Props> = ({authorization}) => {
+
+  if(!authorization){
+    return <Redirect to="login"/>
+  }
+
   return (
     <>
       <Navigation />
@@ -81,3 +83,5 @@ export default function Home() {
     </>
   );
 }
+
+export default Home

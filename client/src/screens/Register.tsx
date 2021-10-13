@@ -55,6 +55,7 @@ export const Register = () => {
         console.log('here in submit');
         console.log(form);
         await dispatch(register(form))
+        /* we need to access our user login in order to save the JWT Token in localStorage()*/
         history.push("/login")
     }
 
@@ -132,7 +133,7 @@ export const Register = () => {
                     {/* <MyMap latitude={form.location.latitude} longitude={form.location.longitude} availability={form.location.availability} error={form.location.error}/> */}
                     {/* <MyMap location={form.location}/> */}
 
-                    <MyMap location={form.location} locationUpdater={handleCurrentLocationMap}/>
+                    <MyMap location={form.location} locationUpdater={handleCurrentLocationMap} inRegister={true} inDetailsOrSell={false} inBuy={false}/>
 
                     <div className="d-grid gap-2">
                         <Button variant="primary" type="submit">

@@ -7,15 +7,19 @@ import { login } from '../state/actions/actionCreators'
 import { Redirect } from 'react-router-dom'
 import MyMap from '../components/Map' 
 
-export const Sell = () => {
+type Props = {
+    authorization: boolean,
+}
 
-    /* Define  */
+export const Sell: React.FC<Props> = ({authorization}) => {
+
+    /* Will be important to access the user session data (which will be stored in login variable), such as the location which will be displayed */
     const myState = useSelector((state: myReducersTypeof) => state.login)
 
-    // if(!myState.auth){
-    //   console.log('not authorized!')
-    //   return <Redirect to="login"/>
-    // }
+    if(!authorization){
+      console.log('not authorized!');
+      return <Redirect to="login"/>
+    }
 
     console.log('AUTHORIZED IN SELL!')
 
@@ -124,6 +128,8 @@ export const Sell = () => {
                             <Form.Control type="datetime-local" value={(new Date()).toISOString().slice(0,16)} min={(new Date()).toISOString().slice(0,16)} placeholder="Availability" />
                         </Form.Group>
 
+                        <MyMap location={{availability: true, error: false, latitude: 37.1245632, longitude: -7.9265792}} inRegister={false} inDetailsOrSell={true} inBuy={false}/>
+
                         <Button variant="primary" type="submit">
                             Submit
                         </Button>
@@ -134,6 +140,9 @@ export const Sell = () => {
         </Container>
     )
 }
+
+    //37.0245632 ; -7.9265792
+
 
 /* 
 id="datetime-local"

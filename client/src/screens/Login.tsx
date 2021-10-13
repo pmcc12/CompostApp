@@ -2,11 +2,15 @@ import React from 'react';
 import { Form, Button, Container, Row, Col, Stack } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { myReducersTypeof } from '../state/reducers';
+import { useHistory } from 'react-router-dom'
 import { useState } from 'react';
 import { login } from '../state/actions/actionCreators';
 import Navigation from '../components/Navigation';
 
 export const Login = () => {
+
+  let history = useHistory();
+
   const [credentials, setCredentials] = useState({
     email: '',
     password: '',
@@ -23,11 +27,14 @@ export const Login = () => {
   const dispatch = useDispatch();
 
   /* call to state to get the updated state */
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log('here in submit');
     console.log(credentials);
-    dispatch(login(credentials));
+    await dispatch(login(credentials));
+    if(myState.auth){
+      history.push("/home");
+    }
   };
 
   //event: any ?
@@ -55,7 +62,6 @@ export const Login = () => {
 
   return (
     <>
-      <Navigation />
       <Container>
         <Row>
           <Col xs={0} md={1} lg={2}></Col>

@@ -5,6 +5,7 @@ const initialStateLogin = {
     loading: false,
     status: true,
     message: '',
+    error: '',
     data: {
         userId: 0,
         email: '',
