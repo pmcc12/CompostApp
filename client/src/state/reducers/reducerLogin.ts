@@ -2,17 +2,20 @@ import { IactionLoginRegister } from "../actions"
 import { ActionType } from "../actions/actionTypes"
 
 const initialStateLogin = {
+    loading: false,
     status: true,
     message: '',
+    error: '',
+    auth: false,
     data: {
         userId: 0,
         email: '',
         username: '',
         balance: 0,
         createdAt: '',
-        accessToken: ''
-    },
-    auth: false
+        accessToken: '',
+        location: {}
+    }
 }
 
 const LoginReducer = (state = initialStateLogin, action: IactionLoginRegister) => {

@@ -20,10 +20,10 @@ interface dataBackEnd {
     userId: number,
     email: string,
     username: string,
-    location: ILocationUpdate,
     balance: number,
     createdAt: string,
     accessToken: string
+    location: ILocationUpdate,
 }
 
 export interface Icoordinates {

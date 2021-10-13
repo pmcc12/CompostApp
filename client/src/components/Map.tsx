@@ -6,11 +6,13 @@ import { ILocationUpdate, Icoordinates } from '../state/actions';
 // import {Map, TileLayer, Marker, Popup, Circle, Pane} from 'react-leaflet'
 import {TileLayer,Marker, MapContainer, Popup, Pane} from 'react-leaflet'
 
-// {latitude,longitude,error,availability}: ILocationUpdate
-
+//locationUpdater will only be sent in Register Screen
 type Props = {
     location: ILocationUpdate,
     locationUpdater?: (val: Icoordinates) => void
+    inRegister:boolean,
+    inDetailsOrSell: boolean,
+    inBuy: boolean
 }
 
 //PROPS From father component:
@@ -20,7 +22,7 @@ Register: -> latitude, longitude from user
 Buy:
           -> callback function to add more markers
 */
-const MyMap: React.FC<Props> = ({location, locationUpdater}) => {
+const MyMap: React.FC<Props> = ({location, locationUpdater, inRegister, inDetailsOrSell, inBuy}) => {
 
     //37.0245632 ; -7.9265792
 
@@ -43,13 +45,37 @@ const MyMap: React.FC<Props> = ({location, locationUpdater}) => {
             attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMaps</a>"
             />
         {/* current user marker draggable.. this marker should only be shown */}
-        <Marker position={[location.latitude, location.longitude]} draggable eventHandlers={{
-            dragend: (event) => registerLocationChange(event as any)
-        }}> 
-            <Popup>
-                Hi!
-            </Popup>
-        </Marker>
+        {inRegister ? 
+            (
+            <Marker position={[location.latitude, location.longitude]} draggable eventHandlers={{
+                dragend: (event) => registerLocationChange(event as any)
+            }}> 
+                <Popup>
+                    Hi! You are in Register!
+                </Popup>
+            </Marker>
+            )
+            : 
+            (inDetailsOrSell ? 
+                (
+                    <Marker position={[location.latitude, location.longitude]}> 
+                        <Popup>
+                            Hi! You are in Sell or Detail!
+                        </Popup>
+                    </Marker>
+                ) 
+                :
+                (
+                    <Marker position={[location.latitude, location.longitude]} draggable eventHandlers={{
+                        dragend: (event) => registerLocationChange(event as any)
+                    }}> 
+                        <Popup>
+                            Hi! You are in Buy!
+                        </Popup>
+                    </Marker>
+                )
+            )
+        }
         
         </MapContainer>
     )

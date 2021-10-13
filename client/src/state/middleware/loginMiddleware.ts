@@ -18,7 +18,7 @@ RootState
     const body = action.payload ? JSON.stringify(action.payload) : undefined;
     const defaultHeaders = {'Content-Type': 'application/json'};
     const headers = {...defaultHeaders}
-    fetch(`${BASE_URL}/login`,{method,body,headers})
+    fetch(`${BASE_URL}/api/login`,{method,body,headers})
     .then(res => res.json())
     .then(data => {
         store.dispatch({
