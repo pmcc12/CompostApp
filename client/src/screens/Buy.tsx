@@ -22,13 +22,13 @@ export default function Buy() {
             md={6}
             sm={12}
             style={{ borderBlock: 'black' }}
-            className="block-example border border-dark"
+            // className="block-example border border-dark"
           >
             <h3>Pick a category</h3>
             <Container style={{ padding: '5px' }}>
               <Row style={{ minHeight: '200px' }}>
                 <Col
-                  className="block-example border border-dark"
+                  // className="block-example border border-dark"
                   style={{ padding: '5px' }}
                 >
                   <Stack>
@@ -74,15 +74,31 @@ export default function Buy() {
             lg={4}
             md={6}
             sm={12}
-            className="block-example border border-dark"
+            // className="block-example border border-dark"
           >
-            I AM A NEAREST SUPPLIERS' BOX
+            <h3>Nearest suppliers</h3>
+            <Card style={{ width: '18rem' }}>
+              <Card.Img variant="top" src="holder.js/100px180" />
+              <Card.Body>
+                <Card.Title>Card Title</Card.Title>
+                <Card.Text>Supplier details</Card.Text>
+                <Button variant="primary">Select supplier</Button>
+              </Card.Body>
+            </Card>
+            <Card style={{ width: '18rem' }}>
+              <Card.Img variant="top" src="holder.js/100px180" />
+              <Card.Body>
+                <Card.Title>Card Title</Card.Title>
+                <Card.Text>Supplier details</Card.Text>
+                <Button variant="primary">Select supplier</Button>
+              </Card.Body>
+            </Card>
           </Col>
           <Col
             lg={4}
             md={6}
             sm={12}
-            className="block-example border border-dark"
+            // className="block-example border border-dark"
           >
             I AM A BOX IN WHICH A MAP WILL RESIDE
           </Col>
