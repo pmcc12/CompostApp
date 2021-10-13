@@ -18,18 +18,17 @@ import MyMap from '../components/Map';
 import Navigation from '../components/Navigation';
 
 type Props = {
-    authorization: boolean,
-}
+  authorization: boolean;
+};
 
-export const Sell: React.FC<Props> = ({authorization}) => {
+export const Sell: React.FC<Props> = ({ authorization }) => {
+  /* Will be important to access the user session data (which will be stored in login variable), such as the location which will be displayed */
+  const myState = useSelector((state: myReducersTypeof) => state.login);
 
-    /* Will be important to access the user session data (which will be stored in login variable), such as the location which will be displayed */
-    const myState = useSelector((state: myReducersTypeof) => state.login)
-
-    if(!authorization){
-      console.log('not authorized!');
-      return <Redirect to="login"/>
-    }
+  if (!authorization) {
+    console.log('not authorized!');
+    return <Redirect to="login" />;
+  }
 
   /* call to state to get the updated state */
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -153,8 +152,18 @@ export const Sell: React.FC<Props> = ({authorization}) => {
                 />
               </Form.Group>
 
-              <MyMap location={{availability: true, error: false, latitude: 37.1245632, longitude: -7.9265792}} inRegister={false} inDetailsOrSell={true} inBuy={false}/>
-              
+              <MyMap
+                location={{
+                  availability: true,
+                  error: false,
+                  latitude: 37.1245632,
+                  longitude: -7.9265792,
+                }}
+                inRegister={false}
+                inDetailsOrSell={true}
+                inBuy={false}
+              />
+
               <Button variant="primary" type="submit">
                 Submit
               </Button>
@@ -167,7 +176,6 @@ export const Sell: React.FC<Props> = ({authorization}) => {
   );
 };
 
-
 //                         <Button variant="primary" type="submit">
 //                             Submit
 //                         </Button>
@@ -179,10 +187,9 @@ export const Sell: React.FC<Props> = ({authorization}) => {
 //     )
 // }
 
-    //37.0245632 ; -7.9265792
+//37.0245632 ; -7.9265792
 
-
-/* 
+/*
 id="datetime-local"
         label="Next appointment"
         type="datetime-local"
