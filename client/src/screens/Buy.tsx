@@ -101,6 +101,7 @@ export default function Buy() {
             // className="block-example border border-dark"
           >
             I AM A BOX IN WHICH A MAP WILL RESIDE
+            {/* <MyMap /> */}
           </Col>
         </Row>
       </Container>
