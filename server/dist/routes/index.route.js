@@ -28,7 +28,7 @@ const sellController = __importStar(require("../controllers/sell.controller"));
 const buyController = __importStar(require("../controllers/buy.controller"));
 const categoryController = __importStar(require("../controllers/category.controller"));
 const cartController = __importStar(require("../controllers/cart.controller"));
-const auth_middleware_1 = __importDefault(require("../middlewares/auth.middleware"));
+const messageController = __importStar(require("../controllers/message.controller"));
 const router = express_1.default.Router();
 router.get("/", (req, res) => {
     res.send("Hello sfdasdf");
@@ -36,7 +36,7 @@ router.get("/", (req, res) => {
 // Authentication
 router.post("/register", authController.register);
 router.post("/login", authController.login);
-router.get("/all", auth_middleware_1.default, authController.all);
+router.get("/all", authController.all);
 // Sell 
 router.post("/sell/product", sellController.postSellProduct);
 router.get("/sell/getAllProducts", sellController.getSellProducts);
@@ -47,10 +47,13 @@ router.get("/getAllCategories", categoryController.getAllCategories);
 router.get("/buy/getAllProducts", buyController.getBuyProducts);
 router.get("/buy/products/category", buyController.getBuyProductsByCategory);
 router.post("/user/cart/add", buyController.postAddToCart);
-// cart
+// Cart
 router.put("/cart/buyAllItems", cartController.buyAllItems);
 router.put("/cart/buyItem", cartController.buyItem);
 router.delete("/cart/deleteItemFromCart", cartController.deleteCartItem);
 router.get("/cart/getCartOrder", cartController.getCartOrder);
 router.get("/cart/getOrderHistory", cartController.getOrderHistory);
+// Message
+router.post("/user/message", messageController.sendMessage);
+router.get("/user/getMessages", messageController.getMessages);
 exports.default = router;
