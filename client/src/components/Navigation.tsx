@@ -12,7 +12,9 @@ export default function Navigation() {
           paddingBottom: '30px',
         }}
       >
-        <Navbar.Brand href="./home">I-COMPOSTER</Navbar.Brand>
+        <Navbar.Brand href="./">
+          <h1>I-COMPOSTER</h1>
+        </Navbar.Brand>
         <Container>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
