@@ -20,6 +20,10 @@ export const Login = () => {
 
   const myState = useSelector((state: myReducersTypeof) => state.login);
 
+  if(myState.auth){
+    history.push("/");
+  }
+
   const registerState = useSelector(
     (state: myReducersTypeof) => state.register
   );
