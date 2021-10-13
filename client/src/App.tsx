@@ -13,18 +13,19 @@ import { Login } from './screens/Login';
 import Balance from './screens/Balance';
 import { Register } from './screens/Register';
 import { Sell } from './screens/Sell';
+import Home from './screens/Home';
 
 export default function App() {
-
-  const state = useSelector((state: myReducersTypeof) => state.login)
+  const state = useSelector((state: myReducersTypeof) => state.login);
 
   return (
     <Router>
       <Switch>
-        <Route exact path="/login" component={Login}/>
-        <Route exact path="/balance" component={Balance}/>
-        <Route exact path="/register" component={Register}/>
-        <Route exact path="/sell" component={Sell}/>
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/" component={Home} />
+        <Route exact path="/balance" component={Balance} />
+        <Route exact path="/register" component={Register} />
+        <Route exact path="/sell" component={Sell} />
       </Switch>
     </Router>
   );
