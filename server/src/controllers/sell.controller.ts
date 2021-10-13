@@ -4,23 +4,23 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-const postSellProduct = async(req:Request, res:Response, next: NextFunction) => {
+const postSellProduct = async (req: Request, res: Response, next: NextFunction) => {
 
     try {
-        const { userId, categoryId} = req.body
+        const { userId, categoryId } = req.body
         delete req.body.categoryId
         delete req.body.userId
-    
+
         const product = await prisma.product.create({
             data: {
-                seller : {
-                    connect : {
+                seller: {
+                    connect: {
                         userId: userId
-                    } 
-                } , 
+                    }
+                },
                 categories: {
                     create: [
-                        { category: { connect: { categoryId:categoryId } } },
+                        { category: { connect: { categoryId: categoryId } } },
                     ]
                 },
                 ...req.body
@@ -38,23 +38,23 @@ const postSellProduct = async(req:Request, res:Response, next: NextFunction) => 
             status: true,
             message: "Sell product created successful",
             data: product
-            }
+        }
         );
-    } catch(e:any) {
-        next(createError(e.statusCode,e.message))
+    } catch (e: any) {
+        next(createError(e.statusCode, e.message))
     }
 
 }
 
 
-const getSellProducts = async(req:Request,res:Response, next:NextFunction) => {
-     try {
+const getSellProducts = async (req: Request, res: Response, next: NextFunction) => {
+    try {
         if (!req.body.userId) {
-          throw new createError.NotFound("Need to provide userId in body");
+            throw new createError.NotFound("Need to provide userId in body");
         }
         const products = await prisma.product.findMany({
             where: {
-            sellerId: req.body.userId,
+                sellerId: req.body.userId,
             },
             //   Showing categories in the return statement
             include: {
@@ -64,16 +64,16 @@ const getSellProducts = async(req:Request,res:Response, next:NextFunction) => {
                     },
                 },
             },
-       });
-       res.status(200).json({
-         status: true,
-         message: 'All sell products',
-         data: products,
-       });
-     } catch (e: any) {
-       next(createError(e.statusCode, e.message));
-     }
-    
+        });
+        res.status(200).json({
+            status: true,
+            message: 'All sell products',
+            data: products,
+        });
+    } catch (e: any) {
+        next(createError(e.statusCode, e.message));
+    }
+
 }
 
 
