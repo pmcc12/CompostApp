@@ -25,6 +25,12 @@ interface dataBackEnd {
     createdAt: string,
     accessToken: string
 }
+
+export interface Icoordinates {
+    latitude: number,
+    longitude: number
+}
+
 export interface  ILocationUpdate {
     availability: boolean,
     error: boolean,
