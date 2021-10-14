@@ -2,52 +2,34 @@ import React from 'react';
 import { Icategories, IgetAllUserProducts, userOffer } from './state/actions';
 
 type IApiService = {
-<<<<<<< HEAD
     getUserOffers: (val: number) => any,
     submitUserOffer: (val: userOffer) => any,
     submitAvailableCategories: (val: Icategories[]) => any
 }
-=======
-  getUserOffers: (val: number) => any;
-  submitUserOffer: (val: userOffer) => any;
-  submitAvailableCategories: (val: Icategories[]) => any;
-};
->>>>>>> developement
 
 /* Get all user related products */
 const ApiService: IApiService = {
-  getUserOffers: async (userId) => {
-    const BASE_URL = process.env.REACT_APP_HOST;
 
-<<<<<<< HEAD
     getUserOffers: async (userId) => {
         const BASE_URL = process.env.REACT_APP_HOST;
         
-            const method = 'POST';
-            const body = userId ? JSON.stringify({userId: userId}) : undefined;
-            const defaultHeaders = {'Content-Type': 'application/json'};
-            const headers = {...defaultHeaders}
-            const response = await fetch(`${BASE_URL}/api/buy/getAllProducts`,{method,body,headers})
-=======
-    const method = 'GET';
-    const body = userId ? JSON.stringify({ userId: userId }) : undefined;
-    const defaultHeaders = { 'Content-Type': 'application/json' };
-    const headers = { ...defaultHeaders };
-    const response = await fetch(`${BASE_URL}/api/buy/getAllProducts`, {
-      method,
-      body,
-      headers,
-    });
->>>>>>> developement
+        const method = 'POST';
+        const body = userId ? JSON.stringify({userId: userId}) : undefined;
+        console.log('inside get user offers');
+        console.log(body)
+        const defaultHeaders = {'Content-Type': 'application/json'};
+        const headers = {...defaultHeaders}
+        const response = await fetch(`${BASE_URL}/api/buy/getAllProducts`,{method,body,headers})
 
-    const { data, errors } = await response.json();
-    if (response.ok) {
-      const finalData = data;
-      return data;
-    } else {
-      return null;
-    }
-  },
+        const { data, errors } = await response.json();
+        if (response.ok) {
+            console.log('response ok');
+            console.log(data);
+            return data;
+        } else {
+            return null;
+        }
+    },
 
   submitUserOffer: async (productData) => {
     const BASE_URL = process.env.REACT_APP_HOST;
@@ -86,7 +68,6 @@ const ApiService: IApiService = {
       headers,
     });
 
-<<<<<<< HEAD
         const {data, errors} = await response.json()
         if(response.ok){
             const finalData = data
@@ -97,16 +78,6 @@ const ApiService: IApiService = {
     },
 
 
-=======
-    const { data, errors } = await response.json();
-    if (response.ok) {
-      const finalData = data;
-      return true;
-    } else {
-      return false;
-    }
-  },
->>>>>>> developement
 };
 
 export default ApiService;

@@ -9,6 +9,7 @@ import MyMap from '../components/Map'
 import Slider from '../components/Slider'
 import Navigation from '../components/Navigation';
 import ApiService from '../ApiService'
+import {IuserProducts, sellerContent, sellerData} from '../state/actions/index'
 
 type Props = {
     authorization: boolean
@@ -24,21 +25,27 @@ export const Details:React.FC<Props> = ({authorization}) => {
     const [loading, setLoading] = useState(true);
     const [buttonPushed, setButtonPushed] = useState(false)
     const [dataFetched, setDataFetched] = useState(false)
-    const [myData, setMyData] = useState([])
+    const [myData, setMyData] = useState<sellerContent[]>([])
+    const [offerIndex, setofferIndex] = useState(0)
     // if(!authorization){
         //   console.log('not authorized!')
         //   return <Redirect to="login"/>
         // }
+    const myState = useSelector((state: myReducersTypeof) => state.login)
+    const {userId} = useParams<detailsParams>();
         
     useEffect(() => {
+        console.log("inside useeffect");
         /* setLoading to true will cause a re-render only once and if loading === false  */
         setLoading(true);
-        const myState = useSelector((state: myReducersTypeof) => state.login)
-        const {userId} = useParams<detailsParams>();
+        console.log('my userid:')
         console.log(+userId);
         /* after updating state, useeffect will be called again. dataFetched ensures that we don't enter in a infinite loop of fetching and seting data. acts like a locker */
         if(!dataFetched){
-            ApiService.getUserOffers(+userId).then((data: any) => setMyData(data)).then(()=>setLoading(false))
+            console.log("fetching");
+            ApiService.getUserOffers(+userId).then((data: any) => setMyData(data)).then(()=>{
+            console.log('promisse fulfilled');
+            setLoading(false)})
             setDataFetched(true);
         }
     }, [buttonPushed])
@@ -82,6 +89,7 @@ export const Details:React.FC<Props> = ({authorization}) => {
                 <Col xs={12} md={10} lg={8}>
                     <Stack gap={2} className="col-md-4 mx-auto">
                         <h1>Details Screen</h1>
+                        <h2>Hello {myData[0] ? myData[0].seller.username : 'John Doe'}</h2>
                     </Stack>
 
                     <Slider />
@@ -90,7 +98,7 @@ export const Details:React.FC<Props> = ({authorization}) => {
                     <br />
 
 
-                    <MyMap location={{availability: true, error: false, latitude: 37.1245632, longitude: -7.9265792}} inRegister={false} inDetailsOrSell={true} inBuy={false}/>
+                    <MyMap location={{availability: true, error: false, latitude: myData[0].seller.location.latitude, longitude: myData[0].seller.location.latitude}} inRegister={false} inDetailsOrSell={true} inBuy={false}/>
 
                     <Button variant="primary" type="submit">
                         Make Order
