@@ -37,7 +37,7 @@ export const Login = () => {
     console.log(credentials);
     await dispatch(login(credentials));
     if(myState.auth){
-      history.push("/home");
+      history.push("/");
     }
   };
 

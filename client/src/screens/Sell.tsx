@@ -16,51 +16,155 @@ import { login } from '../state/actions/actionCreators';
 import { Redirect } from 'react-router-dom';
 import MyMap from '../components/Map';
 import Navigation from '../components/Navigation';
+import ApiService from '../ApiService'
 
 type Props = {
     authorization: boolean,
 }
 
 export const Sell: React.FC<Props> = ({authorization}) => {
+  
+  
+  const [userOffer, setUserOffer] = useState({
+    userId: 0,
+    title: '',
+    images: '',
+    desc: '',
+    retailPrice: 0,
+    negotiable: false,
+    availableQuantity: 0,
+    readyDate: '',
+    categoryId: 0
+  })
 
+  const myState = useSelector((state: myReducersTypeof) => state.login)
+  
     /* Will be important to access the user session data (which will be stored in login variable), such as the location which will be displayed */
-    const myState = useSelector((state: myReducersTypeof) => state.login)
 
-    if(!authorization){
+    if(!myState.auth){
       console.log('not authorized!');
+      console.log('authorization: '+authorization +' and my user name: '+myState.data.username + ' and my user auth: '+myState.auth);
       return <Redirect to="login"/>
     }
 
   /* call to state to get the updated state */
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log('here in submit');
-    // console.log(credentials);
+    console.log(userOffer);
+    const response = await ApiService.submitUserOffer(userOffer);
+    console.log('user answer');
+    console.log(response);
     // dispatch(login(credentials))
   };
 
-  //event: any ?
-  const handleEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('here');
+  const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('here in title');
     console.log(event.currentTarget.value);
     const buffer = event.currentTarget.value;
-    // setCredentials((prev) => ({
-    //     ...prev,
-    //     email: buffer
-    // }))
+    setUserOffer((prevCred) => ({
+      ...prevCred,
+      title: buffer,
+    }));
+  }
+
+  const handleImages = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('here in images');
+    console.log(event.currentTarget.value);
+    console.log(typeof event.currentTarget.value);
+    const buffer = event.currentTarget.value;
+    setUserOffer((prevCred) => ({
+      ...prevCred,
+      images: buffer,
+    }));
   };
 
-  const handlePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('here');
+  const handleDescription = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('here in description');
     console.log(event.currentTarget.value);
     const buffer = event.currentTarget.value;
-    // setCredentials((prevCred) => ({
-    //     ...prevCred,
-    //     password: buffer
-    // }))
+    setUserOffer((prevCred) => ({
+      ...prevCred,
+      desc: buffer,
+    }));
   };
-  // const Form: React.FC<FormProps>= ({ children, handleFormSubmit }) => (
-  //     <form onSubmit={handleFormSubmit}>{children}</form>)
+  
+  const handleRetailPrice = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('here in retail price');
+    console.log(+event.currentTarget.value);
+    console.log(typeof +event.currentTarget.value)
+    const buffer = event.currentTarget.value;
+    setUserOffer((prevCred) => ({
+      ...prevCred,
+      retailPrice: +buffer,
+    }));
+  };
+
+  const handleNegotiable = (event: React.MouseEvent<HTMLInputElement>) => {
+    console.log('here in negotiable');
+    console.log(event.currentTarget.value);
+    const buffer = event.currentTarget.value;
+    setUserOffer((prevCred) => ({
+      ...prevCred,
+      negotiable: !prevCred.negotiable,
+    }));
+  };
+
+  const handleAvailableQuantity = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('here in availably quantity')
+    console.log(event.currentTarget.value);
+    const buffer = event.currentTarget.value;
+    setUserOffer((prevCred) => ({
+      ...prevCred,
+      retailPrice: +buffer,
+    }));
+  }
+
+  const handleSIunit = (event: React.FormEvent<HTMLSelectElement>) => {
+    console.log('here in SI unit')
+    console.log(event.currentTarget.value);
+    const buffer = event.currentTarget.value;
+    let word = '';
+    switch (event.currentTarget.value) {
+      case '1':
+        word = 'Kg'
+        break;
+    
+      case '2':
+        word = 'Unit'
+        break;
+
+      case '3':
+        word = 'Liters'
+        break;
+
+      default:
+        break;
+    }
+
+    console.log('my si: '+ word)
+  };
+
+  const handleReadyDate = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('here in ready date')
+    console.log(event.currentTarget.value);
+    console.log(typeof event.currentTarget.value)
+    const buffer = event.currentTarget.value;
+    setUserOffer((prevCred) => ({
+      ...prevCred,
+      readyDate: buffer,
+    }));
+  };
+
+  const handleCategory = (event: React.FormEvent<HTMLSelectElement>) => {
+    console.log('here in category')
+    console.log(event.currentTarget.value);
+    const buffer = event.currentTarget.value;
+    setUserOffer((prevCred) => ({
+      ...prevCred,
+      categoryId: +buffer,
+    }));
+  };
 
   return (
     <>
@@ -72,16 +176,23 @@ export const Sell: React.FC<Props> = ({authorization}) => {
             <Stack gap={2} className="col-md-4 mx-auto">
               <h1>Sell Screen</h1>
             </Stack>
-            <Form>
+            <Form onSubmit={(event) =>
+                handleSubmit(event as React.FormEvent<HTMLFormElement>)
+              }>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Offer Tittle</Form.Label>
-                <Form.Control type="email" placeholder="Enter email" />
+                <Form.Control type="text" placeholder="Enter email" onChange={(event) =>
+                    handleTitle(event as React.ChangeEvent<HTMLInputElement>)
+                  }/>
                 <Form.Text className="text-muted">
                   We'll never share your email with anyone else.
                 </Form.Text>
               </Form.Group>
               <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Select aria-label="Default select example">
+                <Form.Select aria-label="Default select example" onChange={(event) =>
+                    handleCategory(event as React.FormEvent<HTMLSelectElement>)
+                  }
+                >
                   <option>Please Select the Product Category</option>
                   <option value="1">Juice Fertilizer</option>
                   <option value="2">Soil Fertilizers</option>
@@ -94,7 +205,9 @@ export const Sell: React.FC<Props> = ({authorization}) => {
               </Form.Group>
               <Form.Group controlId="formFile" className="mb-3">
                 <Form.Label>Default file input example</Form.Label>
-                <Form.Control type="file" />
+                <Form.Control type="file" onChange={(event) =>
+                    handleImages(event as React.ChangeEvent<HTMLInputElement>)
+                  }/>
               </Form.Group>
               <Form.Group controlId="formFile" className="mb-3">
                 <FloatingLabel
@@ -105,6 +218,9 @@ export const Sell: React.FC<Props> = ({authorization}) => {
                     as="textarea"
                     placeholder="Leave a comment here"
                     style={{ height: '100px' }}
+                    onChange={(event) =>
+                      handleDescription(event as React.ChangeEvent<HTMLInputElement>)
+                    }
                   />
                 </FloatingLabel>
               </Form.Group>
@@ -112,7 +228,9 @@ export const Sell: React.FC<Props> = ({authorization}) => {
                 <Form.Label>Price</Form.Label>
                 <InputGroup className="mb-3">
                   <InputGroup.Text>€</InputGroup.Text>
-                  <Form.Control type="number" placeholder="Price per Unit" />
+                  <Form.Control type="number" placeholder="Price per Unit" onChange={(event) =>
+                    handleRetailPrice(event as React.ChangeEvent<HTMLInputElement>)
+                  }/>
                 </InputGroup>
               </Form.Group>
               <Form.Group className="mb-3" controlId="formBasicCheckbox">
@@ -120,6 +238,9 @@ export const Sell: React.FC<Props> = ({authorization}) => {
                   type="switch"
                   id="custom-switch"
                   label="Negotiable"
+                  onClick={(event) =>
+                    handleNegotiable(event as React.MouseEvent<HTMLInputElement>)
+                  }
                 />
               </Form.Group>
               <Form.Group className="mb-3">
@@ -129,12 +250,17 @@ export const Sell: React.FC<Props> = ({authorization}) => {
                       controlId="floatingInputGrid"
                       label="Quantity"
                     >
-                      <Form.Control type="number" placeholder="1 liter" />
+                      <Form.Control type="number" placeholder="1 liter" onChange={(event) =>
+                    handleAvailableQuantity(event as React.ChangeEvent<HTMLInputElement>)
+                  }/>
                     </FloatingLabel>
                   </Col>
                   <Col xs={2} md={2} lg={2}>
                     <FloatingLabel controlId="floatingSelectGrid" label="SI">
-                      <Form.Select aria-label="Floating label select example">
+                      <Form.Select aria-label="Floating label select example" onChange={(event) =>
+                        handleSIunit(event as React.FormEvent<HTMLSelectElement>)
+                      }
+                      >
                         <option value="1">Kg</option>
                         <option value="2">Unit</option>
                         <option value="3">Liters</option>
@@ -150,13 +276,17 @@ export const Sell: React.FC<Props> = ({authorization}) => {
                   value={new Date().toISOString().slice(0, 16)}
                   min={new Date().toISOString().slice(0, 16)}
                   placeholder="Availability"
+                  onChange={(event) =>
+                    handleReadyDate(event as React.ChangeEvent<HTMLInputElement>)
+                  }
                 />
               </Form.Group>
 
+              
               <MyMap location={{availability: true, error: false, latitude: 37.1245632, longitude: -7.9265792}} inRegister={false} inDetailsOrSell={true} inBuy={false}/>
               
               <Button variant="primary" type="submit">
-                Submit
+                Load my offer
               </Button>
             </Form>
           </Col>

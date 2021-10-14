@@ -62,6 +62,54 @@ export interface IactionLocationUpdate {
     payload: ILocationUpdate
 }
 
+/* Api Service interfaces */
+
+/* Get all user products */
+export type IgetAllUserProducts = {
+    status:boolean,
+    message: string,
+    data: UserProduct[]
+}
+
+interface UserProduct {
+    productId: number,
+    sellerId: number,
+    title: string,
+    images: string,
+    desc: string,
+    retailPrice: number,
+    negotiable: boolean,
+    availableQuantity: number,
+    readyDate: string
+}
+
+/* Submit user individual product */
+
+export type userOffer = {
+    userId : number,
+    title : string,
+    images : string,
+	desc: string,
+    retailPrice : number,
+	negotiable : boolean,
+	availableQuantity: number,
+    readyDate : string,
+	categoryId: number
+}
+
+/*
+{
+    "userId" : 1,
+    "title" : "mock product 1",
+    "images" : "mock image 1",
+		"desc": "mock desc 3",
+    "retailPrice" : 2.2,
+		"negotiable" : true,
+		"availableQuantity": 3,
+    "readyDate" : "2021-10-11T13:04:40.542Z",
+		"categoryId": 1
+}
+*/
 
  
 
