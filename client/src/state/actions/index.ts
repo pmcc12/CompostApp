@@ -13,10 +13,10 @@ interface WithdrawAction {
 interface IloginRespObj {
     status: boolean,
     message: string,
-    data: dataBackEnd
+    data: User
 }
 
-interface dataBackEnd {
+interface User {
     userId: number,
     email: string,
     username: string,
@@ -109,6 +109,42 @@ export type Icategories = {
     message: string,
     data: categoriesType[]
 }
+
+export type IuserProducts = {
+    status:boolean,
+    message: string,
+    data: sellerContent[]
+}
+
+interface sellerContent {
+    productId: number,
+    sellerId: number,
+    title: string,
+    images: string,
+    desc: string,
+    retailPrice: number,
+    negotiable: boolean,
+    availableQuantity: number,
+    readyDate: string,
+    seller: sellerData,
+    categories: IcategoryObj[]
+}
+
+interface sellerData {
+    userId: number,
+    username: string,
+    location: ILocationUpdate
+}
+
+interface IcategoryObj {
+    category: Icategory
+}
+
+interface Icategory {
+    categoryId: number,
+    categoryName: string
+}
+
 
 /*
 {

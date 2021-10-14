@@ -33,19 +33,19 @@ export default function App() {
         />
         <Route
           exact
-          path="/details"
+          path="/details/:userId"
           component={() => <Details authorization={state.auth} />}
         />
 
         <Route
           exact
-          path="/"
-          component={() => <Home authorization={state.auth} />}
+          path="/buy"
+          component={() => <Buy authorization={state.auth} />}
         />
         <Route
           exact
-          path="/buy"
-          component={() => <Buy authorization={state.auth} />}
+          path="/"
+          component={() => <Home authorization={state.auth} />}
         />
       </Switch>
     </Router>

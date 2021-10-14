@@ -27,7 +27,7 @@ export default function Navigation() {
               <Nav.Link onClick={()=>history.push("/sell")}>Sell</Nav.Link>
               <Nav.Link onClick={()=>history.push("/payments")}>Payments</Nav.Link>
               <Nav.Link onClick={()=>history.push("/messages")}>Messages</Nav.Link>
-              <Nav.Link onClick={()=>history.push("/transactions")}>Transactions</Nav.Link>
+              <Nav.Link onClick={()=>history.push("/details/1")}>Details(Transactions)</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
