@@ -34,6 +34,13 @@ const getBuyProducts = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
                         category: true,
                     },
                 },
+                seller: {
+                    select: {
+                        username: true,
+                        userId: true,
+                        location: true
+                    }
+                }
             },
         });
         res.status(200).json({

@@ -35,8 +35,15 @@ model Product {
   retailPrice       Float
   negotiable        Boolean
   availableQuantity Int
+  unit              unit        @default(KG)
   readyDate         String
   OrderItem         OrderItem[]
+}
+
+enum unit {
+  KG
+  Litter
+  units
 }
 
 model Category {
