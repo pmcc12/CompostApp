@@ -52,7 +52,7 @@ export const Sell: React.FC<Props> = ({authorization}) => {
     event.preventDefault();
     console.log('here in submit');
     console.log(userOffer);
-    const response = await ApiService.submitUserOffer(userOffer);
+    const response = await ApiService.submitUserOffer({...userOffer, userId: myState.data.userId});
     console.log('user answer');
     console.log(response);
     // dispatch(login(credentials))
@@ -297,7 +297,6 @@ export const Sell: React.FC<Props> = ({authorization}) => {
   );
 };
 
-
 //                         <Button variant="primary" type="submit">
 //                             Submit
 //                         </Button>
@@ -309,10 +308,9 @@ export const Sell: React.FC<Props> = ({authorization}) => {
 //     )
 // }
 
-    //37.0245632 ; -7.9265792
+//37.0245632 ; -7.9265792
 
-
-/* 
+/*
 id="datetime-local"
         label="Next appointment"
         type="datetime-local"

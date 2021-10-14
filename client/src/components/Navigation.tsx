@@ -16,7 +16,7 @@ export default function Navigation() {
           paddingBottom: '30px',
         }}
       >
-        <Navbar.Brand href="./">
+        <Navbar.Brand onClick={() => history.push('/')}>
           <h1>I-COMPOSTER</h1>
         </Navbar.Brand>
         <Container>
