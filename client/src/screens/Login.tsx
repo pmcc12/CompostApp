@@ -35,8 +35,8 @@ export const Login = () => {
     console.log('here in submit');
     console.log(credentials);
     await dispatch(login(credentials));
-    if (myState.auth) {
-      history.push('/');
+    if(myState.auth){
+      history.push("/");
     }
   };
 
