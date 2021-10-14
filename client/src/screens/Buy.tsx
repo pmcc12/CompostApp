@@ -36,21 +36,26 @@ export const Buy: React.FC<Props> = ({ authorization }) => {
     setProductCategoryId(event.currentTarget.value);
     sortProducts(buyerId, productCategoryId);
   };
+
   const sortProducts = async (buyerId: number, productCategoryId: string) => {
     //api call for all products available to user, passing in userId
     await ApiService.getUserOffers(buyerId).then((data: []) => {
       console.log('API CALL ', data);
+      let sortedProductsArr: [] = [];
 
-      //FIX TYPING ON EL
-      data.map((el: any) => {
-        const catId = el.categories[0].category.categoryId;
-        console.log('catId ', catId);
-        console.log('productCategoryId ', productCategoryId);
+      data.map((el) => {
+        const catId = (el as any).categories[0].category.categoryId;
+        const productCategoryIdNumber = Number(productCategoryId);
+
+        if (catId === productCategoryIdNumber) {
+          sortedProductsArr.push(el);
+        }
       });
+      setSortedByProducts(sortedProductsArr);
+      console.log('sortedByProducts ', sortedByProducts);
     });
-
-    //when the data is returned, filter array according to the categoryId passed from the button click
   };
+
   if (!authorization) {
     return <Redirect to="/login" />;
   }
