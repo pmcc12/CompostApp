@@ -2,7 +2,8 @@ import MyMap from '../components/Map';
 import ApiService from '../ApiService';
 import { useSelector } from 'react-redux';
 import { myReducersTypeof } from '../state/reducers';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import Navigation from '../components/Navigation';
 import {
@@ -21,6 +22,7 @@ type Props = {
 };
 
 export const Buy: React.FC<Props> = ({ authorization }) => {
+  const history = useHistory();
   const myState = useSelector((state: myReducersTypeof) => state.login);
 
   console.log('in buy');
@@ -30,15 +32,19 @@ export const Buy: React.FC<Props> = ({ authorization }) => {
   const [productCategoryId, setProductCategoryId] = useState('');
   const [sortedByProducts, setSortedByProducts] = useState([]);
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleCategoryClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     const buyerId = myState.data.userId;
-    console.log('buyerId ', buyerId);
+
     setProductCategoryId(event.currentTarget.value);
     sortProducts(buyerId, productCategoryId);
   };
 
+  const handleSellerClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    history.push('/details');
+    // history.push(`/details/${event.currentTarget.value}`);
+  };
+
   const sortProducts = async (buyerId: number, productCategoryId: string) => {
-    //api call for all products available to user, passing in userId
     await ApiService.getUserOffers(buyerId).then((data: []) => {
       console.log('API CALL ', data);
       let sortedProductsArr: [] = [];
@@ -90,7 +96,7 @@ export const Buy: React.FC<Props> = ({ authorization }) => {
                         <Button
                           value={1}
                           variant="primary"
-                          onClick={(event) => handleClick(event)}
+                          onClick={(event) => handleCategoryClick(event)}
                         >
                           Click to select
                         </Button>
@@ -107,7 +113,7 @@ export const Buy: React.FC<Props> = ({ authorization }) => {
                         <Button
                           value={2}
                           variant="primary"
-                          onClick={(event) => handleClick(event)}
+                          onClick={(event) => handleCategoryClick(event)}
                         >
                           Click to select
                         </Button>
@@ -124,7 +130,7 @@ export const Buy: React.FC<Props> = ({ authorization }) => {
                         <Button
                           value={3}
                           variant="primary"
-                          onClick={(event) => handleClick(event)}
+                          onClick={(event) => handleCategoryClick(event)}
                         >
                           Click to select
                         </Button>
@@ -141,7 +147,7 @@ export const Buy: React.FC<Props> = ({ authorization }) => {
                         <Button
                           value={4}
                           variant="primary"
-                          onClick={(event) => handleClick(event)}
+                          onClick={(event) => handleCategoryClick(event)}
                         >
                           Click to select
                         </Button>
@@ -159,7 +165,7 @@ export const Buy: React.FC<Props> = ({ authorization }) => {
                         <Button
                           value={5}
                           variant="primary"
-                          onClick={(event) => handleClick(event)}
+                          onClick={(event) => handleCategoryClick(event)}
                         >
                           Click to select
                         </Button>
@@ -176,7 +182,7 @@ export const Buy: React.FC<Props> = ({ authorization }) => {
                         <Button
                           value={6}
                           variant="primary"
-                          onClick={(event) => handleClick(event)}
+                          onClick={(event) => handleCategoryClick(event)}
                         >
                           Click to select
                         </Button>
@@ -193,7 +199,7 @@ export const Buy: React.FC<Props> = ({ authorization }) => {
                         <Button
                           value={7}
                           variant="primary"
-                          onClick={(event) => handleClick(event)}
+                          onClick={(event) => handleCategoryClick(event)}
                         >
                           Click to select
                         </Button>
@@ -216,7 +222,13 @@ export const Buy: React.FC<Props> = ({ authorization }) => {
               <Card.Body>
                 <Card.Title>Card Title</Card.Title>
                 <Card.Text>Supplier details</Card.Text>
-                <Button variant="primary">Select supplier</Button>
+                <Button
+                  variant="primary"
+                  value={1}
+                  onClick={(event) => handleSellerClick(event)}
+                >
+                  Select supplier
+                </Button>
               </Card.Body>
             </Card>
             <Card style={{ width: '18rem' }}>
