@@ -13,7 +13,7 @@ const ApiService: IApiService = {
     getUserOffers: async (userId) => {
         const BASE_URL = process.env.REACT_APP_HOST;
         
-            const method = 'GET';
+            const method = 'POST';
             const body = userId ? JSON.stringify({userId: userId}) : undefined;
             const defaultHeaders = {'Content-Type': 'application/json'};
             const headers = {...defaultHeaders}
