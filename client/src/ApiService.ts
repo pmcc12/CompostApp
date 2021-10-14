@@ -1,9 +1,10 @@
 import React from 'react'
-import { IgetAllUserProducts, userOffer } from './state/actions';
+import { Icategories, IgetAllUserProducts, userOffer } from './state/actions';
 
 type IApiService = {
     getUserOffers: (val: number) => any,
     submitUserOffer: (val: userOffer) => any
+    submitAvailableCategories: (val: Icategories[]) => any
 }
 
 /* Get all user related products */
@@ -44,6 +45,25 @@ const ApiService: IApiService = {
             }else {
                 return false
             }
+    },
+
+    submitAvailableCategories: async (availableCategories) => {
+        const BASE_URL = process.env.REACT_APP_HOST;
+
+            
+        const method = 'POST';
+        const body = availableCategories ? JSON.stringify(availableCategories) : undefined;
+        const defaultHeaders = {'Content-Type': 'application/json'};
+        const headers = {...defaultHeaders}
+        const response = await fetch(`${BASE_URL}/api/category`,{method,body,headers})
+
+        const {data, errors} = await response.json()
+        if(response.ok){
+            const finalData = data
+            return true
+        }else {
+            return false
+        }
     }
 };
 
