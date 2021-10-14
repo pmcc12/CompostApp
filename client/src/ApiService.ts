@@ -30,8 +30,7 @@ const ApiService: IApiService = {
     submitUserOffer: async (productData) => {
         const BASE_URL = process.env.REACT_APP_HOST;
 
-            console.log('lets submit user offer');
-            console.log(productData);
+            
             const method = 'POST';
             const body = productData ? JSON.stringify(productData) : undefined;
             const defaultHeaders = {'Content-Type': 'application/json'};
