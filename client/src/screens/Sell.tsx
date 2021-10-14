@@ -16,16 +16,20 @@ import { login } from '../state/actions/actionCreators';
 import { Redirect, useHistory } from 'react-router-dom';
 import MyMap from '../components/Map';
 import Navigation from '../components/Navigation';
-import ApiService from '../ApiService'
+import ApiService from '../ApiService';
 
 type Props = {
-    authorization: boolean,
-}
+  authorization: boolean;
+};
 
+<<<<<<< HEAD
 export const Sell: React.FC<Props> = ({authorization}) => {
   
   let history = useHistory();
   
+=======
+export const Sell: React.FC<Props> = ({ authorization }) => {
+>>>>>>> developement
   const [userOffer, setUserOffer] = useState({
     userId: 0,
     title: '',
@@ -35,31 +39,47 @@ export const Sell: React.FC<Props> = ({authorization}) => {
     negotiable: false,
     availableQuantity: 0,
     readyDate: '',
-    categoryId: 0
-  })
+    categoryId: 0,
+  });
 
-  const myState = useSelector((state: myReducersTypeof) => state.login)
+  const myState = useSelector((state: myReducersTypeof) => state.login);
 
   console.log('on sell');
-  console.log(myState)
-  
-    /* Will be important to access the user session data (which will be stored in login variable), such as the location which will be displayed */
+  console.log(myState);
 
-    if(!myState.auth){
-      console.log('not authorized!');
-      console.log('authorization: '+authorization +' and my user name: '+myState.data.username + ' and my user auth: '+myState.auth);
-      return <Redirect to="login"/>
-    }
+  /* Will be important to access the user session data (which will be stored in login variable), such as the location which will be displayed */
+
+  if (!myState.auth) {
+    console.log('not authorized!');
+    console.log(
+      'authorization: ' +
+        authorization +
+        ' and my user name: ' +
+        myState.data.username +
+        ' and my user auth: ' +
+        myState.auth
+    );
+    return <Redirect to="login" />;
+  }
 
   /* call to state to get the updated state */
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log('here in submit');
     console.log(userOffer);
+<<<<<<< HEAD
     const status = await ApiService.submitUserOffer({...userOffer, userId: myState.data.userId});
     if(status){
       history.push("/");
     }
+=======
+    const response = await ApiService.submitUserOffer({
+      ...userOffer,
+      userId: myState.data.userId,
+    });
+    console.log('user answer');
+    console.log(response);
+>>>>>>> developement
     // dispatch(login(credentials))
   };
 
@@ -71,7 +91,7 @@ export const Sell: React.FC<Props> = ({authorization}) => {
       ...prevCred,
       title: buffer,
     }));
-  }
+  };
 
   const handleImages = (event: React.ChangeEvent<HTMLInputElement>) => {
     console.log('here in images');
@@ -93,11 +113,11 @@ export const Sell: React.FC<Props> = ({authorization}) => {
       desc: buffer,
     }));
   };
-  
+
   const handleRetailPrice = (event: React.ChangeEvent<HTMLInputElement>) => {
     console.log('here in retail price');
     console.log(+event.currentTarget.value);
-    console.log(typeof +event.currentTarget.value)
+    console.log(typeof +event.currentTarget.value);
     const buffer = event.currentTarget.value;
     setUserOffer((prevCred) => ({
       ...prevCred,
@@ -115,45 +135,47 @@ export const Sell: React.FC<Props> = ({authorization}) => {
     }));
   };
 
-  const handleAvailableQuantity = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('here in availably quantity')
+  const handleAvailableQuantity = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    console.log('here in availably quantity');
     console.log(event.currentTarget.value);
     const buffer = event.currentTarget.value;
     setUserOffer((prevCred) => ({
       ...prevCred,
       availableQuantity: +buffer,
     }));
-  }
+  };
 
   const handleSIunit = (event: React.FormEvent<HTMLSelectElement>) => {
-    console.log('here in SI unit')
+    console.log('here in SI unit');
     console.log(event.currentTarget.value);
     const buffer = event.currentTarget.value;
     let word = '';
     switch (event.currentTarget.value) {
       case '1':
-        word = 'Kg'
+        word = 'Kg';
         break;
-    
+
       case '2':
-        word = 'Unit'
+        word = 'Unit';
         break;
 
       case '3':
-        word = 'Liters'
+        word = 'Liters';
         break;
 
       default:
         break;
     }
 
-    console.log('my si: '+ word)
+    console.log('my si: ' + word);
   };
 
   const handleReadyDate = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('here in ready date')
+    console.log('here in ready date');
     console.log(event.currentTarget.value);
-    console.log(typeof event.currentTarget.value)
+    console.log(typeof event.currentTarget.value);
     const buffer = event.currentTarget.value;
     setUserOffer((prevCred) => ({
       ...prevCred,
@@ -162,7 +184,7 @@ export const Sell: React.FC<Props> = ({authorization}) => {
   };
 
   const handleCategory = (event: React.FormEvent<HTMLSelectElement>) => {
-    console.log('here in category')
+    console.log('here in category');
     console.log(event.currentTarget.value);
     const buffer = event.currentTarget.value;
     setUserOffer((prevCred) => ({
@@ -181,20 +203,28 @@ export const Sell: React.FC<Props> = ({authorization}) => {
             <Stack gap={2} className="col-md-4 mx-auto">
               <h1>Sell Screen</h1>
             </Stack>
-            <Form onSubmit={(event) =>
+            <Form
+              onSubmit={(event) =>
                 handleSubmit(event as React.FormEvent<HTMLFormElement>)
-              }>
+              }
+            >
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Offer Tittle</Form.Label>
-                <Form.Control type="text" placeholder="Enter email" onChange={(event) =>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter email"
+                  onChange={(event) =>
                     handleTitle(event as React.ChangeEvent<HTMLInputElement>)
-                  }/>
+                  }
+                />
                 <Form.Text className="text-muted">
                   We'll never share your email with anyone else.
                 </Form.Text>
               </Form.Group>
               <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Select aria-label="Default select example" onChange={(event) =>
+                <Form.Select
+                  aria-label="Default select example"
+                  onChange={(event) =>
                     handleCategory(event as React.FormEvent<HTMLSelectElement>)
                   }
                 >
@@ -210,9 +240,12 @@ export const Sell: React.FC<Props> = ({authorization}) => {
               </Form.Group>
               <Form.Group controlId="formFile" className="mb-3">
                 <Form.Label>Default file input example</Form.Label>
-                <Form.Control type="file" onChange={(event) =>
+                <Form.Control
+                  type="file"
+                  onChange={(event) =>
                     handleImages(event as React.ChangeEvent<HTMLInputElement>)
-                  }/>
+                  }
+                />
               </Form.Group>
               <Form.Group controlId="formFile" className="mb-3">
                 <FloatingLabel
@@ -224,7 +257,9 @@ export const Sell: React.FC<Props> = ({authorization}) => {
                     placeholder="Leave a comment here"
                     style={{ height: '100px' }}
                     onChange={(event) =>
-                      handleDescription(event as React.ChangeEvent<HTMLInputElement>)
+                      handleDescription(
+                        event as React.ChangeEvent<HTMLInputElement>
+                      )
                     }
                   />
                 </FloatingLabel>
@@ -233,9 +268,15 @@ export const Sell: React.FC<Props> = ({authorization}) => {
                 <Form.Label>Price</Form.Label>
                 <InputGroup className="mb-3">
                   <InputGroup.Text>€</InputGroup.Text>
-                  <Form.Control type="number" placeholder="Price per Unit" onChange={(event) =>
-                    handleRetailPrice(event as React.ChangeEvent<HTMLInputElement>)
-                  }/>
+                  <Form.Control
+                    type="number"
+                    placeholder="Price per Unit"
+                    onChange={(event) =>
+                      handleRetailPrice(
+                        event as React.ChangeEvent<HTMLInputElement>
+                      )
+                    }
+                  />
                 </InputGroup>
               </Form.Group>
               <Form.Group className="mb-3" controlId="formBasicCheckbox">
@@ -244,7 +285,9 @@ export const Sell: React.FC<Props> = ({authorization}) => {
                   id="custom-switch"
                   label="Negotiable"
                   onClick={(event) =>
-                    handleNegotiable(event as React.MouseEvent<HTMLInputElement>)
+                    handleNegotiable(
+                      event as React.MouseEvent<HTMLInputElement>
+                    )
                   }
                 />
               </Form.Group>
@@ -255,16 +298,26 @@ export const Sell: React.FC<Props> = ({authorization}) => {
                       controlId="floatingInputGrid"
                       label="Quantity"
                     >
-                      <Form.Control type="number" placeholder="1 liter" onChange={(event) =>
-                    handleAvailableQuantity(event as React.ChangeEvent<HTMLInputElement>)
-                  }/>
+                      <Form.Control
+                        type="number"
+                        placeholder="1 liter"
+                        onChange={(event) =>
+                          handleAvailableQuantity(
+                            event as React.ChangeEvent<HTMLInputElement>
+                          )
+                        }
+                      />
                     </FloatingLabel>
                   </Col>
                   <Col xs={2} md={2} lg={2}>
                     <FloatingLabel controlId="floatingSelectGrid" label="SI">
-                      <Form.Select aria-label="Floating label select example" onChange={(event) =>
-                        handleSIunit(event as React.FormEvent<HTMLSelectElement>)
-                      }
+                      <Form.Select
+                        aria-label="Floating label select example"
+                        onChange={(event) =>
+                          handleSIunit(
+                            event as React.FormEvent<HTMLSelectElement>
+                          )
+                        }
                       >
                         <option value="1">Kg</option>
                         <option value="2">Unit</option>
@@ -282,14 +335,25 @@ export const Sell: React.FC<Props> = ({authorization}) => {
                   min={new Date().toISOString().slice(0, 16)}
                   placeholder="Availability"
                   onChange={(event) =>
-                    handleReadyDate(event as React.ChangeEvent<HTMLInputElement>)
+                    handleReadyDate(
+                      event as React.ChangeEvent<HTMLInputElement>
+                    )
                   }
                 />
               </Form.Group>
 
-              
-              <MyMap location={{availability: true, error: false, latitude: myState.data.location.latitude, longitude: myState.data.location.longitude}} inRegister={false} inDetailsOrSell={true} inBuy={false}/>
-              
+              <MyMap
+                location={{
+                  availability: true,
+                  error: false,
+                  latitude: myState.data.location.latitude,
+                  longitude: myState.data.location.longitude,
+                }}
+                inRegister={false}
+                inDetailsOrSell={true}
+                inBuy={false}
+              />
+
               <Button variant="primary" type="submit">
                 Load my offer
               </Button>
