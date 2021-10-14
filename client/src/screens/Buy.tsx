@@ -40,8 +40,8 @@ export const Buy: React.FC<Props> = ({ authorization }) => {
   };
 
   const handleSellerClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    history.push('/details');
-    // history.push(`/details/${event.currentTarget.value}`);
+    // history.push('/details');
+    history.push(`/details/${event.currentTarget.value}`);
   };
 
   const sortProducts = async (buyerId: number, productCategoryId: string) => {
