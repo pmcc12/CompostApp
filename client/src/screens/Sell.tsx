@@ -38,6 +38,9 @@ export const Sell: React.FC<Props> = ({authorization}) => {
   })
 
   const myState = useSelector((state: myReducersTypeof) => state.login)
+
+  console.log('on sell');
+  console.log(myState)
   
     /* Will be important to access the user session data (which will be stored in login variable), such as the location which will be displayed */
 
@@ -283,7 +286,7 @@ export const Sell: React.FC<Props> = ({authorization}) => {
               </Form.Group>
 
               
-              <MyMap location={{availability: true, error: false, latitude: 37.1245632, longitude: -7.9265792}} inRegister={false} inDetailsOrSell={true} inBuy={false}/>
+              <MyMap location={{availability: true, error: false, latitude: myState.data.location.latitude, longitude: myState.data.location.longitude}} inRegister={false} inDetailsOrSell={true} inBuy={false}/>
               
               <Button variant="primary" type="submit">
                 Load my offer

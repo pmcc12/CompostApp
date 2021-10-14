@@ -14,7 +14,10 @@ const initialStateLogin = {
         balance: 0,
         createdAt: '',
         accessToken: '',
-        location: {}
+        location: {
+            latitude: 37.1,
+            longitude: -7.91
+        }
     }
 }
 
