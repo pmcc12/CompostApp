@@ -6,7 +6,7 @@ import { registerMiddleware } from './middleware/registerMiddleware';
 
 
 //more than one store is not acceptable in redux
-export const store: any = createStore(reducers, applyMiddleware(registerMiddleware,loginMiddleware,balanceMiddleware));
+export const store: any = createStore(reducers, applyMiddleware(registerMiddleware,loginMiddleware));
 
 export type RootState = ReturnType<typeof store.getState> 
 

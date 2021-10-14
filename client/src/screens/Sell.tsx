@@ -13,7 +13,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { myReducersTypeof } from '../state/reducers';
 import { useState } from 'react';
 import { login } from '../state/actions/actionCreators';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import MyMap from '../components/Map';
 import Navigation from '../components/Navigation';
 import ApiService from '../ApiService'
@@ -24,6 +24,7 @@ type Props = {
 
 export const Sell: React.FC<Props> = ({authorization}) => {
   
+  let history = useHistory();
   
   const [userOffer, setUserOffer] = useState({
     userId: 0,
@@ -55,9 +56,10 @@ export const Sell: React.FC<Props> = ({authorization}) => {
     event.preventDefault();
     console.log('here in submit');
     console.log(userOffer);
-    const response = await ApiService.submitUserOffer({...userOffer, userId: myState.data.userId});
-    console.log('user answer');
-    console.log(response);
+    const status = await ApiService.submitUserOffer({...userOffer, userId: myState.data.userId});
+    if(status){
+      history.push("/");
+    }
     // dispatch(login(credentials))
   };
 
@@ -119,7 +121,7 @@ export const Sell: React.FC<Props> = ({authorization}) => {
     const buffer = event.currentTarget.value;
     setUserOffer((prevCred) => ({
       ...prevCred,
-      retailPrice: +buffer,
+      availableQuantity: +buffer,
     }));
   }
 

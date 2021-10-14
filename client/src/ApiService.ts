@@ -3,7 +3,7 @@ import { Icategories, IgetAllUserProducts, userOffer } from './state/actions';
 
 type IApiService = {
     getUserOffers: (val: number) => any,
-    submitUserOffer: (val: userOffer) => any
+    submitUserOffer: (val: userOffer) => any,
     submitAvailableCategories: (val: Icategories[]) => any
 }
 
@@ -64,7 +64,9 @@ const ApiService: IApiService = {
         }else {
             return false
         }
-    }
+    },
+
+
 };
 
 export default ApiService;
