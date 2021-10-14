@@ -97,6 +97,19 @@ export type userOffer = {
 	categoryId: number
 }
 
+/* Post all available categories */
+
+type categoriesType = {
+    categoryId: number,
+    categoryName: string
+}
+
+export type Icategories = {
+    status:boolean,
+    message: string,
+    data: categoriesType[]
+}
+
 /*
 {
     "userId" : 1,
