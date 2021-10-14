@@ -88,7 +88,13 @@ export const Buy: React.FC<Props> = ({ authorization }) => {
                       <Card.Body>
                         <Card.Title>Soil Fertilizer</Card.Title>
                         <Card.Text>Some description here</Card.Text>
-                        <Button variant="primary">Click to select</Button>
+                        <Button
+                          value={2}
+                          variant="primary"
+                          onClick={(event) => handleClick(event)}
+                        >
+                          Click to select
+                        </Button>
                       </Card.Body>
                     </Card>
                     <Card style={{ width: '18rem' }}>
@@ -99,7 +105,13 @@ export const Buy: React.FC<Props> = ({ authorization }) => {
                       <Card.Body>
                         <Card.Title>Vermicompost</Card.Title>
                         <Card.Text>Some description here</Card.Text>
-                        <Button variant="primary">Click to select</Button>
+                        <Button
+                          value={3}
+                          variant="primary"
+                          onClick={(event) => handleClick(event)}
+                        >
+                          Click to select
+                        </Button>
                       </Card.Body>
                     </Card>
                     <Card style={{ width: '18rem' }}>
@@ -110,7 +122,13 @@ export const Buy: React.FC<Props> = ({ authorization }) => {
                       <Card.Body>
                         <Card.Title>Activators for Compost</Card.Title>
                         <Card.Text>Some description here</Card.Text>
-                        <Button variant="primary">Click to select</Button>
+                        <Button
+                          value={4}
+                          variant="primary"
+                          onClick={(event) => handleClick(event)}
+                        >
+                          Click to select
+                        </Button>
                       </Card.Body>
                     </Card>
 
@@ -122,7 +140,13 @@ export const Buy: React.FC<Props> = ({ authorization }) => {
                       <Card.Body>
                         <Card.Title>Worms</Card.Title>
                         <Card.Text>Some description here</Card.Text>
-                        <Button variant="primary">Click to select</Button>
+                        <Button
+                          value={5}
+                          variant="primary"
+                          onClick={(event) => handleClick(event)}
+                        >
+                          Click to select
+                        </Button>
                       </Card.Body>
                     </Card>
                     <Card style={{ width: '18rem' }}>
@@ -133,7 +157,13 @@ export const Buy: React.FC<Props> = ({ authorization }) => {
                       <Card.Body>
                         <Card.Title>Brown Material</Card.Title>
                         <Card.Text>Some description here</Card.Text>
-                        <Button variant="primary">Click to select</Button>
+                        <Button
+                          value={6}
+                          variant="primary"
+                          onClick={(event) => handleClick(event)}
+                        >
+                          Click to select
+                        </Button>
                       </Card.Body>
                     </Card>
                     <Card style={{ width: '18rem' }}>
@@ -144,7 +174,13 @@ export const Buy: React.FC<Props> = ({ authorization }) => {
                       <Card.Body>
                         <Card.Title>Compost Case</Card.Title>
                         <Card.Text>Some description here</Card.Text>
-                        <Button variant="primary">Click to select</Button>
+                        <Button
+                          value={7}
+                          variant="primary"
+                          onClick={(event) => handleClick(event)}
+                        >
+                          Click to select
+                        </Button>
                       </Card.Body>
                     </Card>
                   </Stack>
