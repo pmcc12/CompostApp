@@ -44,8 +44,12 @@ router.post("/sell/getAllProducts", sellController.getSellProducts);
 router.post("/category", categoryController.postCategory);
 router.post("/getAllCategories", categoryController.getAllCategories);
 // Buy
+<<<<<<< HEAD
 router.post("/buy/getAllProducts", buyController.getBuyProducts);
 router.post("/buy/getAllProductsByseller", buyController.getBuyProductsBySeller);
+=======
+router.post("/buy/getAllProducts/", buyController.getBuyProducts);
+>>>>>>> dg_frontend_1410_buyafterendpoints
 router.post("/buy/products/category", buyController.getBuyProductsByCategory);
 router.post("/user/cart/add", buyController.postAddToCart);
 // Cart
