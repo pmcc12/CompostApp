@@ -15,22 +15,29 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getSellProducts = exports.postSellProduct = void 0;
 const http_errors_1 = __importDefault(require("http-errors"));
 const client_1 = require("@prisma/client");
+const aws_1 = __importDefault(require("../utils/aws"));
 const prisma = new client_1.PrismaClient();
 const postSellProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { userId, categoryId } = req.body;
         delete req.body.categoryId;
         delete req.body.userId;
+        // img
+        const s3ImgLocation = yield (0, aws_1.default)(req);
         const product = yield prisma.product.create({
-            data: Object.assign({ seller: {
+            data: Object.assign(Object.assign({ seller: {
                     connect: {
-                        userId: userId
+                        userId: parseInt(userId)
                     }
                 }, categories: {
                     create: [
-                        { category: { connect: { categoryId: categoryId } } },
+                        { category: { connect: { categoryId: parseInt(categoryId) } } },
                     ]
-                } }, req.body),
+                } }, req.body), { 
+                // retailPrice: parseInt(req.body.retailPrice),
+                // negotiable: (req.body.negotiable === true),
+                // availableQuantity: parseInt(req.body.availableQuantity)
+                images: s3ImgLocation }),
             //   Showing categories in the return statement
             include: {
                 categories: {

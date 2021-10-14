@@ -44,7 +44,8 @@ router.post("/sell/getAllProducts", sellController.getSellProducts);
 router.post("/category", categoryController.postCategory);
 router.post("/getAllCategories", categoryController.getAllCategories);
 // Buy
-router.post("/buy/getAllProducts/", buyController.getBuyProducts);
+router.post("/buy/getAllProducts", buyController.getBuyProducts);
+router.post("/buy/getAllProductsByseller", buyController.getBuyProductsBySeller);
 router.post("/buy/products/category", buyController.getBuyProductsByCategory);
 router.post("/user/cart/add", buyController.postAddToCart);
 // Cart
