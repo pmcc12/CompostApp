@@ -1,29 +1,39 @@
 import { Request, Response, NextFunction } from "express";
 import createError from 'http-errors';
 import { PrismaClient } from '@prisma/client';
+import s3UploadImg from '../utils/aws';
+
 
 const prisma = new PrismaClient();
 
 const postSellProduct = async (req: Request, res: Response, next: NextFunction) => {
 
+    
     try {
         const { userId, categoryId } = req.body
         delete req.body.categoryId
         delete req.body.userId
+        // img
+        const s3ImgLocation = await s3UploadImg(req);
 
         const product = await prisma.product.create({
             data: {
                 seller: {
                     connect: {
-                        userId: userId
+                        userId: parseInt(userId)
                     }
                 },
                 categories: {
                     create: [
-                        { category: { connect: { categoryId: categoryId } } },
+                        { category: { connect: { categoryId: parseInt(categoryId) } } },
                     ]
                 },
-                ...req.body
+                ...req.body,
+                // retailPrice: parseInt(req.body.retailPrice),
+                // negotiable: (req.body.negotiable === true),
+                // availableQuantity: parseInt(req.body.availableQuantity)
+                images: s3ImgLocation,
+                
             },
             //   Showing categories in the return statement
             include: {
