@@ -36,7 +36,7 @@ router.get("/", (req, res) => {
 // Authentication
 router.post("/register", authController.register);
 router.post("/login", authController.login);
-router.get("/all", authController.all);
+router.post("/all", authController.all);
 // Sell 
 router.post("/sell/product", sellController.postSellProduct);
 router.post("/sell/getAllProducts", sellController.getSellProducts);
@@ -45,6 +45,7 @@ router.post("/category", categoryController.postCategory);
 router.post("/getAllCategories", categoryController.getAllCategories);
 // Buy
 router.post("/buy/getAllProducts", buyController.getBuyProducts);
+router.post("/buy/getAllProductsByseller", buyController.getBuyProductsBySeller);
 router.post("/buy/products/category", buyController.getBuyProductsByCategory);
 router.post("/user/cart/add", buyController.postAddToCart);
 // Cart
