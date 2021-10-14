@@ -116,7 +116,7 @@ export type IuserProducts = {
     data: sellerContent[]
 }
 
-interface sellerContent {
+export interface sellerContent {
     productId: number,
     sellerId: number,
     title: string,
@@ -130,7 +130,7 @@ interface sellerContent {
     categories: IcategoryObj[]
 }
 
-interface sellerData {
+export interface sellerData {
     userId: number,
     username: string,
     location: ILocationUpdate

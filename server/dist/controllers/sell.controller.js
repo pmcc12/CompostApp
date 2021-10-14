@@ -33,7 +33,11 @@ const postSellProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
                     create: [
                         { category: { connect: { categoryId: parseInt(categoryId) } } },
                     ]
-                } }, req.body), { images: s3ImgLocation, retailPrice: parseInt(req.body.retailPrice), negotiable: (req.body.negotiable === true), availableQuantity: parseInt(req.body.availableQuantity) }),
+                } }, req.body), { 
+                // retailPrice: parseInt(req.body.retailPrice),
+                // negotiable: (req.body.negotiable === true),
+                // availableQuantity: parseInt(req.body.availableQuantity)
+                images: s3ImgLocation }),
             //   Showing categories in the return statement
             include: {
                 categories: {

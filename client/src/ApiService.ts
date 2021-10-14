@@ -13,20 +13,23 @@ const ApiService: IApiService = {
     getUserOffers: async (userId) => {
         const BASE_URL = process.env.REACT_APP_HOST;
         
-            const method = 'POST';
-            const body = userId ? JSON.stringify({userId: userId}) : undefined;
-            const defaultHeaders = {'Content-Type': 'application/json'};
-            const headers = {...defaultHeaders}
-            const response = await fetch(`${BASE_URL}/api/buy/getAllProducts`,{method,body,headers})
+        const method = 'POST';
+        const body = userId ? JSON.stringify({userId: userId}) : undefined;
+        console.log('inside get user offers');
+        console.log(body)
+        const defaultHeaders = {'Content-Type': 'application/json'};
+        const headers = {...defaultHeaders}
+        const response = await fetch(`${BASE_URL}/api/buy/getAllProducts`,{method,body,headers})
 
-    const { data, errors } = await response.json();
-    if (response.ok) {
-      const finalData = data;
-      return data;
-    } else {
-      return null;
-    }
-  },
+        const { data, errors } = await response.json();
+        if (response.ok) {
+            console.log('response ok');
+            console.log(data);
+            return data;
+        } else {
+            return null;
+        }
+    },
 
   submitUserOffer: async (productData) => {
     const BASE_URL = process.env.REACT_APP_HOST;
