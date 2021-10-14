@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { myReducersTypeof } from '../state/reducers';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { Categories } from '../components/Categories';
 
 import Navigation from '../components/Navigation';
 import {
@@ -29,15 +30,15 @@ export const Buy: React.FC<Props> = ({ authorization }) => {
   console.log('myState ', myState);
   console.log('userId ', myState.data.userId);
 
-  const [productCategoryId, setProductCategoryId] = useState('');
+  // const [productCategoryId, setProductCategoryId] = useState('');
   const [sortedByProducts, setSortedByProducts] = useState([]);
 
-  const handleCategoryClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    const buyerId = myState.data.userId;
+  // const handleCategoryClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  //   const buyerId = myState.data.userId;
 
-    setProductCategoryId(event.currentTarget.value);
-    sortProducts(buyerId, productCategoryId);
-  };
+  //   setProductCategoryId(event.currentTarget.value);
+  //   sortProducts(buyerId, productCategoryId);
+  // };
 
   const handleSellerClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     // history.push('/details');
@@ -71,6 +72,15 @@ export const Buy: React.FC<Props> = ({ authorization }) => {
       <Container>
         <Row style={{ minHeight: '400px', paddingTop: '10px' }}>
           <Col
+            lg={4}
+            md={6}
+            sm={12}
+            style={{ borderBlock: 'black' }}
+            // className="block-example border border-dark"
+          >
+            <Categories sortProducts={sortProducts} />
+          </Col>
+          {/* <Col
             lg={4}
             md={6}
             sm={12}
@@ -209,7 +219,7 @@ export const Buy: React.FC<Props> = ({ authorization }) => {
                 </Col>
               </Row>
             </Container>
-          </Col>
+          </Col> */}
           <Col
             lg={4}
             md={6}
