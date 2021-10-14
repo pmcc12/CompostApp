@@ -38,8 +38,15 @@ export const Buy: React.FC<Props> = ({ authorization }) => {
   };
   const sortProducts = async (buyerId: number, productCategoryId: string) => {
     //api call for all products available to user, passing in userId
-    await ApiService.getUserOffers(buyerId).then((data: {}) => {
+    await ApiService.getUserOffers(buyerId).then((data: []) => {
       console.log('API CALL ', data);
+
+      //FIX TYPING ON EL
+      data.map((el: any) => {
+        const catId = el.categories[0].category.categoryId;
+        console.log('catId ', catId);
+        console.log('productCategoryId ', productCategoryId);
+      });
     });
 
     //when the data is returned, filter array according to the categoryId passed from the button click
