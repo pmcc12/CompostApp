@@ -22,6 +22,13 @@ const getBuyProducts = async(req:Request, res:Response, next:NextFunction) =>{
                         category: true,
                     },
                 },
+                seller:{
+                  select : {
+                    username:true,
+                    userId:true,
+                    location : true
+                  }
+                }
             },
        });
        res.status(200).json({
