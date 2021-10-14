@@ -20,13 +20,6 @@ type Props = {
   authorization: boolean;
 };
 
-/*** const sortedProducts = async (userId: number, categoryId: number) => {
-
-	//api call for all products available to user, passing in userId
-	await ApiService.getUserOffers(userId);
-	//when the data is returned, filter array according to the categoryId passed from the button click
-}*/
-
 export const Buy: React.FC<Props> = ({ authorization }) => {
   const myState = useSelector((state: myReducersTypeof) => state.login);
 
@@ -34,12 +27,23 @@ export const Buy: React.FC<Props> = ({ authorization }) => {
   console.log('myState ', myState);
   console.log('userId ', myState.data.userId);
 
-  const [userCategory, setUserCategory] = useState();
+  const [productCategoryId, setProductCategoryId] = useState('');
+  const [sortedByProducts, setSortedByProducts] = useState([]);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    console.log('event.currentTarget.value ', event.currentTarget.value);
+    const buyerId = myState.data.userId;
+    console.log('buyerId ', buyerId);
+    setProductCategoryId(event.currentTarget.value);
+    sortProducts(buyerId, productCategoryId);
   };
+  const sortProducts = async (buyerId: number, productCategoryId: string) => {
+    //api call for all products available to user, passing in userId
+    await ApiService.getUserOffers(buyerId).then((data: {}) => {
+      console.log('API CALL ', data);
+    });
 
+    //when the data is returned, filter array according to the categoryId passed from the button click
+  };
   if (!authorization) {
     return <Redirect to="/login" />;
   }
