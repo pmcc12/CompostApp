@@ -1,4 +1,4 @@
-import { Request, } from "express";
+import { Request } from "express";
 // AWS
 const AWS = require('aws-sdk');
 // Ts
