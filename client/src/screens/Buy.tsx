@@ -83,7 +83,10 @@ export const Buy: React.FC<Props> = ({ authorization }) => {
             // className="block-example border border-dark"
           >
             <h3>Nearest suppliers</h3>
-            <Sellers handleSellerClick={handleSellerClick} />
+            <Sellers
+              handleSellerClick={handleSellerClick}
+              sortedByProducts={sortedByProducts}
+            />
           </Col>
           <Col
             lg={4}
