@@ -41,6 +41,9 @@ const getBuyProducts = async(req:Request, res:Response, next:NextFunction) =>{
      }
 }   
 
+
+
+
 const getBuyProductsByCategory = async(req:Request, res:Response, next:NextFunction) => {
     try {
         if (!req.body.userId) {
@@ -80,6 +83,8 @@ const getBuyProductsByCategory = async(req:Request, res:Response, next:NextFunct
        next(createError(e.statusCode, e.message));
      }
 }
+
+
 
 
 const postAddToCart = async(req:Request, res:Response, next:NextFunction) => {
@@ -138,6 +143,42 @@ const postAddToCart = async(req:Request, res:Response, next:NextFunction) => {
      }
 }
 
+const getBuyProductsBySeller = async(req:Request, res:Response, next:NextFunction) =>{
+  try {
+      if (!req.body.sellerId) {
+        throw new createError.NotFound("Need to provide SellerId in body");
+      }
+      const products = await prisma.product.findMany({
+          where: {
+            sellerId: req.body.sellerId,
+
+          },
+          //   Showing categories in the return statement
+          include: {
+              categories: {
+                  select: {
+                      category: true,
+                  },
+              },
+              seller:{
+                select : {
+                  username:true,
+                  userId:true,
+                  location : true
+                }
+              }
+          },
+     });
+     res.status(200).json({
+       status: true,
+       message: 'All buy products from seller',
+       data: products,
+     });
+   } catch (e: any) {
+     next(createError(e.statusCode, e.message));
+   }
+}   
 
 
-export { getBuyProducts, getBuyProductsByCategory, postAddToCart }
+
+export { getBuyProducts, getBuyProductsByCategory, postAddToCart,getBuyProductsBySeller }

@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.postAddToCart = exports.getBuyProductsByCategory = exports.getBuyProducts = void 0;
+exports.getBuyProductsBySeller = exports.postAddToCart = exports.getBuyProductsByCategory = exports.getBuyProducts = void 0;
 const http_errors_1 = __importDefault(require("http-errors"));
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
@@ -148,3 +148,39 @@ const postAddToCart = (req, res, next) => __awaiter(void 0, void 0, void 0, func
     }
 });
 exports.postAddToCart = postAddToCart;
+const getBuyProductsBySeller = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        if (!req.body.sellerId) {
+            throw new http_errors_1.default.NotFound("Need to provide SellerId in body");
+        }
+        const products = yield prisma.product.findMany({
+            where: {
+                sellerId: req.body.sellerId,
+            },
+            //   Showing categories in the return statement
+            include: {
+                categories: {
+                    select: {
+                        category: true,
+                    },
+                },
+                seller: {
+                    select: {
+                        username: true,
+                        userId: true,
+                        location: true
+                    }
+                }
+            },
+        });
+        res.status(200).json({
+            status: true,
+            message: 'All buy products from seller',
+            data: products,
+        });
+    }
+    catch (e) {
+        next((0, http_errors_1.default)(e.statusCode, e.message));
+    }
+});
+exports.getBuyProductsBySeller = getBuyProductsBySeller;
