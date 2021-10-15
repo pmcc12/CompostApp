@@ -4,11 +4,9 @@ import ApiService from '../ApiService';
 import { useSelector } from 'react-redux';
 import { myReducersTypeof } from '../state/reducers';
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import { Categories } from '../components/Categories';
 import { Sellers } from '../components/Sellers';
 import { useEffect } from 'react';
-
 import Navigation from '../components/Navigation';
 import { Row, Col, Container } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
@@ -18,7 +16,6 @@ type Props = {
 };
 
 export const Buy: React.FC<Props> = ({ authorization }) => {
-  const history = useHistory();
   const myState = useSelector((state: myReducersTypeof) => state.login);
   const userId = myState.data.userId;
 
@@ -31,20 +28,12 @@ export const Buy: React.FC<Props> = ({ authorization }) => {
     });
   }, []);
 
-  const handleSellerClick = (
-    event: React.MouseEvent<HTMLButtonElement>,
-    sellerId: number
-  ) => {
-    history.push(`/details/${sellerId}`);
-  };
-
   const sortProducts = (buyerId: number, productCategoryId: string) => {
     let sortedProductsArr: any = allUserProducts.filter((el) => {
       const catId = (el as any).categories[0].category.categoryId;
       const productCategoryIdNumber = Number(productCategoryId);
       return catId === productCategoryIdNumber;
     });
-
     setSortedByProducts(sortedProductsArr);
   };
 
@@ -56,37 +45,16 @@ export const Buy: React.FC<Props> = ({ authorization }) => {
       <Navigation />
       <Container>
         <Row style={{ minHeight: '400px', paddingTop: '10px' }}>
-          <Col
-            lg={4}
-            md={6}
-            sm={12}
-            style={{ borderBlock: 'black' }}
-            // className="block-example border border-dark"
-          >
+          <Col lg={4} md={6} sm={12} style={{ borderBlock: 'black' }}>
             <h3>Pick a category</h3>
-            <Categories sortProducts={sortProducts} />
+            <Categories />
           </Col>
-
-          <Col
-            lg={4}
-            md={6}
-            sm={12}
-            // className="block-example border border-dark"
-          >
+          <Col lg={4} md={6} sm={12} style={{ borderBlock: 'black' }}>
             <h3>Nearest suppliers</h3>
-            <Sellers
-              handleSellerClick={handleSellerClick}
-              sortedByProducts={sortedByProducts}
-            />
+            <Sellers sortedByProducts={sortedByProducts} />
           </Col>
-          <Col
-            lg={4}
-            md={6}
-            sm={12}
-            // className="block-example border border-dark"
-          >
+          <Col lg={4} md={6} sm={12} style={{ borderBlock: 'black' }}>
             <h3>Seller location</h3>
-
             <MyMap
               location={{
                 availability: true,

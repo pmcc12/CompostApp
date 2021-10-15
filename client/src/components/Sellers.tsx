@@ -1,8 +1,8 @@
 import { Button, Card } from 'react-bootstrap';
+import { HandleSellerClick } from '../handlers/handlerFuncs';
 
 //FIX TYPE OF PROPS
 export const Sellers = (props: any) => {
-  console.log('sorted products array ', props.sortedByProducts);
   return props.sortedByProducts.map((el: any) => {
     return (
       <Card style={{ width: '18rem' }}>
@@ -14,9 +14,7 @@ export const Sellers = (props: any) => {
           <Button
             key={el.seller.userId}
             variant="primary"
-            onClick={(event) =>
-              props.handleSellerClick(event, el.seller.userId)
-            }
+            onClick={(event) => HandleSellerClick(event, el.seller.userId)}
           >
             Select supplier
           </Button>
