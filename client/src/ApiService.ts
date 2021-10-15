@@ -10,7 +10,6 @@ type IApiService = {
 /* Get all user related products */
 const ApiService: IApiService = {
 
-<<<<<<< HEAD
     getUserOffers: async (userId) => {
         const BASE_URL = process.env.REACT_APP_HOST;
         
@@ -21,17 +20,6 @@ const ApiService: IApiService = {
         const defaultHeaders = {'Content-Type': 'application/json'};
         const headers = {...defaultHeaders}
         const response = await fetch(`${BASE_URL}/api/buy/getAllProducts`,{method,body,headers})
-=======
-    const method = 'POST';
-    const body = userId ? JSON.stringify({ userId: userId }) : undefined;
-    const defaultHeaders = { 'Content-Type': 'application/json' };
-    const headers = { ...defaultHeaders };
-    const response = await fetch(`${BASE_URL}/api/buy/getAllProducts`, {
-      method,
-      body,
-      headers,
-    });
->>>>>>> dg_frontend_1410_buyafterendpoints
 
         const { data, errors } = await response.json();
         if (response.ok) {
