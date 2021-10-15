@@ -15,7 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getSellProducts = exports.postSellProduct = void 0;
 const http_errors_1 = __importDefault(require("http-errors"));
 const client_1 = require("@prisma/client");
-const aws_1 = __importDefault(require("../utils/aws"));
 const prisma = new client_1.PrismaClient();
 const postSellProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -23,9 +22,9 @@ const postSellProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
         delete req.body.categoryId;
         delete req.body.userId;
         // img
-        const s3ImgLocation = yield (0, aws_1.default)(req);
+        // const s3ImgLocation = await s3UploadImg(req);
         const product = yield prisma.product.create({
-            data: Object.assign(Object.assign({ seller: {
+            data: Object.assign({ seller: {
                     connect: {
                         userId: parseInt(userId)
                     }
@@ -33,11 +32,7 @@ const postSellProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
                     create: [
                         { category: { connect: { categoryId: parseInt(categoryId) } } },
                     ]
-                } }, req.body), { 
-                // retailPrice: parseInt(req.body.retailPrice),
-                // negotiable: (req.body.negotiable === true),
-                // availableQuantity: parseInt(req.body.availableQuantity)
-                images: s3ImgLocation }),
+                } }, req.body),
             //   Showing categories in the return statement
             include: {
                 categories: {
