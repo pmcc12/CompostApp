@@ -1,4 +1,3 @@
-// @ts-nocheck
 import MyMap from '../components/Map';
 import ApiService from '../ApiService';
 import { useSelector } from 'react-redux';
@@ -8,11 +7,9 @@ import { useHistory } from 'react-router-dom';
 import { Categories } from '../components/Categories';
 import { Sellers } from '../components/Sellers';
 import { useEffect } from 'react';
-
 import Navigation from '../components/Navigation';
 import { Row, Col, Container } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
-import { handleSellerClick, sortProducts } from '../handlers/handlerFuncs.tsx';
 
 type Props = {
   authorization: boolean;
@@ -39,7 +36,7 @@ export const Buy: React.FC<Props> = ({ authorization }) => {
     history.push(`/details/${sellerId}`);
   };
 
-  const sortProducts = (buyerId: number, productCategoryId: string) => {
+  const sortProducts = (buyerId: number, productCategoryId: number) => {
     let sortedProductsArr: any = allUserProducts.filter((el) => {
       const catId = (el as any).categories[0].category.categoryId;
       const productCategoryIdNumber = Number(productCategoryId);
