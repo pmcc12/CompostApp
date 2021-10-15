@@ -20,27 +20,32 @@ type Props = {
 export const Buy: React.FC<Props> = ({ authorization }) => {
   const history = useHistory();
   const myState = useSelector((state: myReducersTypeof) => state.login);
+  const userId = myState.data.userId;
 
-  console.log('in buy');
-  console.log('myState ', myState);
-  console.log('userId ', myState.data.userId);
-
+  const [allUserProducts, setAllUserProducts] = useState([]);
   const [sortedByProducts, setSortedByProducts] = useState([]);
 
-  const handleSellerClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  useEffect(() => {
+    ApiService.getUserOffers(userId).then((data: []) => {
+      setAllUserProducts(data);
+    });
+  }, []);
+
+  const handleSellerClick = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    sellerId: number
+  ) => {
     history.push(`/details/${event.currentTarget.value}`);
   };
 
   const sortProducts = (buyerId: number, productCategoryId: string) => {
-    ApiService.getUserOffers(buyerId).then((data: []) => {
-      let sortedProductsArr: any = data.filter((el) => {
-        const catId = (el as any).categories[0].category.categoryId;
-        const productCategoryIdNumber = Number(productCategoryId);
-        return catId === productCategoryIdNumber;
-      });
-
-      setSortedByProducts(sortedProductsArr);
+    let sortedProductsArr: any = allUserProducts.filter((el) => {
+      const catId = (el as any).categories[0].category.categoryId;
+      const productCategoryIdNumber = Number(productCategoryId);
+      return catId === productCategoryIdNumber;
     });
+
+    setSortedByProducts(sortedProductsArr);
   };
 
   if (!authorization) {

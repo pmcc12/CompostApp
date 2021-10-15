@@ -12,9 +12,11 @@ export const Sellers = (props: any) => {
           <Card.Text>Quantity: {el.availableQuantity}</Card.Text>
           <Card.Text>Price: {el.retailPrice}</Card.Text>
           <Button
+            key={el.seller.userId}
             variant="primary"
-            value={el.seller.userId}
-            onClick={(event) => props.handleSellerClick(event)}
+            onClick={(event) =>
+              props.handleSellerClick(event, el.seller.userId)
+            }
           >
             Select supplier
           </Button>
