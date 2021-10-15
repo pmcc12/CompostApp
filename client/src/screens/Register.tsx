@@ -111,7 +111,6 @@ export const Register = () => {
                 <Col xs={12} md={10} lg={8}>
                     <Stack gap={2} className="col-md-4 mx-auto">
                         <h1>Register Screen</h1>
-                        <h2>My location. Latitude: {form.location.latitude} and Longitude: {form.location.longitude}</h2>
                     </Stack>
                     <Row className="mb-3">
                     <Form.Group as={Col} controlId="formGridEmail">
@@ -133,7 +132,7 @@ export const Register = () => {
                     {/* <MyMap latitude={form.location.latitude} longitude={form.location.longitude} availability={form.location.availability} error={form.location.error}/> */}
                     {/* <MyMap location={form.location}/> */}
 
-                    <MyMap location={form.location} locationUpdater={handleCurrentLocationMap} inRegister={true} inDetailsOrSell={false} inBuy={false}/>
+                    <MyMap location={form.location} locationUpdater={handleCurrentLocationMap} inRegister={true} inDetailsOrSell={false} inBuy={false} inDetail={false}/>
 
                     <div className="d-grid gap-2">
                         <Button variant="primary" type="submit">

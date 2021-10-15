@@ -42,13 +42,11 @@ export const Details:React.FC<Props> = ({authorization}) => {
         console.log(+userId);
         /* after updating state, useeffect will be called again. dataFetched ensures that we don't enter in a infinite loop of fetching and seting data. acts like a locker */
         if(!dataFetched){
-            console.log("fetching");
-            ApiService.getUserOffers(+userId).then((data: any) => setMyData(data)).then(()=>{
-            console.log('promisse fulfilled');
+            ApiService.getOwnUserOffers(+userId).then((data: any) => setMyData(data)).then(()=>{
             setLoading(false)})
             setDataFetched(true);
         }
-    }, [buttonPushed])
+    }, [])
     
 
     console.log('AUTHORIZED IN SELL!')
@@ -89,16 +87,24 @@ export const Details:React.FC<Props> = ({authorization}) => {
                 <Col xs={12} md={10} lg={8}>
                     <Stack gap={2} className="col-md-4 mx-auto">
                         <h1>Details Screen</h1>
-                        <h2>Hello {myData[0] ? myData[0].seller.username : 'John Doe'}</h2>
+                        <h2> {myData[offerIndex] ? myData[offerIndex].seller.username : 'John Doe'}</h2> have {myData.length} offers available
                     </Stack>
 
-                    <Slider />
+                    <Slider setOfferByIndex={setofferIndex} offerAmount={myData.length}/>
+
+                    <h1>Title: {myData[offerIndex].title}</h1>
+
+                    <h2>Description: <span>{myData[offerIndex].desc}</span></h2>
+
+                    <h2>Price: {myData[offerIndex].retailPrice} € ({myData[offerIndex].negotiable ? 'Non-':null}Negotiable)</h2>
+                    
+                    <h2>Quantity available: {myData[offerIndex].availableQuantity}</h2>
 
                     <br />
                     <br />
 
 
-                    <MyMap location={{availability: true, error: false, latitude: myData[0].seller.location.latitude, longitude: myData[0].seller.location.latitude}} inRegister={false} inDetailsOrSell={true} inBuy={false}/>
+                    <MyMap location={{availability: true, error: false, latitude: myData[offerIndex].seller.location.latitude, longitude: myData[offerIndex].seller.location.longitude}} inRegister={false} inDetailsOrSell={true} inBuy={false} inDetail={true} username={myData[offerIndex].seller.username} productTitle={myData[offerIndex].title}/>
 
                     <Button variant="primary" type="submit">
                         Make Order

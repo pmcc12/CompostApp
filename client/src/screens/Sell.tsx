@@ -339,6 +339,7 @@ export const Sell: React.FC<Props> = ({authorization}) => {
                 inRegister={false}
                 inDetailsOrSell={true}
                 inBuy={false}
+                inDetail={false}
               />
 
               <Button variant="primary" type="submit">

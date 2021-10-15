@@ -4,7 +4,8 @@ import { Icategories, IgetAllUserProducts, userOffer } from './state/actions';
 type IApiService = {
     getUserOffers: (val: number) => any,
     submitUserOffer: (val: userOffer) => any,
-    submitAvailableCategories: (val: Icategories[]) => any
+    submitAvailableCategories: (val: Icategories[]) => any,
+    getOwnUserOffers: (val: number) => any,
 }
 
 /* Get all user related products */
@@ -77,6 +78,26 @@ const ApiService: IApiService = {
         }
     },
 
+    getOwnUserOffers: async (userId) => {
+      const BASE_URL = process.env.REACT_APP_HOST;
+      
+      const method = 'POST';
+      const body = userId ? JSON.stringify({sellerId: userId}) : undefined;
+      console.log('inside get own user offers');
+      console.log(body)
+      const defaultHeaders = {'Content-Type': 'application/json'};
+      const headers = {...defaultHeaders}
+      const response = await fetch(`${BASE_URL}/api/buy/getAllProductsbySeller`,{method,body,headers})
+
+      const { data, errors } = await response.json();
+      if (response.ok) {
+          console.log('response in get own users ok');
+          console.log(data);
+          return data;
+      } else {
+          return null;
+      }
+  }
 
 };
 

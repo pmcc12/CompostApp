@@ -106,6 +106,7 @@ export const Buy: React.FC<Props> = ({ authorization }) => {
               inRegister={false}
               inDetailsOrSell={true}
               inBuy={false}
+              inDetail={false}
             />
           </Col>
         </Row>
