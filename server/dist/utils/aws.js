@@ -18,15 +18,12 @@ const s3UploadImg = (req) => __awaiter(void 0, void 0, void 0, function* () {
         region: process.env.S3_BUCKET_REGION,
     });
     const s3 = new AWS.S3();
-    /* tslint:disable-next-line */
-    console.log(req.body);
-    console.log(req.files);
     // Binary data base64
-    const fileContent = Buffer.from(req.files.file.data, 'binary');
+    const fileContent = Buffer.from(req.files.userFile.data, 'binary');
     // Setting up S3 upload parameters
     const params = {
         Bucket: 'compost-app-2-image-s3-bucket',
-        Key: req.body.key,
+        Key: Date.now().toString(),
         Body: fileContent
     };
     // Upload to s3

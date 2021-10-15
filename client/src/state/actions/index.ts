@@ -75,7 +75,7 @@ interface UserProduct {
     productId: number,
     sellerId: number,
     title: string,
-    images: any,
+    images: Array<any>,
     desc: string,
     retailPrice: number,
     negotiable: boolean,

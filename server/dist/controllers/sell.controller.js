@@ -36,21 +36,31 @@ const postProductImg = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
 exports.postProductImg = postProductImg;
 const postSellProduct = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { userId, categoryId } = req.body;
-        delete req.body.categoryId;
-        delete req.body.userId;
-        // img
-        // const s3ImgLocation = await s3UploadImg(req);
+        // // console.log(req)
+        // console.log(req.body); 
+        // console.log(req.files);
+        // Img File
+        const s3ImgLocation = yield (0, aws_1.default)(req);
+        console.log("HEY", s3ImgLocation);
+        // Document
+        const productInfo = JSON.parse(req.files.userDocument.data);
+        const { userId, categoryId } = productInfo;
+        delete productInfo.categoryId;
+        delete productInfo.userId;
         const product = yield prisma.product.create({
-            data: Object.assign({ seller: {
+            data: Object.assign(Object.assign({ seller: {
                     connect: {
-                        userId: parseInt(userId)
+                        userId: userId
                     }
                 }, categories: {
                     create: [
-                        { category: { connect: { categoryId: parseInt(categoryId) } } },
+                        { category: { connect: { categoryId: categoryId } } },
                     ]
-                } }, req.body),
+                } }, productInfo), { 
+                // retailPrice: parseInt(req.body.retailPrice),
+                // negotiable: (req.body.negotiable === true),
+                // availableQuantity: parseInt(req.body.availableQuantity)
+                images: s3ImgLocation }),
             //   Showing categories in the return statement
             include: {
                 categories: {

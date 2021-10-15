@@ -47,7 +47,7 @@ function ImgUpload() {
             </Form.Group>
              {progress && <ProgressBar now={progress} label={`${progress}%`} />}
           </Form>
-           <img src="https://compost-app-2-image-s3-bucket.s3.eu-west-2.amazonaws.com/" alt="" />
+           <img src="https://compost-app-2-image-s3-bucket.s3.eu-west-2.amazonaws.com/1634307102949" alt="" />
         </Col>
       </Row>
     </Container>
