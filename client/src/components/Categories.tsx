@@ -1,9 +1,23 @@
 // @ts-nocheck
 
-import { Button, Card } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
+import { myReducersTypeof } from '../state/reducers';
+import { Col, Row, Container, Button, Card, Stack } from 'react-bootstrap';
 import { compostCategories } from '../CompostCategories';
 
-export const Categories = () => {
+export const Categories = (props: any) => {
+  //fix TYPE of props!!!!!!!!
+  const myState = useSelector((state: myReducersTypeof) => state.login);
+
+  const handleCategoryClick = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    catIdNum: number
+  ) => {
+    console.log('handleCategoryClick()');
+    const buyerId = myState.data.userId;
+    props.sortProducts(buyerId, catIdNum);
+  };
+
   return compostCategories.map((compostCategory) => {
     return (
       <Card style={{ width: '18rem' }}>
