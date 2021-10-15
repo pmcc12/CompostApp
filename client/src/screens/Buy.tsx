@@ -6,17 +6,10 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Categories } from '../components/Categories';
 import { Sellers } from '../components/Sellers';
+import { useEffect } from 'react';
 
 import Navigation from '../components/Navigation';
-import {
-  Row,
-  Col,
-  Container,
-  Stack,
-  Button,
-  Image,
-  Card,
-} from 'react-bootstrap';
+import { Row, Col, Container } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 
 type Props = {
@@ -39,21 +32,21 @@ export const Buy: React.FC<Props> = ({ authorization }) => {
     history.push(`/details/${event.currentTarget.value}`);
   };
 
-  const sortProducts = async (buyerId: number, productCategoryId: string) => {
-    await ApiService.getUserOffers(buyerId).then((data: []) => {
-      console.log('API CALL ', data);
-      let sortedProductsArr: [] = [];
-
-      data.map((el) => {
+  const sortProducts = (buyerId: number, productCategoryId: string) => {
+    ApiService.getUserOffers(buyerId).then((data: []) => {
+      let sortedProductsArr: any = data.map((el) => {
+        console.log('el in map ', el);
         const catId = (el as any).categories[0].category.categoryId;
         const productCategoryIdNumber = Number(productCategoryId);
-
+        console.log({ catId, productCategoryId });
         if (catId === productCategoryIdNumber) {
-          sortedProductsArr.push(el);
+          return el;
         }
       });
-      setSortedByProducts(sortedProductsArr);
-      console.log('sortedByProducts ', sortedByProducts);
+      if (sortedByProducts.length > 0) {
+        console.log('inside conditional');
+        setSortedByProducts(sortedProductsArr);
+      }
     });
   };
 

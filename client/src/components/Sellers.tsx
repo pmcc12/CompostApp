@@ -2,7 +2,7 @@ import { Button, Card } from 'react-bootstrap';
 
 //FIX TYPE OF PROPS
 export const Sellers = (props: any) => {
-  console.log(props.sortedByProducts);
+  console.log('sorted products array ', props.sortedByProducts);
   return props.sortedByProducts.map((el: any) => {
     return (
       <Card style={{ width: '18rem' }}>

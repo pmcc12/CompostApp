@@ -8,28 +8,27 @@ export const Categories = (props: any) => {
   const myState = useSelector((state: myReducersTypeof) => state.login);
   const [productCategoryId, setProductCategoryId] = useState('');
 
-  const handleCategoryClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleCategoryClick = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    catIdNum: number
+  ) => {
+    console.log('handleCategoryClick()');
     const buyerId = myState.data.userId;
 
-    setProductCategoryId(event.currentTarget.value);
-    props.sortProducts(buyerId, productCategoryId);
+    // setProductCategoryId(event.currentTarget.value);
+
+    console.log('productCategoryId ', productCategoryId);
+    // props.sortProducts(buyerId, productCategoryId);
+
+    props.sortProducts(buyerId, catIdNum);
   };
 
   return (
     <>
-      <Col
-        lg={4}
-        md={6}
-        sm={12}
-        style={{ borderBlock: 'black' }}
-        // className="block-example border border-dark"
-      >
+      <Col lg={4} md={6} sm={12} style={{ borderBlock: 'black' }}>
         <Container style={{ padding: '5px' }}>
           <Row style={{ minHeight: '200px' }}>
-            <Col
-              // className="block-example border border-dark"
-              style={{ padding: '5px' }}
-            >
+            <Col style={{ padding: '5px' }}>
               <Stack>
                 <Card style={{ width: '18rem' }}>
                   <Card.Img
@@ -40,9 +39,9 @@ export const Categories = (props: any) => {
                     <Card.Title>Juice Fertilizer</Card.Title>
                     <Card.Text>Some description here</Card.Text>
                     <Button
-                      value={1}
+                      // value={1}
                       variant="primary"
-                      onClick={(event) => handleCategoryClick(event)}
+                      onClick={(event) => handleCategoryClick(event, 1)}
                     >
                       Click to select
                     </Button>
@@ -57,9 +56,9 @@ export const Categories = (props: any) => {
                     <Card.Title>Soil Fertilizer</Card.Title>
                     <Card.Text>Some description here</Card.Text>
                     <Button
-                      value={2}
+                      // value={2}
                       variant="primary"
-                      onClick={(event) => handleCategoryClick(event)}
+                      onClick={(event) => handleCategoryClick(event, 2)}
                     >
                       Click to select
                     </Button>
@@ -74,9 +73,9 @@ export const Categories = (props: any) => {
                     <Card.Title>Vermicompost</Card.Title>
                     <Card.Text>Some description here</Card.Text>
                     <Button
-                      value={3}
+                      // value={3}
                       variant="primary"
-                      onClick={(event) => handleCategoryClick(event)}
+                      onClick={(event) => handleCategoryClick(event, 3)}
                     >
                       Click to select
                     </Button>
@@ -91,9 +90,9 @@ export const Categories = (props: any) => {
                     <Card.Title>Activators for Compost</Card.Title>
                     <Card.Text>Some description here</Card.Text>
                     <Button
-                      value={4}
+                      // value={4}
                       variant="primary"
-                      onClick={(event) => handleCategoryClick(event)}
+                      onClick={(event) => handleCategoryClick(event, 4)}
                     >
                       Click to select
                     </Button>
@@ -109,9 +108,9 @@ export const Categories = (props: any) => {
                     <Card.Title>Worms</Card.Title>
                     <Card.Text>Some description here</Card.Text>
                     <Button
-                      value={5}
+                      // value={5}
                       variant="primary"
-                      onClick={(event) => handleCategoryClick(event)}
+                      onClick={(event) => handleCategoryClick(event, 5)}
                     >
                       Click to select
                     </Button>
@@ -126,9 +125,9 @@ export const Categories = (props: any) => {
                     <Card.Title>Brown Material</Card.Title>
                     <Card.Text>Some description here</Card.Text>
                     <Button
-                      value={6}
+                      // value={6}
                       variant="primary"
-                      onClick={(event) => handleCategoryClick(event)}
+                      onClick={(event) => handleCategoryClick(event, 6)}
                     >
                       Click to select
                     </Button>
@@ -143,9 +142,9 @@ export const Categories = (props: any) => {
                     <Card.Title>Compost Case</Card.Title>
                     <Card.Text>Some description here</Card.Text>
                     <Button
-                      value={7}
+                      // value={7}
                       variant="primary"
-                      onClick={(event) => handleCategoryClick(event)}
+                      onClick={(event) => handleCategoryClick(event, 7)}
                     >
                       Click to select
                     </Button>
@@ -156,12 +155,7 @@ export const Categories = (props: any) => {
           </Row>
         </Container>
       </Col>
-      <Col
-        lg={4}
-        md={6}
-        sm={12}
-        // className="block-example border border-dark"
-      ></Col>
+      <Col lg={4} md={6} sm={12}></Col>
     </>
   );
 };
