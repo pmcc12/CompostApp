@@ -108,6 +108,7 @@ export const Login = () => {
                   Login
                 </Button>
               </div>
+              <span>Don't have a account yet? <a href="/register">Register Here</a></span>
               {/* </Col> */}
             </Form>
           </Col>

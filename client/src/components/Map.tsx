@@ -12,7 +12,10 @@ type Props = {
     locationUpdater?: (val: Icoordinates) => void
     inRegister:boolean,
     inDetailsOrSell: boolean,
-    inBuy: boolean
+    inBuy: boolean,
+    username?: string,
+    productTitle?: string
+    inDetail: boolean
 }
 
 //PROPS From father component:
@@ -22,9 +25,10 @@ Register: -> latitude, longitude from user
 Buy:
           -> callback function to add more markers
 */
-const MyMap: React.FC<Props> = ({location, locationUpdater, inRegister, inDetailsOrSell, inBuy}) => {
+const MyMap: React.FC<Props> = ({location, locationUpdater, inRegister, inDetailsOrSell, inBuy, inDetail, username, productTitle}) => {
 
     //37.0245632 ; -7.9265792
+    
 
     console.log(process.env.REACT_APP_MAPBOX_USERID+' '+process.env.REACT_APP_MAPBOX_STYLESID+' '+process.env.REACT_APP_MAPBOX_APIKEY)
 
@@ -51,7 +55,9 @@ const MyMap: React.FC<Props> = ({location, locationUpdater, inRegister, inDetail
                 dragend: (event) => registerLocationChange(event as any)
             }}> 
                 <Popup>
-                    Hi! You are in Register!
+                    You will be registered here!
+                    latitude:{location.latitude}
+                    longitude:{location.longitude}
                 </Popup>
             </Marker>
             )
@@ -59,9 +65,19 @@ const MyMap: React.FC<Props> = ({location, locationUpdater, inRegister, inDetail
             (inDetailsOrSell ? 
                 (
                     <Marker position={[location.latitude, location.longitude]}> 
-                        <Popup>
-                            Hi! You are in Sell or Detail!
-                        </Popup>
+                        {inDetail? 
+                        (
+                            <Popup>
+                                <h5><b>Product Offer:</b> {productTitle}</h5>
+                                <h6><b>Owner:</b> {username}</h6>
+                            </Popup>
+                        )
+                        : 
+                        (
+                            <Popup>
+                                Your selling location
+                            </Popup>
+                        )}
                     </Marker>
                 ) 
                 :
