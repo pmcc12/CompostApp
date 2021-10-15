@@ -95,9 +95,10 @@ export const Buy: React.FC<Props> = ({ authorization }) => {
                 longitude: myState.data.location.longitude,
               }}
               inRegister={false}
-              inDetailsOrSell={true}
-              inBuy={false}
+              inDetailsOrSell={false}
+              inBuy={true}
               inDetail={false}
+              myProductsArray={sortedByProducts}
             />
           </Col>
         </Row>
