@@ -40,7 +40,6 @@ router.post("/all", authController.all);
 // Sell 
 router.post("/sell/product", sellController.postSellProduct);
 router.post("/sell/getAllProducts", sellController.getSellProducts);
-router.post("/sell/productImg", sellController.postProductImg);
 // Category
 router.post("/category", categoryController.postCategory);
 router.post("/getAllCategories", categoryController.getAllCategories);

@@ -59,7 +59,7 @@ const postSellProduct = async (req: any, res: Response, next: NextFunction) => {
                 // retailPrice: parseInt(req.body.retailPrice),
                 // negotiable: (req.body.negotiable === true),
                 // availableQuantity: parseInt(req.body.availableQuantity)
-                // images: s3ImgLocation,
+                images: s3ImgLocation,
                 
             },
             //   Showing categories in the return statement

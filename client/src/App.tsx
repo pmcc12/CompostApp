@@ -16,8 +16,6 @@ import { Sell } from './screens/Sell';
 import { Details } from './screens/Details';
 import Home from './screens/Home';
 import { Buy } from './screens/Buy';
-//experiment
-import ImgUpload from './components/ImgUpload';
 
 export default function App() {
   const state = useSelector((state: myReducersTypeof) => state.login);
@@ -25,7 +23,6 @@ export default function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/imgExperiment" component={ImgUpload} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/balance" component={Balance} />
         <Route exact path="/register" component={Register} />

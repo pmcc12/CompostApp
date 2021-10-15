@@ -17,8 +17,6 @@ import { Redirect, useHistory } from 'react-router-dom';
 import MyMap from '../components/Map';
 import Navigation from '../components/Navigation';
 import ApiService from '../ApiService';
-// Image Form
-import ImgUpload from '../components/ImgUpload';
 
 type Props = {
   authorization: boolean;
@@ -239,7 +237,6 @@ export const Sell: React.FC<Props> = ({authorization}) => {
                   }
                 />
               </Form.Group>
-              {/* <ImgUpload />  */}
               <Form.Group controlId="formFile" className="mb-3">
                 <FloatingLabel
                   controlId="floatingTextarea2"
