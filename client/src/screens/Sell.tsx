@@ -225,7 +225,7 @@ export const Sell: React.FC<Props> = ({authorization}) => {
                   <option value="7">Compost Case</option>
                 </Form.Select>
               </Form.Group>
-              <Form.Group controlId="formFile" className="mb-3">
+              {/* <Form.Group controlId="formFile" className="mb-3">
                 <Form.Label>Default file input example</Form.Label>
                 <Form.Control
                   type="file"
@@ -233,7 +233,7 @@ export const Sell: React.FC<Props> = ({authorization}) => {
                     handleImages(event as React.ChangeEvent<HTMLInputElement>)
                   }
                 />
-              </Form.Group>
+              </Form.Group> */}
               <Form.Group controlId="formFile" className="mb-3">
                 <FloatingLabel
                   controlId="floatingTextarea2"

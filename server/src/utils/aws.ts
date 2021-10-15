@@ -14,9 +14,12 @@ const s3UploadImg = async (req: Request) => {
     })
 
     const s3 = new AWS.S3();
+    /* tslint:disable-next-line */
+    console.log((req as FilesRequest).body)
+    console.log((req as FilesRequest).files)
 
     // Binary data base64
-    const fileContent = Buffer.from((req as FilesRequest).files.image.data, 'binary');
+    const fileContent = Buffer.from((req as FilesRequest).files.data, 'binary');
 
     // Setting up S3 upload parameters
     const params = {

@@ -6,6 +6,25 @@ import s3UploadImg from '../utils/aws';
 
 const prisma = new PrismaClient();
 
+const postProductImg = async (req: Request, res: Response, next: NextFunction) => {
+
+    try {
+        // img
+        const s3ImgLocation = await s3UploadImg(req);
+        res.status(201).json({
+            status: true,
+            message: "Image Upload successful",
+            data: {
+                imgLocation: s3ImgLocation
+            }
+        }
+        );
+    } catch (e: any) {
+        next(createError(e.statusCode, e.message))
+    }
+
+}
+
 const postSellProduct = async (req: Request, res: Response, next: NextFunction) => {
 
     
@@ -14,7 +33,7 @@ const postSellProduct = async (req: Request, res: Response, next: NextFunction) 
         delete req.body.categoryId
         delete req.body.userId
         // img
-        const s3ImgLocation = await s3UploadImg(req);
+        // const s3ImgLocation = await s3UploadImg(req);
 
         const product = await prisma.product.create({
             data: {
@@ -32,7 +51,7 @@ const postSellProduct = async (req: Request, res: Response, next: NextFunction) 
                 // retailPrice: parseInt(req.body.retailPrice),
                 // negotiable: (req.body.negotiable === true),
                 // availableQuantity: parseInt(req.body.availableQuantity)
-                images: s3ImgLocation,
+                // images: s3ImgLocation,
                 
             },
             //   Showing categories in the return statement
@@ -88,4 +107,4 @@ const getSellProducts = async (req: Request, res: Response, next: NextFunction) 
 
 
 
-export { postSellProduct, getSellProducts }
+export { postSellProduct, getSellProducts, postProductImg }
