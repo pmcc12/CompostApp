@@ -1,5 +1,5 @@
 // @ts-nocheck
-console.log('testing');
+
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { myReducersTypeof } from '../state/reducers';
