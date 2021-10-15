@@ -1,3 +1,4 @@
+// @ts-nocheck
 import MyMap from '../components/Map';
 import ApiService from '../ApiService';
 import { useSelector } from 'react-redux';
@@ -6,18 +7,12 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Categories } from '../components/Categories';
 import { Sellers } from '../components/Sellers';
+import { useEffect } from 'react';
 
 import Navigation from '../components/Navigation';
-import {
-  Row,
-  Col,
-  Container,
-  Stack,
-  Button,
-  Image,
-  Card,
-} from 'react-bootstrap';
+import { Row, Col, Container } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
+import { handleSellerClick, sortProducts } from '../handlers/handlerFuncs.tsx';
 
 type Props = {
   authorization: boolean;
@@ -26,35 +21,32 @@ type Props = {
 export const Buy: React.FC<Props> = ({ authorization }) => {
   const history = useHistory();
   const myState = useSelector((state: myReducersTypeof) => state.login);
+  const userId = myState.data.userId;
 
-  console.log('in buy');
-  console.log('myState ', myState);
-  console.log('userId ', myState.data.userId);
-
-  // const [productCategoryId, setProductCategoryId] = useState('');
+  const [allUserProducts, setAllUserProducts] = useState([]);
   const [sortedByProducts, setSortedByProducts] = useState([]);
 
-  const handleSellerClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    // history.push('/details');
-    history.push(`/details/${event.currentTarget.value}`);
+  useEffect(() => {
+    ApiService.getUserOffers(userId).then((data: []) => {
+      setAllUserProducts(data);
+    });
+  }, []);
+
+  const handleSellerClick = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    sellerId: number
+  ) => {
+    history.push(`/details/${sellerId}`);
   };
 
-  const sortProducts = async (buyerId: number, productCategoryId: string) => {
-    await ApiService.getUserOffers(buyerId).then((data: []) => {
-      console.log('API CALL ', data);
-      let sortedProductsArr: [] = [];
-
-      data.map((el) => {
-        const catId = (el as any).categories[0].category.categoryId;
-        const productCategoryIdNumber = Number(productCategoryId);
-
-        if (catId === productCategoryIdNumber) {
-          sortedProductsArr.push(el);
-        }
-      });
-      setSortedByProducts(sortedProductsArr);
-      console.log('sortedByProducts ', sortedByProducts);
+  const sortProducts = (buyerId: number, productCategoryId: string) => {
+    let sortedProductsArr: any = allUserProducts.filter((el) => {
+      const catId = (el as any).categories[0].category.categoryId;
+      const productCategoryIdNumber = Number(productCategoryId);
+      return catId === productCategoryIdNumber;
     });
+
+    setSortedByProducts(sortedProductsArr);
   };
 
   if (!authorization) {
@@ -65,48 +57,32 @@ export const Buy: React.FC<Props> = ({ authorization }) => {
       <Navigation />
       <Container>
         <Row style={{ minHeight: '400px', paddingTop: '10px' }}>
-          <Col
-            lg={4}
-            md={6}
-            sm={12}
-            style={{ borderBlock: 'black' }}
-            // className="block-example border border-dark"
-          >
+          <Col lg={4} md={6} sm={12} style={{ borderBlock: 'black' }}>
             <h3>Pick a category</h3>
             <Categories sortProducts={sortProducts} />
           </Col>
 
-          <Col
-            lg={4}
-            md={6}
-            sm={12}
-            // className="block-example border border-dark"
-          >
+          <Col lg={4} md={6} sm={12} style={{ borderBlock: 'black' }}>
             <h3>Nearest suppliers</h3>
             <Sellers
               handleSellerClick={handleSellerClick}
               sortedByProducts={sortedByProducts}
             />
           </Col>
-          <Col
-            lg={4}
-            md={6}
-            sm={12}
-            // className="block-example border border-dark"
-          >
+          <Col lg={4} md={6} sm={12} style={{ borderBlock: 'black' }}>
             <h3>Seller location</h3>
-
             <MyMap
               location={{
                 availability: true,
                 error: false,
-                latitude: 37.1245632,
-                longitude: -7.9265792,
+                latitude: myState.data.location.latitude,
+                longitude: myState.data.location.longitude,
               }}
               inRegister={false}
-              inDetailsOrSell={true}
-              inBuy={false}
+              inDetailsOrSell={false}
+              inBuy={true}
               inDetail={false}
+              myProductsArray={sortedByProducts}
             />
           </Col>
         </Row>

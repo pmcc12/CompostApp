@@ -1,4 +1,5 @@
 import { Button, Card } from 'react-bootstrap';
+import { HandleSellerClick } from '../handlers/handlerFuncs';
 
 //FIX TYPE OF PROPS
 export const Sellers = (props: any) => {
@@ -11,9 +12,9 @@ export const Sellers = (props: any) => {
           <Card.Text>Quantity: {el.availableQuantity}</Card.Text>
           <Card.Text>Price: {el.retailPrice}</Card.Text>
           <Button
+            key={el.seller.userId}
             variant="primary"
-            value={el.seller.userId}
-            onClick={(event) => props.handleSellerClick(event)}
+            onClick={(event) => HandleSellerClick(event, el.seller.userId)}
           >
             Select supplier
           </Button>

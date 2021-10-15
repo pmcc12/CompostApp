@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, {useState,useEffect, useRef} from 'react';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css'; // Re-uses images from ~leaflet package
@@ -15,7 +16,8 @@ type Props = {
     inBuy: boolean,
     username?: string,
     productTitle?: string
-    inDetail: boolean
+    inDetail: boolean,
+    myProductsArray?: any
 }
 
 //PROPS From father component:
@@ -25,12 +27,15 @@ Register: -> latitude, longitude from user
 Buy:
           -> callback function to add more markers
 */
-const MyMap: React.FC<Props> = ({location, locationUpdater, inRegister, inDetailsOrSell, inBuy, inDetail, username, productTitle}) => {
+const MyMap: React.FC<Props> = ({location, locationUpdater, inRegister, inDetailsOrSell, inBuy, inDetail, username, productTitle, myProductsArray}) => {
 
     //37.0245632 ; -7.9265792
     
 
-    console.log(process.env.REACT_APP_MAPBOX_USERID+' '+process.env.REACT_APP_MAPBOX_STYLESID+' '+process.env.REACT_APP_MAPBOX_APIKEY)
+    console.log('on map');
+    console.log(myProductsArray);
+    console.log('in register?', inRegister);
+    console.log('in detailsorsell?',inDetailsOrSell);
 
     const registerLocationChange = (event: any) => {
         console.log(event.target.getLatLng());
@@ -82,14 +87,24 @@ const MyMap: React.FC<Props> = ({location, locationUpdater, inRegister, inDetail
                 ) 
                 :
                 (
-                    <Marker position={[location.latitude, location.longitude]} draggable eventHandlers={{
-                        dragend: (event) => registerLocationChange(event as any)
-                    }}> 
-                        <Popup>
-                            Hi! You are in Buy!
-                        </Popup>
-                    </Marker>
-                )
+                    myProductsArray.map(product =>(
+                        <Marker position={[product.seller.location.latitude, product.seller.location.longitude]}> 
+                            <Popup>
+                                    Hi there we are in buy!
+                            </Popup>  
+                        </Marker>
+                    )
+                    )
+                    // myProductsArray.map(product => 
+                    // (
+                    //    ( <Marker position={[location.latitude, location.latitude]}> 
+                    //         <Popup>
+                    //             Hi there we are in buy!
+                    //         </Popup>
+                    //     </Marker>)
+                //     ))
+                // )
+            )
             )
         }
         
