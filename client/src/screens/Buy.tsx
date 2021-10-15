@@ -100,8 +100,8 @@ export const Buy: React.FC<Props> = ({ authorization }) => {
               location={{
                 availability: true,
                 error: false,
-                latitude: 37.1245632,
-                longitude: -7.9265792,
+                latitude: myState.data.location.latitude,
+                longitude: myState.data.location.longitude,
               }}
               inRegister={false}
               inDetailsOrSell={true}
