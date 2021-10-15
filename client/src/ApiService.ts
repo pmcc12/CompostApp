@@ -35,14 +35,35 @@ const ApiService: IApiService = {
   submitUserOffer: async (productData) => {
     const BASE_URL = process.env.REACT_APP_HOST;
 
+    console.log("HERE", productData.images)
+    const selectedFile = productData.images;
+
+    // to silent ts for delete props
+    const deleteImages = async (x: any) => {
+        await delete x.images; 
+    }
+    deleteImages(productData)
+
+    // multipart/form-data will turn everything to string
+    // Blob will protect that object so its still json
+    const json = JSON.stringify(productData);
+    const blob = new Blob([json], {
+      type: 'application/json'
+    });
+    // Make it as an object
+    let formData = new FormData();
+    formData.append("userFile", selectedFile)
+    formData.append("userDocument", blob);
+    
+
     const method = 'POST';
-    const body = productData ? JSON.stringify(productData) : undefined;
-    const defaultHeaders = { 'Content-Type': 'application/json' };
-    const headers = { ...defaultHeaders };
+    // const body = productData ? JSON.stringify(productData) : undefined;
+    // const defaultHeaders = { 'Content-Type': 'multipart/form-data' };
+    // const headers = { ...defaultHeaders };
     const response = await fetch(`${BASE_URL}/api/sell/product`, {
       method,
-      body,
-      headers,
+      body: formData, // Bcs it is 'multipart/form-data', in the server it's req.files
+      // headers,
     });
 
     const { data, errors } = await response.json();

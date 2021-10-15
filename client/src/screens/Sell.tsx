@@ -17,13 +17,17 @@ import { Redirect, useHistory } from 'react-router-dom';
 import MyMap from '../components/Map';
 import Navigation from '../components/Navigation';
 import ApiService from '../ApiService';
+// Image Form
+import ImgUpload from '../components/ImgUpload';
 
 type Props = {
   authorization: boolean;
 };
 
 export const Sell: React.FC<Props> = ({authorization}) => {
-  
+  // START
+   const [selectedFiles, setSelectedFiles] = useState([])
+  // END
   let history = useHistory();
   
   const [userOffer, setUserOffer] = useState({
@@ -63,7 +67,7 @@ export const Sell: React.FC<Props> = ({authorization}) => {
     event.preventDefault();
     console.log('here in submit');
     console.log(userOffer);
-    const status = await ApiService.submitUserOffer({...userOffer, userId: myState.data.userId});
+    const status = await ApiService.submitUserOffer({...userOffer, userId: myState.data.userId, images: selectedFiles[0]});
     if(status){
       history.push("/");
     }
@@ -229,11 +233,13 @@ export const Sell: React.FC<Props> = ({authorization}) => {
                 <Form.Label>Default file input example</Form.Label>
                 <Form.Control
                   type="file"
-                  onChange={(event) =>
-                    handleImages(event as React.ChangeEvent<HTMLInputElement>)
+                  onChange={(e: any) =>
+                    setSelectedFiles(e.target.files)
+                    // handleImages(event as React.ChangeEvent<HTMLInputElement>)
                   }
                 />
               </Form.Group>
+              {/* <ImgUpload />  */}
               <Form.Group controlId="formFile" className="mb-3">
                 <FloatingLabel
                   controlId="floatingTextarea2"

@@ -13,6 +13,7 @@
     "@types/react-leaflet": "^2.8.2",
     "@types/react-redux": "^7.1.19",
     "@types/redux-thunk": "^2.1.0",
+    "axios": "^0.23.0",
     "bootstrap": "^5.1.1",
     "feather-icons": "^4.28.0",
     "font-awesome": "^4.7.0",
@@ -47,9 +48,9 @@
   },
   "browserslist": [
     ">0.2%",
-   "not dead",
-   "not op_mini all"
- ],
+    "not dead",
+    "not op_mini all"
+  ],
   "devDependencies": {
     "@types/react-router-dom": "^5.3.1"
   }

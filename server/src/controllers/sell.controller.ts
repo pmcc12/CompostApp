@@ -6,29 +6,56 @@ import s3UploadImg from '../utils/aws';
 
 const prisma = new PrismaClient();
 
-const postSellProduct = async (req: Request, res: Response, next: NextFunction) => {
+const postProductImg = async (req: Request, res: Response, next: NextFunction) => {
+
+    try {
+        // img
+
+        const s3ImgLocation = await s3UploadImg(req);
+        res.status(201).json({
+            status: true,
+            message: "Image Upload successful",
+            data: {
+                imgLocation: s3ImgLocation
+            }
+        }
+        );
+    } catch (e: any) {
+        next(createError(e.statusCode, e.message))
+    }
+
+}
+
+const postSellProduct = async (req: any, res: Response, next: NextFunction) => {
 
     
     try {
-        const { userId, categoryId } = req.body
-        delete req.body.categoryId
-        delete req.body.userId
-        // img
-        // const s3ImgLocation = await s3UploadImg(req);
+        // // console.log(req)
+        // console.log(req.body); 
+        // console.log(req.files);
+        
+        // Img File
+        const s3ImgLocation = await s3UploadImg(req);
+        console.log("HEY",s3ImgLocation)
+        // Document
+        const productInfo = JSON.parse(req.files.userDocument.data) ;
+        const { userId, categoryId } = productInfo
+        delete productInfo.categoryId
+        delete productInfo.userId
 
         const product = await prisma.product.create({
             data: {
                 seller: {
                     connect: {
-                        userId: parseInt(userId)
+                        userId: userId
                     }
                 },
                 categories: {
                     create: [
-                        { category: { connect: { categoryId: parseInt(categoryId) } } },
+                        { category: { connect: { categoryId: categoryId } } },
                     ]
                 },
-                ...req.body,
+                ...productInfo,
                 // retailPrice: parseInt(req.body.retailPrice),
                 // negotiable: (req.body.negotiable === true),
                 // availableQuantity: parseInt(req.body.availableQuantity)
@@ -88,4 +115,4 @@ const getSellProducts = async (req: Request, res: Response, next: NextFunction) 
 
 
 
-export { postSellProduct, getSellProducts }
+export { postSellProduct, getSellProducts, postProductImg }
