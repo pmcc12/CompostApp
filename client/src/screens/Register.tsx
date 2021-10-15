@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Button, Container, Row, Col, Stack} from 'react-bootstrap'
+import { Form, Button, Container, Row, Col, Stack, Spinner} from 'react-bootstrap'
 import { useSelector, useDispatch } from 'react-redux'
 import { myReducersTypeof } from '../state/reducers'
 import { useState } from 'react'
@@ -11,7 +11,6 @@ import { Icoordinates } from '../state/actions'
 export const Register = () => {
 
     let history = useHistory();
-
     const [form, setForm] = useState({
         email: '',
         password: '',
@@ -105,44 +104,64 @@ export const Register = () => {
 
     return(
         <>
-        <Form onSubmit={(event) => handleSubmit(event as React.FormEvent<HTMLFormElement>)}>
-            <Row>
-                <Col xs={0} md={1} lg={2}></Col>
-                <Col xs={12} md={10} lg={8}>
-                    <Stack gap={2} className="col-md-4 mx-auto">
-                        <h1>Register Screen</h1>
-                    </Stack>
-                    <Row className="mb-3">
-                    <Form.Group as={Col} controlId="formGridEmail">
-                        <Form.Label>Email</Form.Label>
-                        <Form.Control type="email" placeholder="Enter email" onChange={(event) => handleEmail(event as React.ChangeEvent<HTMLInputElement>)}/>
-                    </Form.Group>
-                
-                    <Form.Group as={Col} controlId="formGridPassword">
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" onChange={(event) => handlePassword(event as React.ChangeEvent<HTMLInputElement>)}/>
-                    </Form.Group>
-                    </Row>
-                
-                    <Form.Group className="mb-3" controlId="formGridAddress1">
-                        <Form.Label>Username</Form.Label>
-                        <Form.Control placeholder="HandsomeJoe1954" onChange={(event) => handleUsername(event as React.ChangeEvent<HTMLInputElement>)}/>
-                    </Form.Group>
-                
-                    {/* <MyMap latitude={form.location.latitude} longitude={form.location.longitude} availability={form.location.availability} error={form.location.error}/> */}
-                    {/* <MyMap location={form.location}/> */}
+        {form.location.availability? 
+        (
+            <Form onSubmit={(event) => handleSubmit(event as React.FormEvent<HTMLFormElement>)}>
+                <Row>
+                    <Col xs={0} md={1} lg={2}></Col>
+                    <Col xs={12} md={10} lg={8}>
+                        <Stack gap={2} className="col-md-4 mx-auto">
+                            <h1>Register Screen</h1>
+                        </Stack>
+                        <Row className="mb-3">
+                        <Form.Group as={Col} controlId="formGridEmail">
+                            <Form.Label>Email</Form.Label>
+                            <Form.Control type="email" placeholder="Enter email" onChange={(event) => handleEmail(event as React.ChangeEvent<HTMLInputElement>)}/>
+                        </Form.Group>
+                    
+                        <Form.Group as={Col} controlId="formGridPassword">
+                            <Form.Label>Password</Form.Label>
+                            <Form.Control type="password" placeholder="Password" onChange={(event) => handlePassword(event as React.ChangeEvent<HTMLInputElement>)}/>
+                        </Form.Group>
+                        </Row>
+                    
+                        <Form.Group className="mb-3" controlId="formGridAddress1">
+                            <Form.Label>Username</Form.Label>
+                            <Form.Control placeholder="HandsomeJoe1954" onChange={(event) => handleUsername(event as React.ChangeEvent<HTMLInputElement>)}/>
+                        </Form.Group>
+                    
+                        {/* <MyMap latitude={form.location.latitude} longitude={form.location.longitude} availability={form.location.availability} error={form.location.error}/> */}
+                        {/* <MyMap location={form.location}/> */}
 
-                    <MyMap location={form.location} locationUpdater={handleCurrentLocationMap} inRegister={true} inDetailsOrSell={false} inBuy={false} inDetail={false}/>
+                        <MyMap location={{availability: form.location.availability, error: form.location.error, latitude: form.location.latitude, longitude: form.location.longitude}} locationUpdater={handleCurrentLocationMap} inRegister={true} inDetailsOrSell={false} inBuy={false} inDetail={false}/>
 
-                    <div className="d-grid gap-2">
-                        <Button variant="primary" type="submit">
-                            Register
-                        </Button>
-                    </div>
-                </Col>
-                <Col xs={0} md={1} lg={2}></Col>
-            </Row>
-        </Form>
+                        <div className="d-grid gap-2">
+                            <Button variant="primary" type="submit">
+                                Register
+                            </Button>
+                        </div>
+                    </Col>
+                    <Col xs={0} md={1} lg={2}></Col>
+                </Row>
+            </Form>
+        )
+        :
+        (
+            <Container className="vh-100 d-flex flex-column ">
+                <Row className="h-50"></Row>
+                <Row>
+                    <Col xs={6} md={4}>
+                    </Col>
+                    <Col xs={6} md={4}>
+                        <Spinner animation="border" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                        </Spinner>
+                    </Col>
+                    <Col xs={6} md={4}>
+                    </Col>
+                </Row>
+            </Container>
+        )}
         </>
     )
 }
