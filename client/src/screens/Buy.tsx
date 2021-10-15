@@ -1,3 +1,4 @@
+// @ts-nocheck
 import MyMap from '../components/Map';
 import ApiService from '../ApiService';
 import { useSelector } from 'react-redux';
@@ -24,29 +25,21 @@ export const Buy: React.FC<Props> = ({ authorization }) => {
   console.log('myState ', myState);
   console.log('userId ', myState.data.userId);
 
-  // const [productCategoryId, setProductCategoryId] = useState('');
   const [sortedByProducts, setSortedByProducts] = useState([]);
 
   const handleSellerClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    // history.push('/details');
     history.push(`/details/${event.currentTarget.value}`);
   };
 
   const sortProducts = (buyerId: number, productCategoryId: string) => {
     ApiService.getUserOffers(buyerId).then((data: []) => {
-      let sortedProductsArr: any = data.map((el) => {
-        console.log('el in map ', el);
+      let sortedProductsArr: any = data.filter((el) => {
         const catId = (el as any).categories[0].category.categoryId;
         const productCategoryIdNumber = Number(productCategoryId);
-        console.log({ catId, productCategoryId });
-        if (catId === productCategoryIdNumber) {
-          return el;
-        }
+        return catId === productCategoryIdNumber;
       });
-      if (sortedByProducts.length > 0) {
-        console.log('inside conditional');
-        setSortedByProducts(sortedProductsArr);
-      }
+
+      setSortedByProducts(sortedProductsArr);
     });
   };
 
