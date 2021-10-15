@@ -35,7 +35,7 @@ export const Buy: React.FC<Props> = ({ authorization }) => {
     event: React.MouseEvent<HTMLButtonElement>,
     sellerId: number
   ) => {
-    history.push(`/details/${event.currentTarget.value}`);
+    history.push(`/details/${sellerId}`);
   };
 
   const sortProducts = (buyerId: number, productCategoryId: string) => {
