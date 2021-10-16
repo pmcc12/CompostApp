@@ -24,6 +24,7 @@ import {
   sellerContent,
   sellerData,
 } from '../state/actions/index';
+import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
 
 type Props = {
   authorization: boolean;
@@ -73,6 +74,22 @@ export const Details: React.FC<Props> = ({ authorization }) => {
     // console.log(credentials);
     // dispatch(login(credentials))
   };
+
+  const handleOrder = (event: React.MouseEvent<HTMLButtonElement>) => {
+    console.log('you clicked me');
+    console.log('myData ', myData);
+    const price = myData[offerIndex].retailPrice;
+    const quantity = myData[offerIndex].availableQuantity;
+    const cost = price * quantity;
+    console.log('cost ', cost);
+    console.log('sellerId ', myData[0].sellerId);
+    console.log('buyer ID ', myState.data.userId);
+
+    //calls API function, with buyer and seller ID and cost
+  };
+
+  if (myData) {
+  }
 
   return (
     <>
@@ -146,7 +163,11 @@ export const Details: React.FC<Props> = ({ authorization }) => {
                   productTitle={myData[offerIndex].title}
                 />
 
-                <Button variant="primary" type="submit">
+                <Button
+                  variant="primary"
+                  type="submit"
+                  onClick={(event) => handleOrder(event)}
+                >
                   Make Order
                 </Button>
                 <Button variant="primary" type="submit">
