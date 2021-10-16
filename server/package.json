@@ -24,7 +24,8 @@
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.13",
-    "prisma": "^3.2.1"
+    "prisma": "^3.2.1",
+    "stripe": "^8.183.0"
   },
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.15.4",
