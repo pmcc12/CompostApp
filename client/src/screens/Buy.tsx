@@ -77,6 +77,7 @@ export const Buy: React.FC<Props> = ({ authorization }) => {
               }}
               inRegister={false}
               inDetailsOrSell={false}
+              inSell={false}
               inBuy={true}
               inDetail={false}
               myProductsArray={sortedByProducts}
