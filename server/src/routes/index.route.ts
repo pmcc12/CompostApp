@@ -5,6 +5,7 @@ import * as buyController from "../controllers/buy.controller";
 import * as categoryController from "../controllers/category.controller";
 import * as cartController from "../controllers/cart.controller";
 import * as messageController from "../controllers/message.controller"
+import * as stripeController from "../controllers/stripe.controller"
 import auth from "../middlewares/auth.middleware";
 
 const router = express.Router();
@@ -41,6 +42,16 @@ router.post("/cart/getOrderHistory", cartController.getOrderHistory);
 
 // Message
 router.post("/user/message", messageController.sendMessage);
-router.post("/user/getMessages", messageController.getMessages)
+router.post("/user/getMessages", messageController.getMessages);
+
+// Stripe
+router.post('/payment/checkout', stripeController.stripeCheckout);
+// router.get('/payment/testing', (req, res) => {
+//     res.send(`
+//     <form action="/api/payment/checkout" method="POST">
+//             <button type="submit" id="checkout-button">Checkout</button>
+//         </form>
+//     `)
+// });
 
 export default router

@@ -29,6 +29,7 @@ const buyController = __importStar(require("../controllers/buy.controller"));
 const categoryController = __importStar(require("../controllers/category.controller"));
 const cartController = __importStar(require("../controllers/cart.controller"));
 const messageController = __importStar(require("../controllers/message.controller"));
+const stripeController = __importStar(require("../controllers/stripe.controller"));
 const router = express_1.default.Router();
 router.get("/", (req, res) => {
     res.send("Hello sfdasdf");
@@ -57,4 +58,13 @@ router.post("/cart/getOrderHistory", cartController.getOrderHistory);
 // Message
 router.post("/user/message", messageController.sendMessage);
 router.post("/user/getMessages", messageController.getMessages);
+// Stripe
+router.post('/payment/checkout', stripeController.stripeCheckout);
+// router.get('/payment/testing', (req, res) => {
+//     res.send(`
+//     <form action="/api/payment/checkout" method="POST">
+//             <button type="submit" id="checkout-button">Checkout</button>
+//         </form>
+//     `)
+// });
 exports.default = router;
