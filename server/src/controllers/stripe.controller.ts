@@ -31,6 +31,7 @@ const stripeCheckout = async (req: Request, res: Response, next: NextFunction) =
         });
 
         console.log('Do something')
+        // ADD BALANCE
 
 
         res.redirect(303, session.url);

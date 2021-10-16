@@ -38,6 +38,7 @@ const stripeCheckout = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
             cancel_url: `http://localhost:${process.env.PORT}/payment/cancel`,
         });
         console.log('Do something');
+        // ADD BALANCE
         res.redirect(303, session.url);
     }
     catch (e) {
