@@ -4,6 +4,7 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
+// LEGACY
 const buyAllItems = async(req:Request, res:Response, next:NextFunction) => {
     try {
         if (!req.body.buyerId) {
@@ -24,40 +25,33 @@ const buyAllItems = async(req:Request, res:Response, next:NextFunction) => {
          message: 'Buy all item in Cart (resolved is true)',
          data: resolvedCart
        });
-     } catch (e: any) {
-       next(createError(e.statusCode, e.message));
-     }
+      } catch (e: any) {
+        next(createError(e.statusCode, e.message));
+      }
 }
-
-const buyItem = async(req:Request, res:Response, next:NextFunction) => {
+// LEGACY
+const deleteCartItem = async(req:Request, res:Response, next:NextFunction) => {
     try {
-        if (!req.body.buyerId) {
-          throw new createError.NotFound("Need to provide buyerId in body");
-        }
         if (!req.body.orderId) {
           throw new createError.NotFound("Need to provide orderId in body");
         }
-        const resolvedCart = await prisma.orderItem.updateMany({
-            where: {
-              buyerId: req.body.buyerId,
-              orderId: req.body.orderId,
-              resolved: false
-            },
-            data: {
-                resolved: true
-            }
-            //   Showing categories in the return statement
-       });
-       res.status(201).json({
-         status: true,
-         message: 'Buy an item in Cart (resolved is true)',
-         data: resolvedCart
-       });
-     } catch (e: any) {
-       next(createError(e.statusCode, e.message));
-     }
-}
+        const product = await prisma.orderItem.delete({
+          where: {
+            orderId : req.body.orderId
+          }
+        })
+      
+        res.status(202).json({
+          status: true,
+          message: 'Delete buy-product successful',
+          data: product,
+        });
 
+      } catch (e: any) {
+        next(createError(e.statusCode, e.message));
+      }
+}
+// LEGACY
 const getCartOrder = async(req:Request, res:Response, next:NextFunction) =>{
     try {
         if (!req.body.buyerId) {
@@ -69,18 +63,94 @@ const getCartOrder = async(req:Request, res:Response, next:NextFunction) =>{
               resolved: false
             },
             //   Showing categories in the return statement
+        });
+        res.status(200).json({
+          status: true,
+          message: 'All Order in Cart',
+          data: getCartProducts
+        });
+      } catch (e: any) {
+        next(createError(e.statusCode, e.message));
+      }
+}   
+
+// CORE FEATURE
+const buyItem = async(req:Request, res:Response, next:NextFunction) => {
+    try {
+        const { orderId, buyerId } = req.body
+        if (!buyerId) {
+          throw new createError.NotFound("Need to provide buyerId in body");
+        }
+        if (!orderId) {
+          throw new createError.NotFound("Need to provide orderId in body");
+        }
+        // RESOLVE ORDER
+        const resolvedOrder = await prisma.orderItem.updateMany({
+            where: {
+              buyerId: buyerId,
+              orderId: orderId,
+              resolved: false
+            },
+            data: {
+                resolved: true
+            }
        });
-       res.status(200).json({
+      //  SUBTRACT USER BALANCE & PRODUCT QUANTITY
+       const userOrder = await prisma.orderItem.findUnique({
+         where: {
+           orderId: orderId
+         }
+       })
+       let orderPrice: any;
+       let orderQuantity: any;
+       let productId: any;
+        if (userOrder) {
+            orderQuantity = userOrder.orderQuantity
+            orderPrice = userOrder.orderPrice
+            productId = userOrder.productId;
+        }
+       const updatedUser = await prisma.user.update({
+         where: {
+           userId: buyerId
+         },
+         data: {
+           balance: {
+             decrement: orderPrice
+           }
+         },
+         select: {
+           balance: true
+         }
+       })
+       const updatedProduct = await prisma.product.update({
+         where: {
+           productId: productId
+         },
+         data: {
+           availableQuantity: {
+             decrement: orderQuantity
+           }
+         },
+         select: {
+           availableQuantity: true
+         }
+       })
+
+       res.status(201).json({
          status: true,
-         message: 'All Order in Cart',
-         data: getCartProducts
+         message: 'Resolved orderItem + Subtract money and quantity',
+         data: {
+           userBalance: updatedUser.balance,
+           productQuantity: updatedProduct.availableQuantity,
+           orderResolved: true
+         }
        });
      } catch (e: any) {
        next(createError(e.statusCode, e.message));
      }
-}   
+}
 
-
+// OPTIONAL
 const getOrderHistory = async(req:Request, res:Response, next:NextFunction) =>{
     try {
         if (!req.body.buyerId) {
@@ -103,26 +173,5 @@ const getOrderHistory = async(req:Request, res:Response, next:NextFunction) =>{
      }
 }  
 
-const deleteCartItem = async(req:Request, res:Response, next:NextFunction) => {
-    try {
-        if (!req.body.orderId) {
-          throw new createError.NotFound("Need to provide orderId in body");
-        }
-        const product = await prisma.orderItem.delete({
-          where: {
-            orderId : req.body.orderId
-          }
-        })
-     
-       res.status(202).json({
-         status: true,
-         message: 'Delete buy-product successful',
-         data: product,
-       });
-
-     } catch (e: any) {
-       next(createError(e.statusCode, e.message));
-     }
-}
 
 export { buyAllItems, buyItem, deleteCartItem, getCartOrder, getOrderHistory };

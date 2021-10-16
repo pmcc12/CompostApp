@@ -16,6 +16,7 @@ exports.getOrderHistory = exports.getCartOrder = exports.deleteCartItem = export
 const http_errors_1 = __importDefault(require("http-errors"));
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
+// LEGACY
 const buyAllItems = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         if (!req.body.buyerId) {
@@ -42,36 +43,29 @@ const buyAllItems = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
     }
 });
 exports.buyAllItems = buyAllItems;
-const buyItem = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+// LEGACY
+const deleteCartItem = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        if (!req.body.buyerId) {
-            throw new http_errors_1.default.NotFound("Need to provide buyerId in body");
-        }
         if (!req.body.orderId) {
             throw new http_errors_1.default.NotFound("Need to provide orderId in body");
         }
-        const resolvedCart = yield prisma.orderItem.updateMany({
+        const product = yield prisma.orderItem.delete({
             where: {
-                buyerId: req.body.buyerId,
-                orderId: req.body.orderId,
-                resolved: false
-            },
-            data: {
-                resolved: true
+                orderId: req.body.orderId
             }
-            //   Showing categories in the return statement
         });
-        res.status(201).json({
+        res.status(202).json({
             status: true,
-            message: 'Buy an item in Cart (resolved is true)',
-            data: resolvedCart
+            message: 'Delete buy-product successful',
+            data: product,
         });
     }
     catch (e) {
         next((0, http_errors_1.default)(e.statusCode, e.message));
     }
 });
-exports.buyItem = buyItem;
+exports.deleteCartItem = deleteCartItem;
+// LEGACY
 const getCartOrder = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         if (!req.body.buyerId) {
@@ -95,6 +89,83 @@ const getCartOrder = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
     }
 });
 exports.getCartOrder = getCartOrder;
+// CORE FEATURE
+const buyItem = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { orderId, buyerId } = req.body;
+        if (!buyerId) {
+            throw new http_errors_1.default.NotFound("Need to provide buyerId in body");
+        }
+        if (!orderId) {
+            throw new http_errors_1.default.NotFound("Need to provide orderId in body");
+        }
+        // RESOLVE ORDER
+        const resolvedOrder = yield prisma.orderItem.updateMany({
+            where: {
+                buyerId: buyerId,
+                orderId: orderId,
+                resolved: false
+            },
+            data: {
+                resolved: true
+            }
+        });
+        //  SUBTRACT USER BALANCE & PRODUCT QUANTITY
+        const userOrder = yield prisma.orderItem.findUnique({
+            where: {
+                orderId: orderId
+            }
+        });
+        let orderPrice;
+        let orderQuantity;
+        let productId;
+        if (userOrder) {
+            orderQuantity = userOrder.orderQuantity;
+            orderPrice = userOrder.orderPrice;
+            productId = userOrder.productId;
+        }
+        const updatedUser = yield prisma.user.update({
+            where: {
+                userId: buyerId
+            },
+            data: {
+                balance: {
+                    decrement: orderPrice
+                }
+            },
+            select: {
+                balance: true
+            }
+        });
+        const updatedProduct = yield prisma.product.update({
+            where: {
+                productId: productId
+            },
+            data: {
+                availableQuantity: {
+                    decrement: orderQuantity
+                }
+            },
+            select: {
+                availableQuantity: true
+            }
+        });
+        res.status(201).json({
+            status: true,
+            message: 'Resolved orderItem + Subtract money and quantity',
+            data: {
+                userBalance: updatedUser.balance,
+                productQuantity: updatedProduct.availableQuantity,
+                orderResolved: true
+            }
+        });
+    }
+    catch (e) {
+        next((0, http_errors_1.default)(e.statusCode, e.message));
+    }
+});
+exports.buyItem = buyItem;
+// OPTIONAL
 const getOrderHistory = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         if (!req.body.buyerId) {
@@ -118,24 +189,3 @@ const getOrderHistory = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
     }
 });
 exports.getOrderHistory = getOrderHistory;
-const deleteCartItem = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        if (!req.body.orderId) {
-            throw new http_errors_1.default.NotFound("Need to provide orderId in body");
-        }
-        const product = yield prisma.orderItem.delete({
-            where: {
-                orderId: req.body.orderId
-            }
-        });
-        res.status(202).json({
-            status: true,
-            message: 'Delete buy-product successful',
-            data: product,
-        });
-    }
-    catch (e) {
-        next((0, http_errors_1.default)(e.statusCode, e.message));
-    }
-});
-exports.deleteCartItem = deleteCartItem;
