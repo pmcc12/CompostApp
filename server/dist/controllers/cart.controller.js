@@ -25,17 +25,17 @@ const buyAllItems = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         const resolvedCart = yield prisma.orderItem.updateMany({
             where: {
                 buyerId: req.body.buyerId,
-                resolved: false
+                resolved: false,
             },
             data: {
-                resolved: true
-            }
+                resolved: true,
+            },
             //   Showing categories in the return statement
         });
         res.status(201).json({
             status: true,
-            message: 'Buy all item in Cart (resolved is true)',
-            data: resolvedCart
+            message: "Buy all item in Cart (resolved is true)",
+            data: resolvedCart,
         });
     }
     catch (e) {
@@ -51,12 +51,12 @@ const deleteCartItem = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
         }
         const product = yield prisma.orderItem.delete({
             where: {
-                orderId: req.body.orderId
-            }
+                orderId: req.body.orderId,
+            },
         });
         res.status(202).json({
             status: true,
-            message: 'Delete buy-product successful',
+            message: "Delete buy-product successful",
             data: product,
         });
     }
@@ -74,14 +74,14 @@ const getCartOrder = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
         const getCartProducts = yield prisma.orderItem.findMany({
             where: {
                 buyerId: req.body.buyerId,
-                resolved: false
+                resolved: false,
             },
             //   Showing categories in the return statement
         });
         res.status(200).json({
             status: true,
-            message: 'All Order in Cart',
-            data: getCartProducts
+            message: "All Order in Cart",
+            data: getCartProducts,
         });
     }
     catch (e) {
@@ -99,22 +99,13 @@ const buyItem = (req, res, next) => __awaiter(void 0, void 0, void 0, function* 
         if (!orderId) {
             throw new http_errors_1.default.NotFound("Need to provide orderId in body");
         }
-        // RESOLVE ORDER
-        const resolvedOrder = yield prisma.orderItem.updateMany({
-            where: {
-                buyerId: buyerId,
-                orderId: orderId,
-                resolved: false
-            },
-            data: {
-                resolved: true
-            }
-        });
         //  SUBTRACT USER BALANCE & PRODUCT QUANTITY
+        // CORE - CHECKING
+        // Handle order
         const userOrder = yield prisma.orderItem.findUnique({
             where: {
-                orderId: orderId
-            }
+                orderId: orderId,
+            },
         });
         let orderPrice;
         let orderQuantity;
@@ -124,40 +115,76 @@ const buyItem = (req, res, next) => __awaiter(void 0, void 0, void 0, function* 
             orderPrice = userOrder.orderPrice;
             productId = userOrder.productId;
         }
+        // Handle user & product
+        const user = yield prisma.user.findUnique({
+            where: {
+                userId: buyerId,
+            },
+        });
+        const product = yield prisma.product.findUnique({
+            where: {
+                productId: productId,
+            },
+        });
+        let userBalance;
+        let productQuantity;
+        if (product && user) {
+            userBalance = user.balance;
+            productQuantity = product.availableQuantity;
+        }
+        // Security
+        if (orderPrice > userBalance) {
+            throw new http_errors_1.default.NotAcceptable("User doesn't have enough money");
+        }
+        if (orderQuantity > productQuantity) {
+            throw new http_errors_1.default.NotFound("Product doesn't have enough supply");
+        }
+        // CORE - UPDATE
         const updatedUser = yield prisma.user.update({
             where: {
-                userId: buyerId
+                userId: buyerId,
             },
             data: {
                 balance: {
-                    decrement: orderPrice
-                }
+                    decrement: orderPrice,
+                },
             },
             select: {
-                balance: true
-            }
+                balance: true,
+            },
         });
         const updatedProduct = yield prisma.product.update({
             where: {
-                productId: productId
+                productId: productId,
             },
             data: {
                 availableQuantity: {
-                    decrement: orderQuantity
-                }
+                    decrement: orderQuantity,
+                },
             },
             select: {
-                availableQuantity: true
-            }
+                availableQuantity: true,
+            },
+        });
+        // CORE - RESOLVE ORDER
+        const resolvedOrder = yield prisma.orderItem.updateMany({
+            where: {
+                buyerId: buyerId,
+                orderId: orderId,
+                resolved: false,
+            },
+            data: {
+                resolved: true,
+            },
         });
         res.status(201).json({
             status: true,
-            message: 'Resolved orderItem + Subtract money and quantity',
+            message: "Resolved orderItem + Subtract money and quantity",
             data: {
                 userBalance: updatedUser.balance,
                 productQuantity: updatedProduct.availableQuantity,
-                orderResolved: true
-            }
+                orderResolved: true,
+            },
         });
     }
     catch (e) {
@@ -174,14 +201,14 @@ const getOrderHistory = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
         const getCartProducts = yield prisma.orderItem.findMany({
             where: {
                 buyerId: req.body.buyerId,
-                resolved: true
+                resolved: true,
             },
             //   Showing categories in the return statement
         });
         res.status(200).json({
             status: true,
-            message: 'All Order History',
-            data: getCartProducts
+            message: "All Order History",
+            data: getCartProducts,
         });
     }
     catch (e) {
