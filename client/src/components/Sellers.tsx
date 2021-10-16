@@ -31,7 +31,6 @@ export const Sellers = (props: props) => {
           </Card>
         );
       })}
-      ;
     </>
   );
 };
