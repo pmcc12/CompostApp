@@ -59,27 +59,6 @@ const MyMap: React.FC<Props> = ({
     }
   };
 
-  // const registerMarker = (
-  //   <Marker
-  //     position={[location.latitude, location.longitude]}
-  //     draggable
-  //     eventHandlers={{
-  //       dragend: (event) => registerLocationChange(event as any),
-  //     }}
-  //   >
-  //     <Popup>
-  //       You will be registered here! latitude:{location.latitude}
-  //       longitude:{location.longitude}
-  //     </Popup>
-  //   </Marker>
-  // );
-
-  // const sellMarker = (
-  //   <Marker position={[location.latitude, location.longitude]}>
-  //     <Popup>Your selling location</Popup>
-  //   </Marker>
-  // );
-
   const detailMarker = (
     <Marker position={[location.latitude, location.longitude]}>
       (
@@ -94,17 +73,6 @@ const MyMap: React.FC<Props> = ({
       )
     </Marker>
   );
-
-  // const buyMarker = (product) => (
-  //   <Marker
-  //     position={[
-  //       product.seller.location.latitude,
-  //       product.seller.location.longitude,
-  //     ]}
-  //   >
-  //     <Popup>Hi there we are in buy!</Popup>
-  //   </Marker>
-  // );
 
   let finalMarkerRender;
 
