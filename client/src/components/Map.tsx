@@ -4,7 +4,7 @@ import 'leaflet/dist/leaflet.css';
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css'; // Re-uses images from ~leaflet package
 import 'leaflet-defaulticon-compatibility';
 import { ILocationUpdate, Icoordinates } from '../state/actions';
-// import {Map, TileLayer, Marker, Popup, Circle, Pane} from 'react-leaflet'
+
 import { TileLayer, Marker, MapContainer, Popup } from 'react-leaflet';
 
 //locationUpdater will only be sent in Register Screen
@@ -34,6 +34,7 @@ const MyMap: React.FC<Props> = ({
   locationUpdater,
   inRegister,
   inDetailsOrSell,
+  inSell,
   inBuy,
   inDetail,
   username,
@@ -41,11 +42,6 @@ const MyMap: React.FC<Props> = ({
   myProductsArray,
 }) => {
   //37.0245632 ; -7.9265792
-
-  console.log('on map');
-  console.log(myProductsArray);
-  console.log('in register?', inRegister);
-  console.log('in detailsorsell?', inDetailsOrSell);
 
   const registerLocationChange = (event: any) => {
     console.log(event.target.getLatLng());
@@ -93,37 +89,16 @@ const MyMap: React.FC<Props> = ({
     </Marker>
   );
 
-  // const buyMap = (
-  //   <MapContainer
-  //     center={[location.latitude, location.longitude]}
-  //     zoom={12}
-  //     style={{ height: '55vh', width: '50wh' }}
-  //   >
-  //     <TileLayer
-  //       url={`https://api.mapbox.com/styles/v1/${process.env.REACT_APP_MAPBOX_USERID}/${process.env.REACT_APP_MAPBOX_STYLESID}/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.REACT_APP_MAPBOX_APIKEY}`}
-  //       attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMaps</a>'
-  //     />
-  //     {myProductsArray.map((product) => (
-  //       <Marker
-  //         position={[
-  //           product.seller.location.latitude,
-  //           product.seller.location.longitude,
-  //         ]}
-  //       >
-  //         <Popup>Hi there we are in buy!</Popup>
-  //       </Marker>
-  //     ))}
-  //   </MapContainer>
-  // );
-
-  // const alternativeMapProperties = {
-  //   register:
-  //     `${{position={[{location.latitude}, {location.longitude}]} draggable eventHandlers={{dragend: (event) => registerLocationChange(event as any)}}}`,
-  //   detailsSell: 'position={[location.latitude, location.longitude]}',
-  //   buy: 'position={[product.seller.location.latitude, product.seller.location.longitude]}',
-  // };
-
-  // {/* let markerProps;
+  const buyMarker = (product) => (
+    <Marker
+      position={[
+        product.seller.location.latitude,
+        product.seller.location.longitude,
+      ]}
+    >
+      <Popup>Hi there we are in buy!</Popup>
+    </Marker>
+  );
 
   let finalMarkerRender;
 
@@ -135,12 +110,12 @@ const MyMap: React.FC<Props> = ({
     finalMarkerRender = detailMarker;
   }
 
-  // if (inSell) {
-  //   finalMarkerRender = sellMarker;
-  // }
+  if (inSell) {
+    finalMarkerRender = sellMarker;
+  }
 
   if (inBuy) {
-    finalMarkerRender = buyMarker;
+    finalMarkerRender = myProductsArray.map((product) => buyMarker(product));
   }
 
   return (
