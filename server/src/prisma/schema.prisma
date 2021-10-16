@@ -11,17 +11,18 @@ generator client {
 }
 
 model User {
-  userId           Int         @id @default(autoincrement())
-  email            String      @unique
-  password         String
-  username         String?
-  location         Json?
-  balance          Int         @default(0)
-  createdAt        DateTime    @default(now())
-  Product          Product[]
-  OrderItem        OrderItem[]
-  sentMessages     Message[]   @relation("sentMessages")
-  receivedMessages Message[]   @relation("receivedMessages")
+  userId    Int            @id @default(autoincrement())
+  email     String         @unique
+  password  String
+  username  String
+  location  Json?
+  balance   Int            @default(0)
+  createdAt DateTime       @default(now())
+  Product   Product[]
+  OrderItem OrderItem[]
+  // sentMessages     Message[]   @relation("sentMessages")
+  // receivedMessages Message[]   @relation("receivedMessages")
+  Inboxes   MessageInbox[] @relation("MessageInbox")
 }
 
 model Product {
@@ -35,7 +36,7 @@ model Product {
   retailPrice       Float
   negotiable        Boolean
   availableQuantity Int
-  unit              unit        @default(KG)
+  unit              unit                   @default(KG)
   readyDate         String
   OrderItem         OrderItem[]
 }
@@ -73,12 +74,23 @@ model OrderItem {
   createdAt     DateTime @default(now())
 }
 
+model MessageInbox {
+  inboxId     Int       @id @default(autoincrement())
+  // buyer       User      @relation("asBuyer", fields: [buyerId], references: [userId])
+  // buyerId     Int
+  // seller      User      @relation("asSeller", fields: [sellerId], references: [userId])
+  // sellerId    Int
+  users       User[]    @relation("MessageInbox", references: [userId])
+  Message     Message[]
+  lastUpdated DateTime  @default(now())
+}
+
 model Message {
-  id         Int      @id @default(autoincrement())
-  content    String
-  createAt   DateTime @default(now())
-  sender     User     @relation("sentMessages", fields: [senderId], references: [userId])
+  messageId  Int          @id @default(autoincrement())
   senderId   Int
-  receiver   User     @relation("receivedMessages", fields: [receiverId], references: [userId])
-  receiverId Int
+  senderName String
+  content    String
+  createAt   DateTime     @default(now())
+  inbox      MessageInbox @relation(fields: [inboxId], references: [inboxId])
+  inboxId    Int
 }
