@@ -6,12 +6,7 @@ import 'leaflet-defaulticon-compatibility';
 import { ILocationUpdate, Icoordinates } from '../state/actions';
 
 import { TileLayer, Marker, MapContainer, Popup } from 'react-leaflet';
-import {
-  registerMarker,
-  detailMarker,
-  sellMarker,
-  buyMarker,
-} from '../handlers/mapMarkers';
+import { detailMarker, sellMarker, buyMarker } from '../handlers/mapMarkers';
 
 //locationUpdater will only be sent in Register Screen
 type Props = {
@@ -58,6 +53,21 @@ const MyMap: React.FC<Props> = ({
       });
     }
   };
+
+  const registerMarker = (location) => (
+    <Marker
+      position={[location.latitude, location.longitude]}
+      draggable
+      eventHandlers={{
+        dragend: (event) => registerLocationChange(event as any),
+      }}
+    >
+      <Popup>
+        You will be registered here! latitude:{location.latitude}
+        longitude:{location.longitude}
+      </Popup>
+    </Marker>
+  );
 
   let finalMarkerRender;
 
