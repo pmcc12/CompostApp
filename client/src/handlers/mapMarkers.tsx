@@ -28,7 +28,7 @@ export const sellMarker = (location) => (
   </Marker>
 );
 
-export const detailMarker = (location) => (
+export const detailMarker = (location, productTitle, username) => (
   <Marker position={[location.latitude, location.longitude]}>
     (
     <Popup>

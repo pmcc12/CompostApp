@@ -59,21 +59,6 @@ const MyMap: React.FC<Props> = ({
     }
   };
 
-  const detailMarker = (
-    <Marker position={[location.latitude, location.longitude]}>
-      (
-      <Popup>
-        <h5>
-          <b>Product Offer:</b> {productTitle}
-        </h5>
-        <h6>
-          <b>Owner:</b> {username}
-        </h6>
-      </Popup>
-      )
-    </Marker>
-  );
-
   let finalMarkerRender;
 
   if (inRegister) {
@@ -81,7 +66,7 @@ const MyMap: React.FC<Props> = ({
   }
 
   if (inDetail) {
-    finalMarkerRender = detailMarker;
+    finalMarkerRender = detailMarker(location, productTitle, username);
   }
 
   if (inSell) {
