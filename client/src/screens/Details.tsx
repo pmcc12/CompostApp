@@ -1,3 +1,4 @@
+//@ts-nocheck
 import React from 'react';
 import {
   Form,
@@ -11,6 +12,7 @@ import {
   Spinner,
 } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { myReducersTypeof } from '../state/reducers';
 import { useState, useEffect } from 'react';
 import { login } from '../state/actions/actionCreators';
@@ -48,6 +50,8 @@ export const Details: React.FC<Props> = ({ authorization }) => {
   const myState = useSelector((state: myReducersTypeof) => state.login);
   const { userId } = useParams<detailsParams>();
 
+  const history = useHistory();
+
   useEffect(() => {
     console.log('inside useeffect');
     /* setLoading to true will cause a re-render only once and if loading === false  */
@@ -76,15 +80,26 @@ export const Details: React.FC<Props> = ({ authorization }) => {
   };
 
   const handleOrder = (event: React.MouseEvent<HTMLButtonElement>) => {
-    console.log('myData ', myData);
+    //variables
+
     const price = myData[offerIndex].retailPrice;
     const quantity = myData[offerIndex].availableQuantity;
     const cost = price * quantity;
+    const userId = myState.data.userId;
+    const sellerId = myData[0].sellerId;
+
+    //logs
+
+    console.log('myData ', myData);
     console.log('cost ', cost);
     console.log('sellerId ', myData[0].sellerId);
     console.log('buyer ID ', myState.data.userId);
 
-    //calls API function, with buyer and seller ID and cost
+    //calls API function, with buyer and seller ID, cost and quantity
+
+    ApiService.testCheckout();
+
+    // ApiService.buyProduct(userId, sellerId, price, quantity);
   };
 
   if (myData) {
