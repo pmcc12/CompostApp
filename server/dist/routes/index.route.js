@@ -38,7 +38,7 @@ router.get("/", (req, res) => {
 router.post("/register", authController.register);
 router.post("/login", authController.login);
 router.post("/all", authController.all);
-// Sell 
+// Sell
 router.post("/sell/product", sellController.postSellProduct);
 router.post("/sell/getAllProducts", sellController.getSellProducts);
 // Category
@@ -61,12 +61,13 @@ router.post("/user/postInbox", messageController.postInbox);
 router.post("/user/inbox/getAllMessages", messageController.getAllMessage);
 router.post("/user/inbox/postMessage", messageController.postMessage);
 // Stripe
-router.post('/payment/checkout', stripeController.stripeCheckout);
-// router.get('/payment/testing', (req, res) => {
-//     res.send(`
-//     <form action="/api/payment/checkout" method="POST">
-//             <button type="submit" id="checkout-button">Checkout</button>
-//         </form>
-//     `)
-// });
+router.post("/payment/checkout", stripeController.stripeCheckout);
+router.get("/payment/testing", (req, res) => {
+    res.send(`
+    <form action="/api/payment/checkout" method="POST">
+            <button type="submit" id="checkout-button">Checkout</button>
+        </form>
+    `);
+});
+router.post("/payment/webhook", express_1.default.raw({ type: "application/json" }), stripeController.stripeWebhook);
 exports.default = router;
