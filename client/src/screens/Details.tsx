@@ -76,7 +76,6 @@ export const Details: React.FC<Props> = ({ authorization }) => {
   };
 
   const handleOrder = (event: React.MouseEvent<HTMLButtonElement>) => {
-    console.log('you clicked me');
     console.log('myData ', myData);
     const price = myData[offerIndex].retailPrice;
     const quantity = myData[offerIndex].availableQuantity;
