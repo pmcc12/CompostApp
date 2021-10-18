@@ -147,24 +147,30 @@ interface Icategory {
 
 export type Imessage  = {
     senderId: number,
-    receiverId: number,
+    inboxId: number,
     content : string
 }
 
-
-/*
-{
-    "userId" : 1,
-    "title" : "mock product 1",
-    "images" : "mock image 1",
-		"desc": "mock desc 3",
-    "retailPrice" : 2.2,
-		"negotiable" : true,
-		"availableQuantity": 3,
-    "readyDate" : "2021-10-11T13:04:40.542Z",
-		"categoryId": 1
+export type InewChatRoom = {
+    userId1: number,
+    userId2: number
 }
-*/
+
+export type IgetAllMessages = {
+    inboxId: number,
+    lastUpdated: string,
+    Message: IchatMessageObj[]
+}
+
+export type IchatMessageObj = {
+    messageId: number,
+    senderId: number,
+    senderName: string,
+    content: string,
+    createdAt: string,
+    inboxId: number
+}
+
 
  
 

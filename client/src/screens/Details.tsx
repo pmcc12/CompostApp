@@ -14,17 +14,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import { myReducersTypeof } from '../state/reducers';
 import { useState, useEffect } from 'react';
 import { login } from '../state/actions/actionCreators';
-import { Redirect, useParams } from 'react-router-dom';
+import {  Redirect ,useHistory, useParams } from 'react-router-dom';
 import MyMap from '../components/Map';
 import Slider from '../components/Slider';
 import Navigation from '../components/Navigation';
 import ApiService from '../ApiService';
-import {
-  IuserProducts,
-  sellerContent,
-  sellerData,
-} from '../state/actions/index';
+import LoadingSpinner from '../components/Spinner';
+import {IuserProducts,sellerContent,sellerData,} from '../state/actions/index';
 import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
+
+
 
 type Props = {
   authorization: boolean;
@@ -45,8 +44,22 @@ export const Details: React.FC<Props> = ({ authorization }) => {
   //   console.log('not authorized!')
   //   return <Redirect to="login"/>
   // }
+  let history = useHistory();
   const myState = useSelector((state: myReducersTypeof) => state.login);
   const { userId } = useParams<detailsParams>();
+
+  if (!myState.auth) {
+    console.log('not authorized!');
+    console.log(
+      'authorization: ' +
+        authorization +
+        ' and my user name: ' +
+        myState.data.username +
+        ' and my user auth: ' +
+        myState.auth
+    );
+    return <Redirect to="login" />;
+  }
 
   useEffect(() => {
     console.log('inside useeffect');
@@ -87,25 +100,21 @@ export const Details: React.FC<Props> = ({ authorization }) => {
     //calls API function, with buyer and seller ID and cost
   };
 
+  const handlePrivateMessage = async() => {
+    console.log('here');
+    const myInboxRoomObject = await ApiService.postNewChatRoom({
+      userId1: myState.data.userId,
+      userId2: +userId
+    })
+    history.push(`/message/${myInboxRoomObject.inboxId}`)
+  }
+
   if (myData) {
   }
 
   return (
     <>
-      {loading ? (
-        <Container className="vh-100 d-flex flex-column ">
-          <Row className="h-50"></Row>
-          <Row>
-            <Col xs={6} md={4}></Col>
-            <Col xs={6} md={4}>
-              <Spinner animation="border" role="status">
-                <span className="visually-hidden">Loading...</span>
-              </Spinner>
-            </Col>
-            <Col xs={6} md={4}></Col>
-          </Row>
-        </Container>
-      ) : (
+      {loading ? (LoadingSpinner) : (
         <>
           <Navigation />
           <Container>
@@ -169,7 +178,7 @@ export const Details: React.FC<Props> = ({ authorization }) => {
                 >
                   Make Order
                 </Button>
-                <Button variant="primary" type="submit">
+                <Button variant="primary" type="submit" onClick={() => handlePrivateMessage}>
                   Text Message
                 </Button>
               </Col>
