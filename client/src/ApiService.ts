@@ -223,7 +223,7 @@ const ApiService: IApiService = {
         userId && topUp
           ? JSON.stringify({ userId: userId, topUpAmount: topUp })
           : undefined;
-      console.log('body in API ', body);
+
       const defaultHeaders = { 'Content-type': 'application/json' };
       const headers = { ...defaultHeaders };
       const response = await fetch(`${BASE_URL}/api/payment/checkout`, {
@@ -231,7 +231,6 @@ const ApiService: IApiService = {
         body,
         headers,
       });
-
       return response.json();
     } catch (error) {
       console.error(error);

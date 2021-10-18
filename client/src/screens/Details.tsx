@@ -69,6 +69,10 @@ export const Details: React.FC<Props> = ({ authorization }) => {
     }
   }, []);
 
+  if (myData) {
+    console.log('myData ', myData);
+  }
+
   console.log('AUTHORIZED IN SELL!');
 
   /* call to state to get the updated state */
@@ -80,6 +84,7 @@ export const Details: React.FC<Props> = ({ authorization }) => {
   };
 
   const handleOrder = (event: React.MouseEvent<HTMLButtonElement>) => {
+    console.log('myData.sellerId ', myData[0].sellerId);
     const buyerId = myState.data.userId;
     const orderQuantity = myData[offerIndex].availableQuantity;
     const productId = myData[offerIndex].productId;
@@ -87,7 +92,7 @@ export const Details: React.FC<Props> = ({ authorization }) => {
     ApiService.putInCart(buyerId, productId, orderQuantity).then((data) => {
       ApiService.buyItem(buyerId, data.orderId).then((data) => {
         if (data.status === false) {
-          history.push('/topup');
+          history.push(`/topup/${myData[0].sellerId}`);
         } else if (data.status === true) {
           history.push('/success');
         }

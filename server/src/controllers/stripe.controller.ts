@@ -12,7 +12,7 @@ const stripeCheckout = async (
   next: NextFunction
 ) => {
   try {
-    const { topUpAmount } = req.body;
+    const { topUpAmount, userId } = req.body;
     if (!topUpAmount) {
       throw new createError.NotFound('Need to provide topUpAmount in body');
     }
@@ -32,7 +32,8 @@ const stripeCheckout = async (
         },
       ],
       mode: 'payment',
-      success_url: `http://localhost:${process.env.CLIENT_PORT}/payment/success`,
+      success_url: `http://localhost:${process.env.CLIENT_PORT}/details/${userId}`,
+      // success_url: `http://localhost:${process.env.CLIENT_PORT}/payment/success`,
       cancel_url: `http://localhost:${process.env.CLIENT_PORT}/payment/cancel`,
     });
 

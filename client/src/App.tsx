@@ -46,7 +46,7 @@ export default function App() {
         />
         <Route
           exact
-          path="/topup"
+          path="/topup/:sellerId"
           component={() => <TopUp authorization={state.auth} />}
         />
         <Route

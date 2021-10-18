@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { myReducersTypeof } from '../state/reducers';
 import ApiService from '../ApiService';
-import { RectangleProps } from 'react-leaflet';
 
 type Props = {
   authorization: boolean;
@@ -22,6 +21,7 @@ export const TopUp: React.FC<Props> = ({ authorization }) => {
     event.preventDefault();
     console.log('topUpAmount ', topUpAmount);
     ApiService.topUp(userId, topUpAmount).then((data) => {
+      console.log('data.url ', data.url);
       window.location.href = data.url;
       // history.push(data.url);
     });

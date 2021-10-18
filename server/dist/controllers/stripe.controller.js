@@ -21,7 +21,7 @@ const prisma = new client_1.PrismaClient();
 const stripe = require('stripe')(process.env.STRIPE_KEY);
 const stripeCheckout = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { topUpAmount } = req.body;
+        const { topUpAmount, userId } = req.body;
         if (!topUpAmount) {
             throw new http_errors_1.default.NotFound('Need to provide topUpAmount in body');
         }
@@ -40,7 +40,8 @@ const stripeCheckout = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
                 },
             ],
             mode: 'payment',
-            success_url: `http://localhost:${process.env.CLIENT_PORT}/payment/success`,
+            success_url: `http://localhost:${process.env.CLIENT_PORT}/details/${userId}`,
+            // success_url: `http://localhost:${process.env.CLIENT_PORT}/payment/success`,
             cancel_url: `http://localhost:${process.env.CLIENT_PORT}/payment/cancel`,
         });
         console.log('Do something');
