@@ -20,7 +20,7 @@ const prisma = new client_1.PrismaClient();
 const buyAllItems = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         if (!req.body.buyerId) {
-            throw new http_errors_1.default.NotFound("Need to provide buyerId in body");
+            throw new http_errors_1.default.NotFound('Need to provide buyerId in body');
         }
         const resolvedCart = yield prisma.orderItem.updateMany({
             where: {
@@ -34,7 +34,7 @@ const buyAllItems = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         });
         res.status(201).json({
             status: true,
-            message: "Buy all item in Cart (resolved is true)",
+            message: 'Buy all item in Cart (resolved is true)',
             data: resolvedCart,
         });
     }
@@ -47,7 +47,7 @@ exports.buyAllItems = buyAllItems;
 const deleteCartItem = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         if (!req.body.orderId) {
-            throw new http_errors_1.default.NotFound("Need to provide orderId in body");
+            throw new http_errors_1.default.NotFound('Need to provide orderId in body');
         }
         const product = yield prisma.orderItem.delete({
             where: {
@@ -56,7 +56,7 @@ const deleteCartItem = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
         });
         res.status(202).json({
             status: true,
-            message: "Delete buy-product successful",
+            message: 'Delete buy-product successful',
             data: product,
         });
     }
@@ -69,7 +69,7 @@ exports.deleteCartItem = deleteCartItem;
 const getCartOrder = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         if (!req.body.buyerId) {
-            throw new http_errors_1.default.NotFound("Need to provide buyerId in body");
+            throw new http_errors_1.default.NotFound('Need to provide buyerId in body');
         }
         const getCartProducts = yield prisma.orderItem.findMany({
             where: {
@@ -80,7 +80,7 @@ const getCartOrder = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
         });
         res.status(200).json({
             status: true,
-            message: "All Order in Cart",
+            message: 'All Order in Cart',
             data: getCartProducts,
         });
     }
@@ -94,10 +94,10 @@ const buyItem = (req, res, next) => __awaiter(void 0, void 0, void 0, function* 
     try {
         const { orderId, buyerId } = req.body;
         if (!buyerId) {
-            throw new http_errors_1.default.NotFound("Need to provide buyerId in body");
+            throw new http_errors_1.default.NotFound('Need to provide buyerId in body');
         }
         if (!orderId) {
-            throw new http_errors_1.default.NotFound("Need to provide orderId in body");
+            throw new http_errors_1.default.NotFound('Need to provide orderId in body');
         }
         //  SUBTRACT USER BALANCE & PRODUCT QUANTITY
         // CORE - CHECKING
@@ -134,10 +134,16 @@ const buyItem = (req, res, next) => __awaiter(void 0, void 0, void 0, function* 
         }
         // Security
         if (orderPrice > userBalance) {
-            throw new http_errors_1.default.NotAcceptable("User doesn't have enough money");
+            return res.status(406).send({
+                status: false,
+                message: 'Not enough money',
+            });
         }
         if (orderQuantity > productQuantity) {
-            throw new http_errors_1.default.NotFound("Product doesn't have enough supply");
+            return res.status(406).send({
+                status: false,
+                message: 'Not enough product',
+            });
         }
         // CORE - UPDATE
         const updatedUser = yield prisma.user.update({
@@ -177,9 +183,9 @@ const buyItem = (req, res, next) => __awaiter(void 0, void 0, void 0, function* 
                 resolved: true,
             },
         });
-        res.status(201).json({
+        res.status(201).send({
             status: true,
-            message: "Resolved orderItem + Subtract money and quantity",
+            message: 'Resolved orderItem + Subtract money and quantity',
             data: {
                 userBalance: updatedUser.balance,
                 productQuantity: updatedProduct.availableQuantity,
@@ -196,7 +202,7 @@ exports.buyItem = buyItem;
 const getOrderHistory = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         if (!req.body.buyerId) {
-            throw new http_errors_1.default.NotFound("Need to provide buyerId in body");
+            throw new http_errors_1.default.NotFound('Need to provide buyerId in body');
         }
         const getCartProducts = yield prisma.orderItem.findMany({
             where: {
@@ -207,7 +213,7 @@ const getOrderHistory = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
         });
         res.status(200).json({
             status: true,
-            message: "All Order History",
+            message: 'All Order History',
             data: getCartProducts,
         });
     }
