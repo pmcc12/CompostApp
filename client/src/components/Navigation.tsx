@@ -18,9 +18,9 @@ export default function Navigation() {
             className="d-inline-block align-top"
           />
         </Navbar.Brand>
-        <div>
-          <Navbar.Toggle aria-controls="basic-navbar-nav"> <i className="bi bi-chat" style={{ fontSize:'30px'}}></i> </Navbar.Toggle>
-          <Navbar.Toggle style={{marginRight:'20px'}} aria-controls="responsive-navbar-nav" />
+        <div style={{display:'flex', marginRight:'20px'}}>
+          <Navbar.Toggle style={{border: '0'}} aria-controls="basic-navbar-nav"> <i style={{fontSize: "30px"}} className="bi bi-chat"></i> </Navbar.Toggle>
+          <Navbar.Toggle style={{marginLeft:'20px', border: '0'}} aria-controls="responsive-navbar-nav" />
         </div>
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto">
