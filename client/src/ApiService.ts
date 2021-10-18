@@ -13,6 +13,7 @@ type IApiService = {
   submitAvailableCategories: (val: Icategories[]) => any;
   getOwnUserOffers: (val: number) => any;
   postUserMessage: (val: Imessage) => any;
+  topUp: (userId: number, topUp: number) => any;
 };
 
 /* Get all user related products */
@@ -210,6 +211,31 @@ const ApiService: IApiService = {
       return res.data;
     } else {
       return res;
+    }
+  },
+
+  topUp: async (userId, topUp) => {
+    try {
+      console.log('userId in API', userId);
+      console.log('topUp in API', topUp);
+      const BASE_URL = process.env.REACT_APP_HOST;
+      const method = 'POST';
+      const body =
+        userId && topUp
+          ? JSON.stringify({ userId: userId, topUpAmount: topUp })
+          : undefined;
+
+      const defaultHeaders = { 'Content-type': 'application/json' };
+      const headers = { ...defaultHeaders };
+      const response = await fetch(`${BASE_URL}/api/payment/checkout`, {
+        method,
+        body,
+        headers,
+      });
+      return response.json();
+    } catch (error) {
+      console.error(error);
+      return error;
     }
   },
 };
