@@ -67,9 +67,9 @@ router.delete("/cart/deleteItemFromCart", cartController.deleteCartItem);
 router.post("/cart/getCartOrder", cartController.getCartOrder);
 router.post("/cart/getOrderHistory", cartController.getOrderHistory);
 // Message
-router.post("/user/getAllInboxes", messageController.getAllInboxes);
+router.get("/user/:userId/getAllInboxes", messageController.getAllInboxes);
 router.post("/user/postInbox", messageController.postInbox);
-router.post("/user/inbox/getAllMessages", messageController.getAllMessage);
+router.get("/user/inbox/:inboxId/getAllMessages", messageController.getAllMessage);
 router.post("/user/inbox/postMessage", messageController.postMessage);
 // Stripe
 router.post("/payment/checkout", stripeController.stripeCheckout);

@@ -133,18 +133,6 @@ const buyItem = (req, res, next) => __awaiter(void 0, void 0, void 0, function* 
             productQuantity = product.availableQuantity;
         }
         // Security
-        // if (orderPrice > userBalance) {
-        //   return res.status(406).send({
-        //     status: false,
-        //     message: 'Not enough money',
-        //   });
-        // }
-        // if (orderQuantity > productQuantity) {
-        //   return res.status(406).send({
-        //     status: false,
-        //     message: 'Not enough product',
-        //   });
-        // }
         if (orderPrice > userBalance) {
             throw new http_errors_1.default.NotAcceptable("User doesn't have enough money");
         }
