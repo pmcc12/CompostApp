@@ -88,20 +88,30 @@ export const Details: React.FC<Props> = ({ authorization }) => {
 
     //logs
 
-    console.log('myData ', myData);
+    // console.log('myData ', myData);
 
-    console.log('sellerId ', myData[0].sellerId);
-    console.log('buyer ID ', myState.data.userId);
+    // console.log('sellerId ', myData[0].sellerId);
+    // console.log('buyer ID ', myState.data.userId);
 
     //calls API function, with buyer and seller ID, cost and quantity
 
-    const cartContent = ApiService.putInCart(
-      buyerId,
-      productId,
-      orderQuantity
-    ).then((data) => {
-      console.log('orderId ', data.orderId);
+    ApiService.putInCart(buyerId, productId, orderQuantity).then((data) => {
+      ApiService.buyItem(buyerId, data.orderId).then((data) => {
+        console.log('data ', data);
+      });
     });
+
+    // 	ApiService.buyItem(buyerId, data.orderId)
+    //     .then((data) => {
+    //       console.log('data ', data);
+    //     })
+    //     .catch((error) => {
+    //       console.log('error ', error);
+    //     });
+    // });
+
+    // then((data) => {
+    //   console.log('buyItem response ', data);
 
     // ApiService.buyProduct(userId, sellerId, price, quantity);
   };

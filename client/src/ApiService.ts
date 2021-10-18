@@ -153,6 +153,28 @@ const ApiService: IApiService = {
       return null;
     }
   },
+
+  buyItem: async (buyerId, orderId) => {
+    try {
+      const BASE_URL = process.env.REACT_APP_HOST;
+      const method = 'PUT';
+      const body =
+        buyerId && orderId
+          ? JSON.stringify({ buyerId: buyerId, orderId: orderId })
+          : undefined;
+      const defaultHeaders = { 'Content-type': 'application/json' };
+      const headers = { ...defaultHeaders };
+      const response = await fetch(`${BASE_URL}/api/cart/buyItem`, {
+        method,
+        body,
+        headers,
+      });
+      return response.json();
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  },
 };
 
 export default ApiService;
