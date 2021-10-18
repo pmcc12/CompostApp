@@ -18,14 +18,14 @@ const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
 const getAllInboxes = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { userId } = req.body;
+        const userId = parseInt(req.params.userId);
         const inboxes = yield prisma.messageInbox.findMany({
             where: {
                 users: {
                     some: {
-                        userId
-                    }
-                }
+                        userId,
+                    },
+                },
             },
             select: {
                 inboxId: true,
@@ -33,13 +33,13 @@ const getAllInboxes = (req, res, next) => __awaiter(void 0, void 0, void 0, func
                 users: {
                     select: {
                         userId: true,
-                        username: true
-                    }
-                }
+                        username: true,
+                    },
+                },
             },
             orderBy: [
                 {
-                    lastUpdated: 'asc',
+                    lastUpdated: "asc",
                 },
             ],
             // select: {
@@ -56,7 +56,7 @@ const getAllInboxes = (req, res, next) => __awaiter(void 0, void 0, void 0, func
         });
         res.status(200).json({
             status: true,
-            message: 'All Inboxes from a user',
+            message: "All Inboxes from a user",
             data: inboxes,
         });
     }
@@ -71,13 +71,13 @@ const postInbox = (req, res, next) => __awaiter(void 0, void 0, void 0, function
         const inbox = yield prisma.messageInbox.create({
             data: {
                 users: {
-                    connect: [{ userId: userId1 }, { userId: userId2 }]
-                }
-            }
+                    connect: [{ userId: userId1 }, { userId: userId2 }],
+                },
+            },
         });
         res.status(201).json({
             status: true,
-            message: 'Inbox created successful',
+            message: "Inbox created successful",
             data: inbox,
         });
     }
@@ -88,16 +88,16 @@ const postInbox = (req, res, next) => __awaiter(void 0, void 0, void 0, function
 exports.postInbox = postInbox;
 const getAllMessage = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { inboxId } = req.body;
+        const inboxId = parseInt(req.params.inboxId);
         const inbox = yield prisma.messageInbox.findUnique({
             where: { inboxId: inboxId },
             include: {
-                Message: true
-            }
+                Message: true,
+            },
         });
         res.status(200).json({
             status: true,
-            message: 'Get inbox successful',
+            message: "Get inbox successful",
             data: inbox,
         });
     }
@@ -111,8 +111,8 @@ const postMessage = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         const { content, inboxId, senderId } = req.body;
         const user = yield prisma.user.findUnique({
             where: {
-                userId: senderId
-            }
+                userId: senderId,
+            },
         });
         let username;
         if (user) {
@@ -122,23 +122,23 @@ const postMessage = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
             data: {
                 content: content,
                 inbox: {
-                    connect: { inboxId }
+                    connect: { inboxId },
                 },
                 senderName: username,
-                senderId: senderId
-            }
+                senderId: senderId,
+            },
         });
         const updatedInbox = yield prisma.messageInbox.update({
             where: {
-                inboxId: inboxId
+                inboxId: inboxId,
             },
             data: {
                 lastUpdated: new Date().toISOString(),
-            }
+            },
         });
         res.status(201).json({
             status: true,
-            message: 'Inbox created successful',
+            message: "Inbox created successful",
             data: message,
         });
     }

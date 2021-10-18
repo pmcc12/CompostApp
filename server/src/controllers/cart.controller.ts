@@ -173,7 +173,7 @@ const buyItem = async (req: Request, res: Response, next: NextFunction) => {
       },
     });
 
-    res.status(201).json({
+    res.status(201).send({
       status: true,
       message: "Resolved orderItem + Subtract money and quantity",
       data: {

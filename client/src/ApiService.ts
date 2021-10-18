@@ -14,27 +14,29 @@ type IApiService = {
 
 /* Get all user related products */
 const ApiService: IApiService = {
+  getUserOffers: async (userId) => {
+    const BASE_URL = process.env.REACT_APP_HOST;
 
-    getUserOffers: async (userId) => {
-        const BASE_URL = process.env.REACT_APP_HOST;
-        
-        const method = 'POST';
-        const body = userId ? JSON.stringify({userId: userId}) : undefined;
-        console.log('inside get user offers');
-        console.log(body)
-        const defaultHeaders = {'Content-Type': 'application/json'};
-        const headers = {...defaultHeaders}
-        const response = await fetch(`${BASE_URL}/api/buy/getAllProducts`,{method,body,headers})
+    const method = "POST";
+    const body = userId ? JSON.stringify({ userId: userId }) : undefined;
+    console.log("inside get user offers");
+    console.log(body);
+    const defaultHeaders = { "Content-Type": "application/json" };
+    const headers = { ...defaultHeaders };
+    const response = await fetch(`${BASE_URL}/api/buy/getAllProducts`, {
+      method,
+      body,
+      headers,
+    });
 
-        const { data, errors } = await response.json();
-        if (response.ok) {
-            console.log('response ok');
-            console.log(data);
-            return data;
-        } else {
-            return null;
-        }
-    },
+    const res = await response.json();
+
+    if (res.status) {
+      return res.data;
+    } else {
+      return res;
+    }
+  },
 
   submitUserOffer: async (productData) => {
     const BASE_URL = process.env.REACT_APP_HOST;
@@ -44,24 +46,23 @@ const ApiService: IApiService = {
 
     // to silent ts for delete props
     const deleteImages = async (x: any) => {
-        await delete x.images; 
-    }
-    deleteImages(productData)
+      await delete x.images;
+    };
+    deleteImages(productData);
 
     // multipart/form-data will turn everything to string
     // Blob will protect that object so its still json
     const json = JSON.stringify(productData);
     //blob basically is a protocol that converts json into binary raw
     const blob = new Blob([json], {
-      type: 'application/json'
+      type: "application/json",
     });
     // Make it as an object
     let formData = new FormData();
-    formData.append("userFile", selectedFile)
+    formData.append("userFile", selectedFile);
     formData.append("userDocument", blob);
-    
 
-    const method = 'POST';
+    const method = "POST";
     // const body = productData ? JSON.stringify(productData) : undefined;
     // const defaultHeaders = { 'Content-Type': 'multipart/form-data' };
     // const headers = { ...defaultHeaders };
@@ -71,23 +72,23 @@ const ApiService: IApiService = {
       // headers,
     });
 
-    const { data, errors } = await response.json();
-    if (response.ok) {
-      const finalData = data;
-      return true;
+    const res = await response.json();
+
+    if (res.status) {
+      return res.data;
     } else {
-      return false;
+      return res;
     }
   },
 
   submitAvailableCategories: async (availableCategories) => {
     const BASE_URL = process.env.REACT_APP_HOST;
 
-    const method = 'POST';
+    const method = "POST";
     const body = availableCategories
       ? JSON.stringify(availableCategories)
       : undefined;
-    const defaultHeaders = { 'Content-Type': 'application/json' };
+    const defaultHeaders = { "Content-Type": "application/json" };
     const headers = { ...defaultHeaders };
     const response = await fetch(`${BASE_URL}/api/category`, {
       method,
@@ -95,34 +96,13 @@ const ApiService: IApiService = {
       headers,
     });
 
-        const {data, errors} = await response.json()
-        if(response.ok){
-            const finalData = data
-            return true
-        }else {
-            return false
-        }
-    },
+    const res = await response.json();
 
-    getOwnUserOffers: async (userId) => {
-      const BASE_URL = process.env.REACT_APP_HOST;
-      
-      const method = 'POST';
-      const body = userId ? JSON.stringify({sellerId: userId}) : undefined;
-      console.log('inside get own user offers');
-      console.log(body)
-      const defaultHeaders = {'Content-Type': 'application/json'};
-      const headers = {...defaultHeaders}
-      const response = await fetch(`${BASE_URL}/api/buy/getAllProductsbySeller`,{method,body,headers})
-
-      const { data, errors } = await response.json();
-      if (response.ok) {
-          console.log('response in get own users ok');
-          console.log(data);
-          return data;
-      } else {
-          return null;
-      }
+    if (res.status) {
+      return res.data;
+    } else {
+      return res;
+    }
   },
     postUserMessage: async(message) => {
       const BASE_URL = process.env.REACT_APP_HOST;
@@ -198,7 +178,83 @@ const ApiService: IApiService = {
       } else {
           return null;
       }
+    },
+
+  getOwnUserOffers: async (userId) => {
+    const BASE_URL = process.env.REACT_APP_HOST;
+
+    const method = "POST";
+    const body = userId ? JSON.stringify({ sellerId: userId }) : undefined;
+    console.log("inside get own user offers");
+    console.log(body);
+    const defaultHeaders = { "Content-Type": "application/json" };
+    const headers = { ...defaultHeaders };
+    const response = await fetch(`${BASE_URL}/api/buy/getAllProductsbySeller`, {
+      method,
+      body,
+      headers,
+    });
+
+    const res = await response.json();
+
+    if (res.status) {
+      return res.data;
+    } else {
+      return res;
     }
+  },
+
+  // putInCart: async (buyerId, productId, orderQuantity) => {
+  //   const BASE_URL = process.env.REACT_APP_HOST;
+  //   const method = "POST";
+  //   const body =
+  //     buyerId && productId && orderQuantity
+  //       ? JSON.stringify({
+  //           buyerId: buyerId,
+  //           productId: productId,
+  //           orderQuantity: orderQuantity,
+  //         })
+  //       : undefined;
+  //   const defaultHeaders = { "Content-Type": "application/json" };
+  //   const headers = { ...defaultHeaders };
+  //   const response = await fetch(`${BASE_URL}/api/user/cart/add`, {
+  //     method,
+  //     body,
+  //     headers,
+  //   });
+
+  //   const res = await response.json();
+
+  //   if (res.status) {
+  //     return res.data;
+  //   } else {
+  //     return res;
+  //   }
+  // },
+
+  // buyItem: async (buyerId, orderId) => {
+  //   const BASE_URL = process.env.REACT_APP_HOST;
+  //   const method = "PUT";
+  //   const body =
+  //     buyerId && orderId
+  //       ? JSON.stringify({ buyerId: buyerId, orderId: orderId })
+  //       : undefined;
+  //   const defaultHeaders = { "Content-type": "application/json" };
+  //   const headers = { ...defaultHeaders };
+  //   const response = await fetch(`${BASE_URL}/api/cart/buyItem`, {
+  //     method,
+  //     body,
+  //     headers,
+  //   });
+
+  //   const res = await response.json();
+
+  //   if (res.status) {
+  //     return res.data;
+  //   } else {
+  //     return res;
+  //   }
+  // },
 };
 
 export default ApiService;

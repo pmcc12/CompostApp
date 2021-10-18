@@ -177,7 +177,7 @@ const buyItem = (req, res, next) => __awaiter(void 0, void 0, void 0, function* 
                 resolved: true,
             },
         });
-        res.status(201).json({
+        res.status(201).send({
             status: true,
             message: "Resolved orderItem + Subtract money and quantity",
             data: {

@@ -1,3 +1,4 @@
+//@ts-nocheck
 import React from 'react';
 import {
   Form,
@@ -11,6 +12,7 @@ import {
   Spinner,
 } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { myReducersTypeof } from '../state/reducers';
 import { useState, useEffect } from 'react';
 import { login } from '../state/actions/actionCreators';
@@ -89,15 +91,41 @@ export const Details: React.FC<Props> = ({ authorization }) => {
   };
 
   const handleOrder = (event: React.MouseEvent<HTMLButtonElement>) => {
-    console.log('myData ', myData);
-    const price = myData[offerIndex].retailPrice;
-    const quantity = myData[offerIndex].availableQuantity;
-    const cost = price * quantity;
-    console.log('cost ', cost);
-    console.log('sellerId ', myData[0].sellerId);
-    console.log('buyer ID ', myState.data.userId);
+    //variables
 
-    //calls API function, with buyer and seller ID and cost
+    const buyerId = myState.data.userId;
+    const orderQuantity = myData[offerIndex].availableQuantity;
+    const productId = myData[offerIndex].productId;
+
+    //logs
+
+    // console.log('myData ', myData);
+
+    // console.log('sellerId ', myData[0].sellerId);
+    // console.log('buyer ID ', myState.data.userId);
+
+    //calls API function, with buyer and seller ID, cost and quantity
+
+    ApiService.putInCart(buyerId, productId, orderQuantity).then((data) => {
+      ApiService.buyItem(buyerId, data.orderId)
+      .then(data => {
+        console.log('Hoi', data)
+      })
+    });
+
+    // 	ApiService.buyItem(buyerId, data.orderId)
+    //     .then((data) => {
+    //       console.log('data ', data);
+    //     })
+    //     .catch((error) => {
+    //       console.log('error ', error);
+    //     });
+    // });
+
+    // then((data) => {
+    //   console.log('buyItem response ', data);
+
+    // ApiService.buyProduct(userId, sellerId, price, quantity);
   };
 
   const handlePrivateMessage = async() => {
