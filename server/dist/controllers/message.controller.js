@@ -12,64 +12,138 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getMessages = exports.sendMessage = void 0;
+exports.postMessage = exports.getAllMessage = exports.postInbox = exports.getAllInboxes = void 0;
 const http_errors_1 = __importDefault(require("http-errors"));
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
-const sendMessage = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllInboxes = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { content, receiverId, senderId } = req.body;
-        if (!receiverId) {
-            throw new http_errors_1.default.NotFound("Need to provide receiverId in body");
-        }
-        if (!senderId) {
-            throw new http_errors_1.default.NotFound("Need to provide senderId in body");
-        }
-        if (!content) {
-            throw new http_errors_1.default.NotFound("Need to provide content in body");
-        }
-        const Message = yield prisma.message.create({
-            data: { content, receiverId, senderId },
+        const { userId } = req.body;
+        const inboxes = yield prisma.messageInbox.findMany({
+            where: {
+                users: {
+                    some: {
+                        userId
+                    }
+                }
+            },
+            select: {
+                inboxId: true,
+                lastUpdated: true,
+                users: {
+                    select: {
+                        userId: true,
+                        username: true
+                    }
+                }
+            },
+            orderBy: [
+                {
+                    lastUpdated: 'asc',
+                },
+            ],
+            // select: {
+            //     Inboxes: {
+            //         select: {
+            //             users: {
+            //                 select: {
+            //                     username: true
+            //                 }
+            //             }
+            //         }
+            //     }
+            // }
         });
-        res.status(201).json({
+        res.status(200).json({
             status: true,
-            message: 'Create message successfully',
-            data: Message
+            message: 'All Inboxes from a user',
+            data: inboxes,
         });
     }
     catch (e) {
         next((0, http_errors_1.default)(e.statusCode, e.message));
     }
 });
-exports.sendMessage = sendMessage;
-const getMessages = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getAllInboxes = getAllInboxes;
+const postInbox = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { receiverId } = req.body;
-        const getMessages = yield prisma.message.findMany({
-            where: {
-                receiverId: receiverId
-            },
-            include: {
-                receiver: {
-                    select: {
-                        username: true
-                    }
-                },
-                sender: {
-                    select: {
-                        username: true
-                    }
+        const { userId1, userId2 } = req.body;
+        const inbox = yield prisma.messageInbox.create({
+            data: {
+                users: {
+                    connect: [{ userId: userId1 }, { userId: userId2 }]
                 }
+            }
+        });
+        res.status(201).json({
+            status: true,
+            message: 'Inbox created successful',
+            data: inbox,
+        });
+    }
+    catch (e) {
+        next((0, http_errors_1.default)(e.statusCode, e.message));
+    }
+});
+exports.postInbox = postInbox;
+const getAllMessage = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { inboxId } = req.body;
+        const inbox = yield prisma.messageInbox.findUnique({
+            where: { inboxId: inboxId },
+            include: {
+                Message: true
             }
         });
         res.status(200).json({
             status: true,
-            message: 'All messages received',
-            data: getMessages,
+            message: 'Get inbox successful',
+            data: inbox,
         });
     }
     catch (e) {
         next((0, http_errors_1.default)(e.statusCode, e.message));
     }
 });
-exports.getMessages = getMessages;
+exports.getAllMessage = getAllMessage;
+const postMessage = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { content, inboxId, senderId } = req.body;
+        const user = yield prisma.user.findUnique({
+            where: {
+                userId: senderId
+            }
+        });
+        let username;
+        if (user) {
+            username = user.username;
+        }
+        const message = yield prisma.message.create({
+            data: {
+                content: content,
+                inbox: {
+                    connect: { inboxId }
+                },
+                senderName: username,
+                senderId: senderId
+            }
+        });
+        const updatedInbox = yield prisma.messageInbox.update({
+            where: {
+                inboxId: inboxId
+            },
+            data: {
+                lastUpdated: new Date().toISOString(),
+            }
+        });
+        res.status(201).json({
+            status: true,
+            message: 'Inbox created successful',
+            data: message,
+        });
+    }
+    catch (e) {
+        next((0, http_errors_1.default)(e.statusCode, e.message));
+    }
+});
+exports.postMessage = postMessage;

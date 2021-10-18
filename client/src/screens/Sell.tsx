@@ -22,12 +22,12 @@ type Props = {
   authorization: boolean;
 };
 
-export const Sell: React.FC<Props> = ({authorization}) => {
+export const Sell: React.FC<Props> = ({ authorization }) => {
   // START
-   const [selectedFiles, setSelectedFiles] = useState([])
+  const [selectedFiles, setSelectedFiles] = useState([]);
   // END
   let history = useHistory();
-  
+
   const [userOffer, setUserOffer] = useState({
     userId: 0,
     title: '',
@@ -65,9 +65,13 @@ export const Sell: React.FC<Props> = ({authorization}) => {
     event.preventDefault();
     console.log('here in submit');
     console.log(userOffer);
-    const status = await ApiService.submitUserOffer({...userOffer, userId: myState.data.userId, images: selectedFiles[0]});
-    if(status){
-      history.push("/");
+    const status = await ApiService.submitUserOffer({
+      ...userOffer,
+      userId: myState.data.userId,
+      images: selectedFiles[0],
+    });
+    if (status) {
+      history.push('/');
     }
     // dispatch(login(credentials))
   };
@@ -231,8 +235,8 @@ export const Sell: React.FC<Props> = ({authorization}) => {
                 <Form.Label>Default file input example</Form.Label>
                 <Form.Control
                   type="file"
-                  onChange={(e: any) =>
-                    setSelectedFiles(e.target.files)
+                  onChange={
+                    (e: any) => setSelectedFiles(e.target.files)
                     // handleImages(event as React.ChangeEvent<HTMLInputElement>)
                   }
                 />
@@ -343,6 +347,7 @@ export const Sell: React.FC<Props> = ({authorization}) => {
                 inDetailsOrSell={true}
                 inBuy={false}
                 inDetail={false}
+                inSell={true}
               />
 
               <Button variant="primary" type="submit">

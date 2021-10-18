@@ -46,7 +46,6 @@ export const Sellers = (props: props) => {
           </Col>
         );
       })}
-      ;
     </>
   );
 };

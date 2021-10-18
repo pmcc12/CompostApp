@@ -29,6 +29,7 @@ const buyController = __importStar(require("../controllers/buy.controller"));
 const categoryController = __importStar(require("../controllers/category.controller"));
 const cartController = __importStar(require("../controllers/cart.controller"));
 const messageController = __importStar(require("../controllers/message.controller"));
+const stripeController = __importStar(require("../controllers/stripe.controller"));
 const router = express_1.default.Router();
 router.get("/", (req, res) => {
     res.send("Hello sfdasdf");
@@ -37,7 +38,7 @@ router.get("/", (req, res) => {
 router.post("/register", authController.register);
 router.post("/login", authController.login);
 router.post("/all", authController.all);
-// Sell 
+// Sell
 router.post("/sell/product", sellController.postSellProduct);
 router.post("/sell/getAllProducts", sellController.getSellProducts);
 // Category
@@ -55,6 +56,18 @@ router.delete("/cart/deleteItemFromCart", cartController.deleteCartItem);
 router.post("/cart/getCartOrder", cartController.getCartOrder);
 router.post("/cart/getOrderHistory", cartController.getOrderHistory);
 // Message
-router.post("/user/message", messageController.sendMessage);
-router.post("/user/getMessages", messageController.getMessages);
+router.post("/user/getAllInboxes", messageController.getAllInboxes);
+router.post("/user/postInbox", messageController.postInbox);
+router.post("/user/inbox/getAllMessages", messageController.getAllMessage);
+router.post("/user/inbox/postMessage", messageController.postMessage);
+// Stripe
+router.post("/payment/checkout", stripeController.stripeCheckout);
+router.get("/payment/testing", (req, res) => {
+    res.send(`
+    <form action="/api/payment/checkout" method="POST">
+            <button type="submit" id="checkout-button">Checkout</button>
+        </form>
+    `);
+});
+router.post("/payment/webhook", express_1.default.raw({ type: "application/json" }), stripeController.stripeWebhook);
 exports.default = router;
