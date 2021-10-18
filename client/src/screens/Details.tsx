@@ -98,6 +98,11 @@ export const Details: React.FC<Props> = ({ authorization }) => {
     ApiService.putInCart(buyerId, productId, orderQuantity).then((data) => {
       ApiService.buyItem(buyerId, data.orderId).then((data) => {
         console.log('data ', data);
+        if (data.status === false) {
+          history.push('/topup');
+        } else if ((data.status = true)) {
+          history.push('/success');
+        }
       });
     });
 
