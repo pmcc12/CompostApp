@@ -18,6 +18,15 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -30,6 +39,8 @@ const categoryController = __importStar(require("../controllers/category.control
 const cartController = __importStar(require("../controllers/cart.controller"));
 const messageController = __importStar(require("../controllers/message.controller"));
 const stripeController = __importStar(require("../controllers/stripe.controller"));
+// Handling Error
+const http_errors_1 = __importDefault(require("http-errors"));
 const router = express_1.default.Router();
 router.get("/", (req, res) => {
     res.send("Hello sfdasdf");
@@ -70,4 +81,14 @@ router.get("/payment/testing", (req, res) => {
     `);
 });
 router.post("/payment/webhook", express_1.default.raw({ type: "application/json" }), stripeController.stripeWebhook);
+// Handling Error
+router.use((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    next(new http_errors_1.default.NotFound("Route not Found"));
+}));
+router.use((err, req, res, next) => {
+    res.status(err.status || 500).json({
+        status: false,
+        message: err.message,
+    });
+});
 exports.default = router;
