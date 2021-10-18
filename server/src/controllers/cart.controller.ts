@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from 'express';
-import createError from 'http-errors';
-import { PrismaClient } from '@prisma/client';
+import { Request, Response, NextFunction } from "express";
+import createError from "http-errors";
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 const buyAllItems = async (req: Request, res: Response, next: NextFunction) => {
   try {
     if (!req.body.buyerId) {
-      throw new createError.NotFound('Need to provide buyerId in body');
+      throw new createError.NotFound("Need to provide buyerId in body");
     }
     const resolvedCart = await prisma.orderItem.updateMany({
       where: {
@@ -22,7 +22,7 @@ const buyAllItems = async (req: Request, res: Response, next: NextFunction) => {
     });
     res.status(201).json({
       status: true,
-      message: 'Buy all item in Cart (resolved is true)',
+      message: "Buy all item in Cart (resolved is true)",
       data: resolvedCart,
     });
   } catch (e: any) {
@@ -37,7 +37,7 @@ const deleteCartItem = async (
 ) => {
   try {
     if (!req.body.orderId) {
-      throw new createError.NotFound('Need to provide orderId in body');
+      throw new createError.NotFound("Need to provide orderId in body");
     }
     const product = await prisma.orderItem.delete({
       where: {
@@ -47,7 +47,7 @@ const deleteCartItem = async (
 
     res.status(202).json({
       status: true,
-      message: 'Delete buy-product successful',
+      message: "Delete buy-product successful",
       data: product,
     });
   } catch (e: any) {
@@ -62,7 +62,7 @@ const getCartOrder = async (
 ) => {
   try {
     if (!req.body.buyerId) {
-      throw new createError.NotFound('Need to provide buyerId in body');
+      throw new createError.NotFound("Need to provide buyerId in body");
     }
     const getCartProducts = await prisma.orderItem.findMany({
       where: {
@@ -73,7 +73,7 @@ const getCartOrder = async (
     });
     res.status(200).json({
       status: true,
-      message: 'All Order in Cart',
+      message: "All Order in Cart",
       data: getCartProducts,
     });
   } catch (e: any) {
@@ -86,10 +86,10 @@ const buyItem = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { orderId, buyerId } = req.body;
     if (!buyerId) {
-      throw new createError.NotFound('Need to provide buyerId in body');
+      throw new createError.NotFound("Need to provide buyerId in body");
     }
     if (!orderId) {
-      throw new createError.NotFound('Need to provide orderId in body');
+      throw new createError.NotFound("Need to provide orderId in body");
     }
     //  SUBTRACT USER BALANCE & PRODUCT QUANTITY
 
@@ -127,16 +127,10 @@ const buyItem = async (req: Request, res: Response, next: NextFunction) => {
     }
     // Security
     if (orderPrice > userBalance) {
-      return res.status(406).send({
-        status: false,
-        message: 'Not enough money',
-      });
+      throw new createError.NotAcceptable("User doesn't have enough money");
     }
     if (orderQuantity > productQuantity) {
-      return res.status(406).send({
-        status: false,
-        message: 'Not enough product',
-      });
+      throw new createError.NotFound("Product doesn't have enough supply");
     }
 
     // CORE - UPDATE
@@ -181,7 +175,7 @@ const buyItem = async (req: Request, res: Response, next: NextFunction) => {
 
     res.status(201).send({
       status: true,
-      message: 'Resolved orderItem + Subtract money and quantity',
+      message: "Resolved orderItem + Subtract money and quantity",
       data: {
         userBalance: updatedUser.balance,
         productQuantity: updatedProduct.availableQuantity,
@@ -201,7 +195,7 @@ const getOrderHistory = async (
 ) => {
   try {
     if (!req.body.buyerId) {
-      throw new createError.NotFound('Need to provide buyerId in body');
+      throw new createError.NotFound("Need to provide buyerId in body");
     }
     const getCartProducts = await prisma.orderItem.findMany({
       where: {
@@ -212,7 +206,7 @@ const getOrderHistory = async (
     });
     res.status(200).json({
       status: true,
-      message: 'All Order History',
+      message: "All Order History",
       data: getCartProducts,
     });
   } catch (e: any) {

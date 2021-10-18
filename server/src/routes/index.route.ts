@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { Request, Response, NextFunction } from "express";
 import * as authController from "../controllers/auth.controller";
 import * as sellController from "../controllers/sell.controller";
 import * as buyController from "../controllers/buy.controller";
@@ -7,6 +7,8 @@ import * as cartController from "../controllers/cart.controller";
 import * as messageController from "../controllers/message.controller";
 import * as stripeController from "../controllers/stripe.controller";
 import auth from "../middlewares/auth.middleware";
+// Handling Error
+import createError from "http-errors";
 
 const router = express.Router();
 
@@ -63,5 +65,17 @@ router.post(
   express.raw({ type: "application/json" }),
   stripeController.stripeWebhook
 );
+
+// Handling Error
+router.use(async (req: Request, res: Response, next: NextFunction) => {
+  next(new createError.NotFound("Route not Found"));
+});
+
+router.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  res.status(err.status || 500).json({
+    status: false,
+    message: err.message,
+  });
+});
 
 export default router;

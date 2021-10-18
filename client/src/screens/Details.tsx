@@ -96,9 +96,10 @@ export const Details: React.FC<Props> = ({ authorization }) => {
     //calls API function, with buyer and seller ID, cost and quantity
 
     ApiService.putInCart(buyerId, productId, orderQuantity).then((data) => {
-      ApiService.buyItem(buyerId, data.orderId).then((data) => {
-        console.log('data ', data);
-      });
+      ApiService.buyItem(buyerId, data.orderId)
+      .then(data => {
+        console.log('Hoi', data)
+      })
     });
 
     // 	ApiService.buyItem(buyerId, data.orderId)
