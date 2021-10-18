@@ -127,15 +127,20 @@ const ApiService: IApiService = {
     }
   },
 
-  topUpBalance: async (userId) => {
-    /////////// WORK IN PROGRESS - NOT TESTED /////////
+  putInCart: async (buyerId, productId, orderQuantity) => {
     const BASE_URL = process.env.REACT_APP_HOST;
     const method = 'POST';
-    const body = JSON.stringify({}); // BODY CONTENT HERE
-
+    const body =
+      buyerId && productId && orderQuantity
+        ? JSON.stringify({
+            buyerId: buyerId,
+            productId: productId,
+            orderQuantity: orderQuantity,
+          })
+        : undefined;
     const defaultHeaders = { 'Content-Type': 'application/json' };
     const headers = { ...defaultHeaders };
-    const response = await fetch(`${BASE_URL}/api/payment/checkout`, {
+    const response = await fetch(`${BASE_URL}/api/user/cart/add`, {
       method,
       body,
       headers,
@@ -145,39 +150,6 @@ const ApiService: IApiService = {
     if (response.ok) {
       return data;
     } else {
-      console.log(errors);
-      return null;
-    }
-  },
-
-  buyProduct: async (userId, sellerId, cost, quantity, product) => {
-    ///////////////WORK IN PROGRESS////////////
-    const BASE_URL = process.env.REACT_APP_HOST;
-    const method = 'POST';
-    const body = JSON.stringify({}); // BODY CONTENT HERE
-
-    const defaultHeaders = { 'Content-Type': 'application/json' };
-    const headers = { ...defaultHeaders };
-  },
-
-  testCheckout: async () => {
-    const BASE_URL = process.env.REACT_APP_HOST;
-    const method = 'POST';
-    const body = JSON.stringify({}); // BODY CONTENT HERE
-
-    const response = await fetch(`${BASE_URL}/create-checkout-session`, {
-      method,
-      body,
-      headers,
-    });
-    const defaultHeaders = { 'Content-Type': 'application/json' };
-    const headers = { ...defaultHeaders };
-
-    const { data, errors } = await response.json();
-    if (response.ok) {
-      return data;
-    } else {
-      console.log(errors);
       return null;
     }
   },

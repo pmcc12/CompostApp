@@ -82,22 +82,26 @@ export const Details: React.FC<Props> = ({ authorization }) => {
   const handleOrder = (event: React.MouseEvent<HTMLButtonElement>) => {
     //variables
 
-    const price = myData[offerIndex].retailPrice;
-    const quantity = myData[offerIndex].availableQuantity;
-    const cost = price * quantity;
-    const userId = myState.data.userId;
-    const sellerId = myData[0].sellerId;
+    const buyerId = myState.data.userId;
+    const orderQuantity = myData[offerIndex].availableQuantity;
+    const productId = myData[offerIndex].productId;
 
     //logs
 
     console.log('myData ', myData);
-    console.log('cost ', cost);
+
     console.log('sellerId ', myData[0].sellerId);
     console.log('buyer ID ', myState.data.userId);
 
     //calls API function, with buyer and seller ID, cost and quantity
 
-    ApiService.testCheckout();
+    const cartContent = ApiService.putInCart(
+      buyerId,
+      productId,
+      orderQuantity
+    ).then((data) => {
+      console.log('orderId ', data.orderId);
+    });
 
     // ApiService.buyProduct(userId, sellerId, price, quantity);
   };
