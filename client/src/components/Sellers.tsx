@@ -1,4 +1,5 @@
-import { Button, Card } from 'react-bootstrap';
+import { Button, Card, Col } from 'react-bootstrap';
+import NoImage from '../assets/no-image.png'
 
 interface props {
   handleSellerClick: (
@@ -9,26 +10,40 @@ interface props {
 }
 
 export const Sellers = (props: props) => {
+
   return (
     <>
       {props.sortedByProducts.map((el: any) => {
         return (
-          <Card style={{ width: '18rem' }} key={el.seller.userId}>
-            <Card.Img variant="top" src="holder.js/100px180" />
-            <Card.Body>
-              <Card.Title>User: {el.seller.username}</Card.Title>
-              <Card.Text>Quantity: {el.availableQuantity}</Card.Text>
-              <Card.Text>Price: {el.retailPrice}</Card.Text>
-              <Button
-                variant="primary"
-                onClick={(event) =>
-                  props.handleSellerClick(event, el.seller.userId)
+          <Col lg={3} md={4} sm={6} style={{ borderBlock: 'black', marginRight:'15px' }}>
+            <Card style={{ width: '18rem' }} key={el.seller.userId}>
+              <div style={{margin: '5px', height: '178px'}}>
+                {
+                  el.images.includes('http') ? 
+                  (
+                    <Card.Img variant="top" src={el.images} />
+                  ) 
+                  : 
+                  (
+                    <Card.Img variant="top" src={NoImage} />
+                  )
                 }
-              >
-                Select supplier
-              </Button>
-            </Card.Body>
-          </Card>
+              </div>
+              <Card.Body>
+                <Card.Title>User: {el.seller.username}</Card.Title>
+                <Card.Text>Quantity: {el.availableQuantity}</Card.Text>
+                <Card.Text>Price: {el.retailPrice}</Card.Text>
+                <Button
+                  variant="primary"
+                  onClick={(event) =>
+                    props.handleSellerClick(event, el.seller.userId)
+                  }
+                >
+                  Select supplier
+                </Button>
+              </Card.Body>
+            </Card>
+          </Col>
         );
       })}
     </>

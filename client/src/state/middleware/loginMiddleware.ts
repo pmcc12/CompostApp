@@ -14,6 +14,7 @@ RootState
     };
     console.log('here in middleware')
     console.log(action);
+    console.log(BASE_URL);
     const method = 'POST';
     const body = action.payload ? JSON.stringify(action.payload) : undefined;
     const defaultHeaders = {'Content-Type': 'application/json'};

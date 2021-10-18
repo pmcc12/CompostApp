@@ -145,6 +145,12 @@ interface Icategory {
     categoryName: string
 }
 
+export type Imessage  = {
+    senderId: number,
+    receiverId: number,
+    content : string
+}
+
 
 /*
 {

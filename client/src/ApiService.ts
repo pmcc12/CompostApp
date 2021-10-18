@@ -1,11 +1,12 @@
 import React from 'react';
-import { Icategories, IgetAllUserProducts, userOffer } from './state/actions';
+import { Icategories, IgetAllUserProducts, userOffer, Imessage } from './state/actions';
 
 type IApiService = {
     getUserOffers: (val: number) => any,
     submitUserOffer: (val: userOffer) => any,
     submitAvailableCategories: (val: Icategories[]) => any,
     getOwnUserOffers: (val: number) => any,
+    postUserMessage: (val: Imessage) => any
 }
 
 /* Get all user related products */
@@ -47,6 +48,7 @@ const ApiService: IApiService = {
     // multipart/form-data will turn everything to string
     // Blob will protect that object so its still json
     const json = JSON.stringify(productData);
+    //blob basically is a protocol that converts json into binary raw
     const blob = new Blob([json], {
       type: 'application/json'
     });
@@ -118,7 +120,26 @@ const ApiService: IApiService = {
       } else {
           return null;
       }
-  }
+  },
+    postUserMessage: async(message) => {
+      const BASE_URL = process.env.REACT_APP_HOST;
+      
+      const method = 'POST';
+      const body = message ? JSON.stringify({senderId: message.senderId,receiverId: message.receiverId, content: message.content}) : undefined;
+      console.log('inside get own user offers');
+      console.log(body)
+      const defaultHeaders = {'Content-Type': 'application/json'};
+      const headers = {...defaultHeaders}
+      const response = await fetch(`${BASE_URL}/api/user/message`,{method,body,headers})
+      const { data, errors } = await response.json();
+      if (response.ok) {
+          console.log('response in get own users ok');
+          console.log(data);
+          return data;
+      } else {
+          return null;
+      }
+    }
 
 };
 

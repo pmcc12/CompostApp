@@ -7,6 +7,7 @@ import { ILocationUpdate, Icoordinates } from '../state/actions';
 
 import { TileLayer, Marker, MapContainer, Popup } from 'react-leaflet';
 import { detailMarker, sellMarker, buyMarker } from '../handlers/mapMarkers';
+import {useHistory} from 'react-router-dom'
 
 //locationUpdater will only be sent in Register Screen
 type Props = {
@@ -42,7 +43,9 @@ const MyMap: React.FC<Props> = ({
   productTitle,
   myProductsArray,
 }) => {
-  //37.0245632 ; -7.9265792
+
+  let history = useHistory();
+  console.log('my location:', location)
 
   const registerLocationChange = (event: any) => {
     console.log(event.target.getLatLng());
@@ -84,7 +87,7 @@ const MyMap: React.FC<Props> = ({
   }
 
   if (inBuy) {
-    finalMarkerRender = myProductsArray.map((product) => buyMarker(product));
+    finalMarkerRender = myProductsArray.map((product) => buyMarker(product, history));
   }
 
   return (
