@@ -18,34 +18,35 @@ const client_1 = require("@prisma/client");
 // Prisma
 const prisma = new client_1.PrismaClient();
 // Stripe
-const stripe = require("stripe")(process.env.STRIPE_KEY);
+const stripe = require('stripe')(process.env.STRIPE_KEY);
 const stripeCheckout = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { topUpAmount } = req.body;
         if (!topUpAmount) {
-            throw new http_errors_1.default.NotFound("Need to provide topUpAmount in body");
+            throw new http_errors_1.default.NotFound('Need to provide topUpAmount in body');
         }
         const session = yield stripe.checkout.sessions.create({
-            payment_method_types: ["card"],
+            payment_method_types: ['card'],
             line_items: [
                 {
                     price_data: {
-                        currency: "eur",
+                        currency: 'eur',
                         product_data: {
-                            name: "Top Up",
+                            name: 'Top Up',
                         },
                         unit_amount: topUpAmount,
                     },
                     quantity: 1,
                 },
             ],
-            mode: "payment",
+            mode: 'payment',
             success_url: `http://localhost:${process.env.CLIENT_PORT}/payment/success`,
             cancel_url: `http://localhost:${process.env.CLIENT_PORT}/payment/cancel`,
         });
-        console.log("Do something");
+        console.log('Do something');
         // ADD BALANCE
-        res.redirect(303, session.url);
+        res.json({ url: session.url });
+        // res.redirect(303, session.url);
     }
     catch (e) {
         next((0, http_errors_1.default)(e.statusCode, e.message));
@@ -57,7 +58,7 @@ const stripeWebhook = (req, res, next) => __awaiter(void 0, void 0, void 0, func
     // This is your Stripe CLI webhook secret for testing your endpoint locally.
     //   console.log(endpointSecret);
     try {
-        const sig = req.headers["stripe-signature"];
+        const sig = req.headers['stripe-signature'];
         let event;
         try {
             event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
@@ -68,7 +69,7 @@ const stripeWebhook = (req, res, next) => __awaiter(void 0, void 0, void 0, func
         }
         // Handle the event
         switch (event.type) {
-            case "charge.succeeded":
+            case 'charge.succeeded':
                 const charge = event.data.object;
                 // console.log(charge);
                 // Find User
@@ -107,7 +108,7 @@ const stripeWebhook = (req, res, next) => __awaiter(void 0, void 0, void 0, func
         // Return a 200 response to acknowledge receipt of the event
         res.status(200).json({
             status: true,
-            message: "Top Up successful",
+            message: 'Top Up successful',
             data: null,
         });
     }

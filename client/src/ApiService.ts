@@ -231,6 +231,7 @@ const ApiService: IApiService = {
         body,
         headers,
       });
+
       return response.json();
     } catch (error) {
       console.error(error);

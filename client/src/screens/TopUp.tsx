@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Button, Container, Form, Col } from 'react-bootstrap';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -20,7 +21,10 @@ export const TopUp: React.FC<Props> = ({ authorization }) => {
   const handleTopUpClick = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log('topUpAmount ', topUpAmount);
-    ApiService.topUp(userId, topUpAmount);
+    ApiService.topUp(userId, topUpAmount).then((data) => {
+      window.location.href = data.url;
+      // history.push(data.url);
+    });
   };
 
   const handleAmount = (event: React.ChangeEvent<HTMLInputElement>) => {
