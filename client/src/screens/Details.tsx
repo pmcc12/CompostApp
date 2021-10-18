@@ -90,12 +90,6 @@ export const Details: React.FC<Props> = ({ authorization }) => {
     const productId = myData[offerIndex].productId;
 
     ApiService.putInCart(buyerId, productId, orderQuantity).then((data) => {
-<<<<<<< HEAD
-      ApiService.buyItem(buyerId, data.orderId)
-      .then(data => {
-        console.log('Hoi', data)
-      })
-=======
       ApiService.buyItem(buyerId, data.orderId).then((data) => {
         if (data.status === false) {
           history.push(`/topup/${myData[0].sellerId}`);
@@ -103,7 +97,6 @@ export const Details: React.FC<Props> = ({ authorization }) => {
           history.push('/success');
         }
       });
->>>>>>> dg_frontend_1810_stripe
     });
   };
 

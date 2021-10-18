@@ -1,11 +1,11 @@
 //@ts-nocheck
-import React from "react";
+import React from 'react';
 import {
   Icategories,
   IgetAllUserProducts,
   userOffer,
   Imessage,
-} from "./state/actions";
+} from './state/actions';
 
 type IApiService = {
   getUserOffers: (val: number) => any;
@@ -21,11 +21,11 @@ const ApiService: IApiService = {
   getUserOffers: async (userId) => {
     const BASE_URL = process.env.REACT_APP_HOST;
 
-    const method = "POST";
+    const method = 'POST';
     const body = userId ? JSON.stringify({ userId: userId }) : undefined;
-    console.log("inside get user offers");
+    console.log('inside get user offers');
     console.log(body);
-    const defaultHeaders = { "Content-Type": "application/json" };
+    const defaultHeaders = { 'Content-Type': 'application/json' };
     const headers = { ...defaultHeaders };
     const response = await fetch(`${BASE_URL}/api/buy/getAllProducts`, {
       method,
@@ -45,7 +45,7 @@ const ApiService: IApiService = {
   submitUserOffer: async (productData) => {
     const BASE_URL = process.env.REACT_APP_HOST;
 
-    console.log("HERE", productData.images);
+    console.log('HERE', productData.images);
     const selectedFile = productData.images;
 
     // to silent ts for delete props
@@ -59,14 +59,14 @@ const ApiService: IApiService = {
     const json = JSON.stringify(productData);
     //blob basically is a protocol that converts json into binary raw
     const blob = new Blob([json], {
-      type: "application/json",
+      type: 'application/json',
     });
     // Make it as an object
     let formData = new FormData();
-    formData.append("userFile", selectedFile);
-    formData.append("userDocument", blob);
+    formData.append('userFile', selectedFile);
+    formData.append('userDocument', blob);
 
-    const method = "POST";
+    const method = 'POST';
     // const body = productData ? JSON.stringify(productData) : undefined;
     // const defaultHeaders = { 'Content-Type': 'multipart/form-data' };
     // const headers = { ...defaultHeaders };
@@ -88,11 +88,11 @@ const ApiService: IApiService = {
   submitAvailableCategories: async (availableCategories) => {
     const BASE_URL = process.env.REACT_APP_HOST;
 
-    const method = "POST";
+    const method = 'POST';
     const body = availableCategories
       ? JSON.stringify(availableCategories)
       : undefined;
-    const defaultHeaders = { "Content-Type": "application/json" };
+    const defaultHeaders = { 'Content-Type': 'application/json' };
     const headers = { ...defaultHeaders };
     const response = await fetch(`${BASE_URL}/api/category`, {
       method,
@@ -112,11 +112,11 @@ const ApiService: IApiService = {
   getOwnUserOffers: async (userId) => {
     const BASE_URL = process.env.REACT_APP_HOST;
 
-    const method = "POST";
+    const method = 'POST';
     const body = userId ? JSON.stringify({ sellerId: userId }) : undefined;
-    console.log("inside get own user offers");
+    console.log('inside get own user offers');
     console.log(body);
-    const defaultHeaders = { "Content-Type": "application/json" };
+    const defaultHeaders = { 'Content-Type': 'application/json' };
     const headers = { ...defaultHeaders };
     const response = await fetch(`${BASE_URL}/api/buy/getAllProductsbySeller`, {
       method,
@@ -135,7 +135,7 @@ const ApiService: IApiService = {
   postUserMessage: async (message) => {
     const BASE_URL = process.env.REACT_APP_HOST;
 
-    const method = "POST";
+    const method = 'POST';
     const body = message
       ? JSON.stringify({
           senderId: message.senderId,
@@ -143,9 +143,9 @@ const ApiService: IApiService = {
           content: message.content,
         })
       : undefined;
-    console.log("inside get own user offers");
+    console.log('inside get own user offers');
     console.log(body);
-    const defaultHeaders = { "Content-Type": "application/json" };
+    const defaultHeaders = { 'Content-Type': 'application/json' };
     const headers = { ...defaultHeaders };
     const response = await fetch(`${BASE_URL}/api/user/message`, {
       method,
@@ -164,7 +164,7 @@ const ApiService: IApiService = {
 
   putInCart: async (buyerId, productId, orderQuantity) => {
     const BASE_URL = process.env.REACT_APP_HOST;
-    const method = "POST";
+    const method = 'POST';
     const body =
       buyerId && productId && orderQuantity
         ? JSON.stringify({
@@ -173,7 +173,7 @@ const ApiService: IApiService = {
             orderQuantity: orderQuantity,
           })
         : undefined;
-    const defaultHeaders = { "Content-Type": "application/json" };
+    const defaultHeaders = { 'Content-Type': 'application/json' };
     const headers = { ...defaultHeaders };
     const response = await fetch(`${BASE_URL}/api/user/cart/add`, {
       method,
@@ -192,12 +192,12 @@ const ApiService: IApiService = {
 
   buyItem: async (buyerId, orderId) => {
     const BASE_URL = process.env.REACT_APP_HOST;
-    const method = "PUT";
+    const method = 'PUT';
     const body =
       buyerId && orderId
         ? JSON.stringify({ buyerId: buyerId, orderId: orderId })
         : undefined;
-    const defaultHeaders = { "Content-type": "application/json" };
+    const defaultHeaders = { 'Content-type': 'application/json' };
     const headers = { ...defaultHeaders };
     const response = await fetch(`${BASE_URL}/api/cart/buyItem`, {
       method,
@@ -215,27 +215,29 @@ const ApiService: IApiService = {
   },
 
   topUp: async (userId, topUp) => {
-    try {
-      console.log('userId in API', userId);
-      console.log('topUp in API', topUp);
-      const BASE_URL = process.env.REACT_APP_HOST;
-      const method = 'POST';
-      const body =
-        userId && topUp
-          ? JSON.stringify({ userId: userId, topUpAmount: topUp })
-          : undefined;
+    console.log('userId in API', userId);
+    console.log('topUp in API', topUp);
+    const BASE_URL = process.env.REACT_APP_HOST;
+    const method = 'POST';
+    const body =
+      userId && topUp
+        ? JSON.stringify({ userId: userId, topUpAmount: topUp })
+        : undefined;
 
-      const defaultHeaders = { 'Content-type': 'application/json' };
-      const headers = { ...defaultHeaders };
-      const response = await fetch(`${BASE_URL}/api/payment/checkout`, {
-        method,
-        body,
-        headers,
-      });
-      return response.json();
-    } catch (error) {
-      console.error(error);
-      return error;
+    const defaultHeaders = { 'Content-type': 'application/json' };
+    const headers = { ...defaultHeaders };
+    const response = await fetch(`${BASE_URL}/api/payment/checkout`, {
+      method,
+      body,
+      headers,
+    });
+
+    const res = await response.json();
+
+    if (res.status) {
+      return res.data;
+    } else {
+      return res;
     }
   },
 };
