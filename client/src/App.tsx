@@ -2,7 +2,6 @@
 
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
 import './App.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,6 +15,7 @@ import { Sell } from './screens/Sell';
 import { Details } from './screens/Details';
 import Home from './screens/Home';
 import { Buy } from './screens/Buy';
+import MessagesOverview from './screens/MessagesOverview'
 
 export default function App() {
   const state = useSelector((state: myReducersTypeof) => state.login);
@@ -42,12 +42,15 @@ export default function App() {
           path="/buy"
           component={() => <Buy authorization={state.auth} />}
         />
+        <Route exact path="/messages" component={MessagesOverview} />
         <Route
           exact
           path="/"
           component={() => <Home authorization={state.auth} />}
         />
+
       </Switch>
+
     </Router>
   );
 }

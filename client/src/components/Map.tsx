@@ -6,6 +6,8 @@ import 'leaflet-defaulticon-compatibility';
 import { ILocationUpdate, Icoordinates } from '../state/actions';
 // import {Map, TileLayer, Marker, Popup, Circle, Pane} from 'react-leaflet'
 import {TileLayer,Marker, MapContainer, Popup, Pane} from 'react-leaflet'
+import { useHistory } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 
 //locationUpdater will only be sent in Register Screen
 type Props = {
@@ -36,6 +38,7 @@ const MyMap: React.FC<Props> = ({location, locationUpdater, inRegister, inDetail
     console.log(myProductsArray);
     console.log('in register?', inRegister);
     console.log('in detailsorsell?',inDetailsOrSell);
+    const history = useHistory();
 
     const registerLocationChange = (event: any) => {
         console.log(event.target.getLatLng());
@@ -90,20 +93,15 @@ const MyMap: React.FC<Props> = ({location, locationUpdater, inRegister, inDetail
                     myProductsArray.map(product =>(
                         <Marker position={[product.seller.location.latitude, product.seller.location.longitude]}> 
                             <Popup>
-                                    Hi there we are in buy!
+                                <h6>User: {product.seller.username}</h6>
+                                <Button variant="primary" onClick={(event) =>
+                                    history.push(`/details/${product.seller.userId}`)}>
+                                Select supplier
+                                </Button>
                             </Popup>  
                         </Marker>
-                    )
-                    )
-                    // myProductsArray.map(product => 
-                    // (
-                    //    ( <Marker position={[location.latitude, location.latitude]}> 
-                    //         <Popup>
-                    //             Hi there we are in buy!
-                    //         </Popup>
-                    //     </Marker>)
-                //     ))
-                // )
+                    ))
+    
             )
             )
         }
