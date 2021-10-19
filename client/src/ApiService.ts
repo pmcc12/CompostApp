@@ -113,10 +113,10 @@ const ApiService: IApiService = {
       console.log(body)
       const defaultHeaders = {'Content-Type': 'application/json'};
       const headers = {...defaultHeaders}
-      const response = await fetch(`${BASE_URL}/user/inbox/postMessage`,{method,body,headers})
+      const response = await fetch(`${BASE_URL}/api/user/inbox/postMessage`,{method,body,headers})
       const { data, errors } = await response.json();
       if (response.ok) {
-          console.log('response in get own users ok');
+          console.log('response in postUserMessage ok');
           console.log(data);
           return data;
       } else {
@@ -133,7 +133,7 @@ const ApiService: IApiService = {
       console.log(body)
       const defaultHeaders = {'Content-Type': 'application/json'};
       const headers = {...defaultHeaders}
-      const response = await fetch(`${BASE_URL}/user/postInbox`,{method,body,headers})
+      const response = await fetch(`${BASE_URL}/api/user/postInbox`,{method,body,headers})
       const { data, errors } = await response.json();
       if (response.ok) {
           console.log('response in get own users ok');
@@ -151,10 +151,10 @@ const ApiService: IApiService = {
       console.log('inside get all chat messages from inboxId: ', inboxId);
       const defaultHeaders = {'Content-Type': 'application/json'};
       const headers = {...defaultHeaders}
-      const response = await fetch(`${BASE_URL}/user/${inboxId}/inbox/getAllMessages`,{method,headers})
+      const response = await fetch(`${BASE_URL}/api/user/inbox/${inboxId}/getAllMessages`,{method,headers})
       const { data, errors } = await response.json();
       if (response.ok) {
-          console.log('response in get own users ok');
+          console.log('response in getAllMessages is OK');
           console.log(data);
           return data;
       } else {
@@ -169,10 +169,10 @@ const ApiService: IApiService = {
       console.log('inside get all chat messages from inboxId: ', inboxId);
       const defaultHeaders = {'Content-Type': 'application/json'};
       const headers = {...defaultHeaders}
-      const response = await fetch(`${BASE_URL}/user/${inboxId}/getAllInboxes`,{method,headers})
+      const response = await fetch(`${BASE_URL}/api/user/${inboxId}/getAllInboxes`,{method,headers})
       const { data, errors } = await response.json();
       if (response.ok) {
-          console.log('response in get own users ok');
+          console.log('response in getAllInboxes OK');
           console.log(data);
           return data;
       } else {
