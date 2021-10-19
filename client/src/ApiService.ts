@@ -109,11 +109,11 @@ const ApiService: IApiService = {
     }
   },
 
-  getOwnUserOffers: async (userId) => {
+  getOwnUserOffers: async (sellerId) => {
     const BASE_URL = process.env.REACT_APP_HOST;
 
     const method = 'POST';
-    const body = userId ? JSON.stringify({ sellerId: userId }) : undefined;
+    const body = sellerId ? JSON.stringify({ sellerId: sellerId }) : undefined;
     console.log('inside get own user offers');
     console.log(body);
     const defaultHeaders = { 'Content-Type': 'application/json' };

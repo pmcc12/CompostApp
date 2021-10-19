@@ -43,6 +43,26 @@ export const Details: React.FC<Props> = ({ authorization }) => {
   const [dataFetched, setDataFetched] = useState(false);
   const [myData, setMyData] = useState<sellerContent[]>([]);
   const [offerIndex, setofferIndex] = useState(0);
+
+  const handleOrder = (event: React.MouseEvent<HTMLButtonElement>) => {
+    console.log('myData.sellerId ', myData[0].sellerId);
+    const buyerId = myState.data.userId;
+    const orderQuantity = myData[offerIndex].availableQuantity;
+    const productId = myData[offerIndex].productId;
+
+    ApiService.putInCart(buyerId, productId, orderQuantity).then((data) => {
+      ApiService.buyItem(buyerId, data.orderId).then((data) => {
+        console.log('data returned from buyItem API call ', data);
+        if (data.status === false) {
+          history.push(`/topup/${myData[0].sellerId}`);
+        } else if (data.orderResolved === true) {
+          console.log('successful purchase');
+          history.push('/success');
+        }
+      });
+    });
+  };
+
   // if(!authorization){
   //   console.log('not authorized!')
   //   return <Redirect to="login"/>
@@ -53,11 +73,9 @@ export const Details: React.FC<Props> = ({ authorization }) => {
   const history = useHistory();
 
   useEffect(() => {
-    console.log('inside useeffect');
     /* setLoading to true will cause a re-render only once and if loading === false  */
     setLoading(true);
-    console.log('my userid:');
-    console.log(+userId);
+
     /* after updating state, useeffect will be called again. dataFetched ensures that we don't enter in a infinite loop of fetching and seting data. acts like a locker */
     if (!dataFetched) {
       ApiService.getOwnUserOffers(+userId)
@@ -74,31 +92,6 @@ export const Details: React.FC<Props> = ({ authorization }) => {
   }
 
   console.log('AUTHORIZED IN SELL!');
-
-  /* call to state to get the updated state */
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log('here in submit');
-    // console.log(credentials);
-    // dispatch(login(credentials))
-  };
-
-  const handleOrder = (event: React.MouseEvent<HTMLButtonElement>) => {
-    console.log('myData.sellerId ', myData[0].sellerId);
-    const buyerId = myState.data.userId;
-    const orderQuantity = myData[offerIndex].availableQuantity;
-    const productId = myData[offerIndex].productId;
-
-    ApiService.putInCart(buyerId, productId, orderQuantity).then((data) => {
-      ApiService.buyItem(buyerId, data.orderId).then((data) => {
-        if (data.status === false) {
-          history.push(`/topup/${myData[0].sellerId}`);
-        } else if (data.status === true) {
-          history.push('/success');
-        }
-      });
-    });
-  };
 
   return (
     <>
