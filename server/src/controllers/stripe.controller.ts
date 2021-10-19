@@ -12,7 +12,9 @@ const stripeCheckout = async (
   next: NextFunction
 ) => {
   try {
-    const { topUpAmount, sellerId } = req.body;
+    const { sellerId, topUpAmount } = req.body;
+    console.log('sellerId inside controller ', sellerId);
+    console.log('topupamount ', topUpAmount);
     if (!topUpAmount) {
       throw new createError.NotFound('Need to provide topUpAmount in body');
     }

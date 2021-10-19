@@ -21,7 +21,9 @@ const prisma = new client_1.PrismaClient();
 const stripe = require('stripe')(process.env.STRIPE_KEY);
 const stripeCheckout = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { topUpAmount, sellerId } = req.body;
+        const { sellerId, topUpAmount } = req.body;
+        console.log('sellerId inside controller ', sellerId);
+        console.log('topupamount ', topUpAmount);
         if (!topUpAmount) {
             throw new http_errors_1.default.NotFound('Need to provide topUpAmount in body');
         }

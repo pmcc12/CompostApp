@@ -212,6 +212,7 @@ const ApiService: IApiService = {
   },
 
   getOwnUserOffers: async (sellerId) => {
+    console.log('sellerId inside getOwnUserOffers', sellerId);
     const BASE_URL = process.env.REACT_APP_HOST;
 
     const method = 'POST';
@@ -227,7 +228,7 @@ const ApiService: IApiService = {
     });
 
     const res = await response.json();
-
+    console.log('res ', res);
     if (res.status) {
       return res.data;
     } else {
@@ -287,18 +288,16 @@ const ApiService: IApiService = {
     }
   },
 
-  topUp: async (userId, topUp, sellerId) => {
-    console.log('userId in API', userId);
-    console.log('topUp in API', topUp);
-    console.log('sellerId ', sellerId);
+  topUp: async (sellerId, topUp) => {
+    console.log('sellerId inside API ', sellerId);
+    console.log('topupamount inside API ', topUp);
     const BASE_URL = process.env.REACT_APP_HOST;
     const method = 'POST';
     const body =
-      userId && topUp
+      sellerId && topUp
         ? JSON.stringify({
-            userId: userId,
-            topUpAmount: topUp,
             sellerId: sellerId,
+            topUpAmount: topUp,
           })
         : undefined;
 

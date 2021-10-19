@@ -43,8 +43,38 @@ export const Details: React.FC<Props> = ({ authorization }) => {
   const [myData, setMyData] = useState<sellerContent[]>([]);
   const [offerIndex, setofferIndex] = useState(0);
 
+  // if(!authorization){
+  //   console.log('not authorized!')
+  //   return <Redirect to="login"/>
+  // }
+  let history = useHistory();
+  const myState = useSelector((state: myReducersTypeof) => state.login);
+  const { userId } = useParams<detailsParams>();
+
+  useEffect(() => {
+    /* setLoading to true will cause a re-render only once and if loading === false  */
+    console.log('inside UseEffect');
+    setLoading(true);
+
+    /* after updating state, useeffect will be called again. dataFetched ensures that we don't enter in a infinite loop of fetching and seting data. acts like a locker */
+    if (!dataFetched) {
+      console.log('inside data fetched');
+      ApiService.getOwnUserOffers(+userId)
+        .then((data: any) => setMyData(data))
+        .then(() => {
+          setLoading(false);
+          console.log('myData inside useEffect', myData);
+        });
+      setDataFetched(true);
+    }
+  }, []);
+
+  if (myData) {
+    console.log('myData is ', myData);
+  }
+
   const handleOrder = (event: React.MouseEvent<HTMLButtonElement>) => {
-    console.log('myData.sellerId ', myData[0].sellerId);
+    // console.log('myData.sellerId ', myData[0].sellerId);
     const buyerId = myState.data.userId;
     const orderQuantity = myData[offerIndex].availableQuantity;
     const productId = myData[offerIndex].productId;
@@ -61,29 +91,6 @@ export const Details: React.FC<Props> = ({ authorization }) => {
       });
     });
   };
-
-  // if(!authorization){
-  //   console.log('not authorized!')
-  //   return <Redirect to="login"/>
-  // }
-  let history = useHistory();
-  const myState = useSelector((state: myReducersTypeof) => state.login);
-  const { userId } = useParams<detailsParams>();
-
-  useEffect(() => {
-    /* setLoading to true will cause a re-render only once and if loading === false  */
-    setLoading(true);
-
-    /* after updating state, useeffect will be called again. dataFetched ensures that we don't enter in a infinite loop of fetching and seting data. acts like a locker */
-    if (!dataFetched) {
-      ApiService.getOwnUserOffers(+userId)
-        .then((data: any) => setMyData(data))
-        .then(() => {
-          setLoading(false);
-        });
-      setDataFetched(true);
-    }
-  }, []);
 
   // if (!myState.auth) {
   //   console.log('not authorized!');
