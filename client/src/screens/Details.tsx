@@ -11,22 +11,21 @@ import {
   InputGroup,
   Spinner,
 } from 'react-bootstrap';
-import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { myReducersTypeof } from '../state/reducers';
 import { useState, useEffect } from 'react';
 import { login } from '../state/actions/actionCreators';
-import { Redirect, useParams } from 'react-router-dom';
+import { Redirect, useHistory, useParams } from 'react-router-dom';
 import MyMap from '../components/Map';
 import Slider from '../components/Slider';
 import Navigation from '../components/Navigation';
 import ApiService from '../ApiService';
+import LoadingSpinner from '../components/Spinner';
 import {
   IuserProducts,
   sellerContent,
   sellerData,
 } from '../state/actions/index';
-import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
 
 type Props = {
   authorization: boolean;
@@ -67,10 +66,9 @@ export const Details: React.FC<Props> = ({ authorization }) => {
   //   console.log('not authorized!')
   //   return <Redirect to="login"/>
   // }
+  let history = useHistory();
   const myState = useSelector((state: myReducersTypeof) => state.login);
   const { userId } = useParams<detailsParams>();
-
-  const history = useHistory();
 
   useEffect(() => {
     /* setLoading to true will cause a re-render only once and if loading === false  */
@@ -87,27 +85,82 @@ export const Details: React.FC<Props> = ({ authorization }) => {
     }
   }, []);
 
-  if (myData) {
-    console.log('myData ', myData);
-  }
+  // if (!myState.auth) {
+  //   console.log('not authorized!');
+  //   console.log(
+  //     'authorization: ' +
+  //       authorization +
+  //       ' and my user name: ' +
+  //       myState.data.username +
+  //       ' and my user auth: ' +
+  //       myState.auth
+  //   );
+  //   return <Redirect to="login" />;
+  // }
 
-  console.log('AUTHORIZED IN SELL!');
+  console.log('Authorized inside details!');
+
+  /* call to state to get the updated state */
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    console.log('here in submit');
+    // console.log(credentials);
+    // dispatch(login(credentials))
+  };
+
+  // const handleOrder = (event: React.MouseEvent<HTMLButtonElement>) => {
+  //   console.log('myData.sellerId ', myData[0].sellerId);
+  //   const buyerId = myState.data.userId;
+  //   const orderQuantity = myData[offerIndex].availableQuantity;
+  //   const productId = myData[offerIndex].productId;
+
+  //   ApiService.putInCart(buyerId, productId, orderQuantity).then((data) => {
+  //     ApiService.buyItem(buyerId, data.orderId).then((data) => {
+  //       if (data.status === false) {
+  //         history.push(`/topup/${myData[0].sellerId}`);
+  //       } else if (data.status === true) {
+  //         history.push('/success');
+  //       }
+  //     });
+  //   });
+  // };
+
+  const handlePrivateMessage = async () => {
+    console.log('here in handlePrivateMessage');
+    /* Need to verify if i already have already an open conversation */
+    let chatArray = [];
+    const getMyExistingChats = await ApiService.getAllInboxes(
+      myState.data.userId
+    ).then((data: any) => {
+      chatArray = data.filter(
+        (inboxChat) =>
+          inboxChat.users[0].userId === +userId ||
+          inboxChat.users[1].userId === +userId
+      );
+    });
+
+    console.log(chatArray);
+    /* if array is null, means the filter didn't found any matching element, and return an empty array */
+    if (!chatArray.length) {
+      /* No conversation was found, therefore we need to create a new one  */
+      const myInboxRoomObject = await ApiService.postNewChatRoom({
+        userId1: myState.data.userId,
+        userId2: +userId,
+      });
+      history.push(`/messages/${myInboxRoomObject.inboxId}`);
+    } else {
+      /* there's an ongoing conversation */
+      history.push(`/messages/${chatArray[0].inboxId}`);
+    }
+  };
+
+  if (myData) {
+  }
 
   return (
     <>
       {loading ? (
-        <Container className="vh-100 d-flex flex-column ">
-          <Row className="h-50"></Row>
-          <Row>
-            <Col xs={6} md={4}></Col>
-            <Col xs={6} md={4}>
-              <Spinner animation="border" role="status">
-                <span className="visually-hidden">Loading...</span>
-              </Spinner>
-            </Col>
-            <Col xs={6} md={4}></Col>
-          </Row>
-        </Container>
+        LoadingSpinner
       ) : (
         <>
           <Navigation />
@@ -172,7 +225,11 @@ export const Details: React.FC<Props> = ({ authorization }) => {
                 >
                   Make Order
                 </Button>
-                <Button variant="primary" type="submit">
+                <Button
+                  variant="primary"
+                  type="submit"
+                  onClick={() => handlePrivateMessage()}
+                >
                   Text Message
                 </Button>
               </Col>

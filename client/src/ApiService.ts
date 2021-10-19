@@ -1,10 +1,10 @@
-//@ts-nocheck
 import React from 'react';
 import {
   Icategories,
   IgetAllUserProducts,
   userOffer,
   Imessage,
+  InewChatRoom,
 } from './state/actions';
 
 type IApiService = {
@@ -13,7 +13,12 @@ type IApiService = {
   submitAvailableCategories: (val: Icategories[]) => any;
   getOwnUserOffers: (val: number) => any;
   postUserMessage: (val: Imessage) => any;
-  topUp: (userId: number, topUp: number) => any;
+  postNewChatRoom: (val: InewChatRoom) => any;
+  getAllChatMessages: (val: number) => any;
+  getAllInboxes: (val: number) => any;
+  putInCart: (buyerId: number, productId: number, orderQuantity: number) => any;
+  buyItem: (buyerId: number, orderId: number) => any;
+  topUp: (userId: number, topUp: number, sellerId: number) => any;
 };
 
 /* Get all user related products */
@@ -45,7 +50,7 @@ const ApiService: IApiService = {
   submitUserOffer: async (productData) => {
     const BASE_URL = process.env.REACT_APP_HOST;
 
-    console.log('HERE', productData.images);
+    console.log('in submit offer api service', productData.images);
     const selectedFile = productData.images;
 
     // to silent ts for delete props
@@ -108,6 +113,103 @@ const ApiService: IApiService = {
       return res;
     }
   },
+  postUserMessage: async (message) => {
+    const BASE_URL = process.env.REACT_APP_HOST;
+
+    const method = 'POST';
+    const body = message
+      ? JSON.stringify({
+          senderId: message.senderId,
+          inboxId: message.inboxId,
+          content: message.content,
+        })
+      : undefined;
+    console.log('inside get own user offers');
+    console.log(body);
+    const defaultHeaders = { 'Content-Type': 'application/json' };
+    const headers = { ...defaultHeaders };
+    const response = await fetch(`${BASE_URL}/api/user/inbox/postMessage`, {
+      method,
+      body,
+      headers,
+    });
+    const { data, errors } = await response.json();
+    if (response.ok) {
+      console.log('response in postUserMessage ok');
+      console.log(data);
+      return data;
+    } else {
+      return null;
+    }
+  },
+
+  postNewChatRoom: async (message) => {
+    const BASE_URL = process.env.REACT_APP_HOST;
+
+    const method = 'POST';
+    const body = message
+      ? JSON.stringify({ userId1: message.userId1, userId2: message.userId2 })
+      : undefined;
+    console.log('inside get own user offers');
+    console.log(body);
+    const defaultHeaders = { 'Content-Type': 'application/json' };
+    const headers = { ...defaultHeaders };
+    const response = await fetch(`${BASE_URL}/api/user/postInbox`, {
+      method,
+      body,
+      headers,
+    });
+    const { data, errors } = await response.json();
+    if (response.ok) {
+      console.log('response in get own users ok');
+      console.log(data);
+      return data;
+    } else {
+      return null;
+    }
+  },
+
+  getAllChatMessages: async (inboxId) => {
+    const BASE_URL = process.env.REACT_APP_HOST;
+
+    const method = 'GET';
+    console.log('inside get all chat messages from inboxId: ', inboxId);
+    const defaultHeaders = { 'Content-Type': 'application/json' };
+    const headers = { ...defaultHeaders };
+    const response = await fetch(
+      `${BASE_URL}/api/user/inbox/${inboxId}/getAllMessages`,
+      { method, headers }
+    );
+    const { data, errors } = await response.json();
+    if (response.ok) {
+      console.log('response in getAllMessages is OK');
+      console.log(data);
+      return data;
+    } else {
+      return null;
+    }
+  },
+
+  getAllInboxes: async (inboxId) => {
+    const BASE_URL = process.env.REACT_APP_HOST;
+
+    const method = 'GET';
+    console.log('inside get all chat messages from inboxId: ', inboxId);
+    const defaultHeaders = { 'Content-Type': 'application/json' };
+    const headers = { ...defaultHeaders };
+    const response = await fetch(
+      `${BASE_URL}/api/user/${inboxId}/getAllInboxes`,
+      { method, headers }
+    );
+    const { data, errors } = await response.json();
+    if (response.ok) {
+      console.log('response in getAllInboxes OK');
+      console.log(data);
+      return data;
+    } else {
+      return null;
+    }
+  },
 
   getOwnUserOffers: async (sellerId) => {
     const BASE_URL = process.env.REACT_APP_HOST;
@@ -119,35 +221,6 @@ const ApiService: IApiService = {
     const defaultHeaders = { 'Content-Type': 'application/json' };
     const headers = { ...defaultHeaders };
     const response = await fetch(`${BASE_URL}/api/buy/getAllProductsbySeller`, {
-      method,
-      body,
-      headers,
-    });
-
-    const res = await response.json();
-
-    if (res.status) {
-      return res.data;
-    } else {
-      return res;
-    }
-  },
-  postUserMessage: async (message) => {
-    const BASE_URL = process.env.REACT_APP_HOST;
-
-    const method = 'POST';
-    const body = message
-      ? JSON.stringify({
-          senderId: message.senderId,
-          receiverId: message.receiverId,
-          content: message.content,
-        })
-      : undefined;
-    console.log('inside get own user offers');
-    console.log(body);
-    const defaultHeaders = { 'Content-Type': 'application/json' };
-    const headers = { ...defaultHeaders };
-    const response = await fetch(`${BASE_URL}/api/user/message`, {
       method,
       body,
       headers,

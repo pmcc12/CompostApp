@@ -1,5 +1,5 @@
 import { Button, Card, Col } from 'react-bootstrap';
-import NoImage from '../assets/no-image.png'
+import NoImage from '../assets/no-image.png';
 
 interface props {
   handleSellerClick: (
@@ -10,24 +10,23 @@ interface props {
 }
 
 export const Sellers = (props: props) => {
-
   return (
     <>
       {props.sortedByProducts.map((el: any) => {
         return (
-          <Col lg={3} md={4} sm={6} style={{ borderBlock: 'black', marginRight:'15px' }}>
+          <Col
+            lg={3}
+            md={4}
+            sm={6}
+            style={{ borderBlock: 'black', marginRight: '15px' }}
+          >
             <Card style={{ width: '18rem' }} key={el.seller.userId}>
-              <div style={{margin: '5px', height: '178px'}}>
-                {
-                  el.images.includes('http') ? 
-                  (
-                    <Card.Img variant="top" src={el.images} />
-                  ) 
-                  : 
-                  (
-                    <Card.Img variant="top" src={NoImage} />
-                  )
-                }
+              <div style={{ margin: '5px', height: '178px' }}>
+                {el.images.includes('http') ? (
+                  <Card.Img variant="top" src={el.images} />
+                ) : (
+                  <Card.Img variant="top" src={NoImage} />
+                )}
               </div>
               <Card.Body>
                 <Card.Title>User: {el.seller.username}</Card.Title>

@@ -15,9 +15,10 @@ import { Sell } from './screens/Sell';
 import { Details } from './screens/Details';
 import Home from './screens/Home';
 import { Buy } from './screens/Buy';
+import MessagesOverview from './screens/MessagesOverview';
+import PrivateMessage from './screens/PrivateMessage';
 import { TopUp } from './screens/TopUp';
 import { Success } from './screens/Success';
-import MessagesOverview from './screens/MessagesOverview';
 
 export default function App() {
   const state = useSelector((state: myReducersTypeof) => state.login);
