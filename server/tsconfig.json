@@ -9,6 +9,10 @@
     },
     "include": [ "src/**/*" ],
     "exclude": [
-        "./test"
+        "node_modules/**/*",
+        ".serverless/**/*",
+        ".webpack/**/*",
+        "_warmup/**/*",
+        ".vscode/**/*"
     ]
 }
