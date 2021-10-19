@@ -12,7 +12,7 @@ const stripeCheckout = async (
   next: NextFunction
 ) => {
   try {
-    const { topUpAmount, userId } = req.body;
+    const { topUpAmount, sellerId } = req.body;
     if (!topUpAmount) {
       throw new createError.NotFound('Need to provide topUpAmount in body');
     }
@@ -32,12 +32,13 @@ const stripeCheckout = async (
         },
       ],
       mode: 'payment',
-      success_url: `http://localhost:${process.env.CLIENT_PORT}/details/${userId}`,
+      success_url: `http://localhost:${process.env.CLIENT_PORT}/details/${sellerId}`,
       // success_url: `http://localhost:${process.env.CLIENT_PORT}/payment/success`,
       cancel_url: `http://localhost:${process.env.CLIENT_PORT}/payment/cancel`,
     });
 
     console.log('Do something');
+    // console.log('variables inside controller ', userId, topUpAmount, sellerId);
     // ADD BALANCE
 
     res.json({ url: session.url });

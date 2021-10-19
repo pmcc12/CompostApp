@@ -214,14 +214,19 @@ const ApiService: IApiService = {
     }
   },
 
-  topUp: async (userId, topUp) => {
+  topUp: async (userId, topUp, sellerId) => {
     console.log('userId in API', userId);
     console.log('topUp in API', topUp);
+    console.log('sellerId ', sellerId);
     const BASE_URL = process.env.REACT_APP_HOST;
     const method = 'POST';
     const body =
       userId && topUp
-        ? JSON.stringify({ userId: userId, topUpAmount: topUp })
+        ? JSON.stringify({
+            userId: userId,
+            topUpAmount: topUp,
+            sellerId: sellerId,
+          })
         : undefined;
 
     const defaultHeaders = { 'Content-type': 'application/json' };
