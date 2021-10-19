@@ -1,16 +1,25 @@
 import React from 'react';
-import { Icategories, IgetAllUserProducts, userOffer, Imessage, InewChatRoom } from './state/actions';
+import {
+  Icategories,
+  IgetAllUserProducts,
+  userOffer,
+  Imessage,
+  InewChatRoom,
+} from './state/actions';
 
 type IApiService = {
-    getUserOffers: (val: number) => any,
-    submitUserOffer: (val: userOffer) => any,
-    submitAvailableCategories: (val: Icategories[]) => any,
-    getOwnUserOffers: (val: number) => any,
-    postUserMessage: (val: Imessage) => any,
-    postNewChatRoom: (val: InewChatRoom) => any,
-    getAllChatMessages: (val: number) => any,
-    getAllInboxes: (val: number) =>any
-}
+  getUserOffers: (val: number) => any;
+  submitUserOffer: (val: userOffer) => any;
+  submitAvailableCategories: (val: Icategories[]) => any;
+  getOwnUserOffers: (val: number) => any;
+  postUserMessage: (val: Imessage) => any;
+  postNewChatRoom: (val: InewChatRoom) => any;
+  getAllChatMessages: (val: number) => any;
+  getAllInboxes: (val: number) => any;
+  putInCart: (buyerId: number, productId: number, orderQuantity: number) => any;
+  buyItem: (buyerId: number, orderId: number) => any;
+  topUp: (userId: number, topUp: number, sellerId: number) => any;
+};
 
 /* Get all user related products */
 const ApiService: IApiService = {
@@ -41,7 +50,7 @@ const ApiService: IApiService = {
   submitUserOffer: async (productData) => {
     const BASE_URL = process.env.REACT_APP_HOST;
 
-    console.log("in submit offer api service", productData.images)
+    console.log('in submit offer api service', productData.images);
     const selectedFile = productData.images;
 
     // to silent ts for delete props
@@ -104,87 +113,109 @@ const ApiService: IApiService = {
       return res;
     }
   },
-    postUserMessage: async(message) => {
-      const BASE_URL = process.env.REACT_APP_HOST;
-      
-      const method = 'POST';
-      const body = message ? JSON.stringify({senderId: message.senderId,inboxId: message.inboxId, content: message.content}) : undefined;
-      console.log('inside get own user offers');
-      console.log(body)
-      const defaultHeaders = {'Content-Type': 'application/json'};
-      const headers = {...defaultHeaders}
-      const response = await fetch(`${BASE_URL}/api/user/inbox/postMessage`,{method,body,headers})
-      const { data, errors } = await response.json();
-      if (response.ok) {
-          console.log('response in postUserMessage ok');
-          console.log(data);
-          return data;
-      } else {
-          return null;
-      }
-    },
-
-    postNewChatRoom: async(message) => {
-      const BASE_URL = process.env.REACT_APP_HOST;
-      
-      const method = 'POST';
-      const body = message ? JSON.stringify({userId1: message.userId1,userId2: message.userId2}) : undefined;
-      console.log('inside get own user offers');
-      console.log(body)
-      const defaultHeaders = {'Content-Type': 'application/json'};
-      const headers = {...defaultHeaders}
-      const response = await fetch(`${BASE_URL}/api/user/postInbox`,{method,body,headers})
-      const { data, errors } = await response.json();
-      if (response.ok) {
-          console.log('response in get own users ok');
-          console.log(data);
-          return data;
-      } else {
-          return null;
-      }
-    },
-
-    getAllChatMessages: async(inboxId) => {
-      const BASE_URL = process.env.REACT_APP_HOST;
-      
-      const method = 'GET';
-      console.log('inside get all chat messages from inboxId: ', inboxId);
-      const defaultHeaders = {'Content-Type': 'application/json'};
-      const headers = {...defaultHeaders}
-      const response = await fetch(`${BASE_URL}/api/user/inbox/${inboxId}/getAllMessages`,{method,headers})
-      const { data, errors } = await response.json();
-      if (response.ok) {
-          console.log('response in getAllMessages is OK');
-          console.log(data);
-          return data;
-      } else {
-          return null;
-      }
-    },
-
-    getAllInboxes: async(inboxId) => {
-      const BASE_URL = process.env.REACT_APP_HOST;
-      
-      const method = 'GET';
-      console.log('inside get all chat messages from inboxId: ', inboxId);
-      const defaultHeaders = {'Content-Type': 'application/json'};
-      const headers = {...defaultHeaders}
-      const response = await fetch(`${BASE_URL}/api/user/${inboxId}/getAllInboxes`,{method,headers})
-      const { data, errors } = await response.json();
-      if (response.ok) {
-          console.log('response in getAllInboxes OK');
-          console.log(data);
-          return data;
-      } else {
-          return null;
-      }
-    },
-
-  getOwnUserOffers: async (userId) => {
+  postUserMessage: async (message) => {
     const BASE_URL = process.env.REACT_APP_HOST;
 
     const method = 'POST';
-    const body = userId ? JSON.stringify({ sellerId: userId }) : undefined;
+    const body = message
+      ? JSON.stringify({
+          senderId: message.senderId,
+          inboxId: message.inboxId,
+          content: message.content,
+        })
+      : undefined;
+    console.log('inside get own user offers');
+    console.log(body);
+    const defaultHeaders = { 'Content-Type': 'application/json' };
+    const headers = { ...defaultHeaders };
+    const response = await fetch(`${BASE_URL}/api/user/inbox/postMessage`, {
+      method,
+      body,
+      headers,
+    });
+    const { data, errors } = await response.json();
+    if (response.ok) {
+      console.log('response in postUserMessage ok');
+      console.log(data);
+      return data;
+    } else {
+      return null;
+    }
+  },
+
+  postNewChatRoom: async (message) => {
+    const BASE_URL = process.env.REACT_APP_HOST;
+
+    const method = 'POST';
+    const body = message
+      ? JSON.stringify({ userId1: message.userId1, userId2: message.userId2 })
+      : undefined;
+    console.log('inside get own user offers');
+    console.log(body);
+    const defaultHeaders = { 'Content-Type': 'application/json' };
+    const headers = { ...defaultHeaders };
+    const response = await fetch(`${BASE_URL}/api/user/postInbox`, {
+      method,
+      body,
+      headers,
+    });
+    const { data, errors } = await response.json();
+    if (response.ok) {
+      console.log('response in get own users ok');
+      console.log(data);
+      return data;
+    } else {
+      return null;
+    }
+  },
+
+  getAllChatMessages: async (inboxId) => {
+    const BASE_URL = process.env.REACT_APP_HOST;
+
+    const method = 'GET';
+    console.log('inside get all chat messages from inboxId: ', inboxId);
+    const defaultHeaders = { 'Content-Type': 'application/json' };
+    const headers = { ...defaultHeaders };
+    const response = await fetch(
+      `${BASE_URL}/api/user/inbox/${inboxId}/getAllMessages`,
+      { method, headers }
+    );
+    const { data, errors } = await response.json();
+    if (response.ok) {
+      console.log('response in getAllMessages is OK');
+      console.log(data);
+      return data;
+    } else {
+      return null;
+    }
+  },
+
+  getAllInboxes: async (inboxId) => {
+    const BASE_URL = process.env.REACT_APP_HOST;
+
+    const method = 'GET';
+    console.log('inside get all chat messages from inboxId: ', inboxId);
+    const defaultHeaders = { 'Content-Type': 'application/json' };
+    const headers = { ...defaultHeaders };
+    const response = await fetch(
+      `${BASE_URL}/api/user/${inboxId}/getAllInboxes`,
+      { method, headers }
+    );
+    const { data, errors } = await response.json();
+    if (response.ok) {
+      console.log('response in getAllInboxes OK');
+      console.log(data);
+      return data;
+    } else {
+      return null;
+    }
+  },
+
+  getOwnUserOffers: async (sellerId) => {
+    const BASE_URL = process.env.REACT_APP_HOST;
+
+    const method = 'POST';
+    const body = sellerId ? JSON.stringify({ sellerId: sellerId }) : undefined;
     console.log('inside get own user offers');
     console.log(body);
     const defaultHeaders = { 'Content-Type': 'application/json' };
@@ -204,57 +235,89 @@ const ApiService: IApiService = {
     }
   },
 
-  // putInCart: async (buyerId, productId, orderQuantity) => {
-  //   const BASE_URL = process.env.REACT_APP_HOST;
-  //   const method = "POST";
-  //   const body =
-  //     buyerId && productId && orderQuantity
-  //       ? JSON.stringify({
-  //           buyerId: buyerId,
-  //           productId: productId,
-  //           orderQuantity: orderQuantity,
-  //         })
-  //       : undefined;
-  //   const defaultHeaders = { "Content-Type": "application/json" };
-  //   const headers = { ...defaultHeaders };
-  //   const response = await fetch(`${BASE_URL}/api/user/cart/add`, {
-  //     method,
-  //     body,
-  //     headers,
-  //   });
+  putInCart: async (buyerId, productId, orderQuantity) => {
+    const BASE_URL = process.env.REACT_APP_HOST;
+    const method = 'POST';
+    const body =
+      buyerId && productId && orderQuantity
+        ? JSON.stringify({
+            buyerId: buyerId,
+            productId: productId,
+            orderQuantity: orderQuantity,
+          })
+        : undefined;
+    const defaultHeaders = { 'Content-Type': 'application/json' };
+    const headers = { ...defaultHeaders };
+    const response = await fetch(`${BASE_URL}/api/user/cart/add`, {
+      method,
+      body,
+      headers,
+    });
 
-  //   const res = await response.json();
+    const res = await response.json();
 
-  //   if (res.status) {
-  //     return res.data;
-  //   } else {
-  //     return res;
-  //   }
-  // },
+    if (res.status) {
+      return res.data;
+    } else {
+      return res;
+    }
+  },
 
-  // buyItem: async (buyerId, orderId) => {
-  //   const BASE_URL = process.env.REACT_APP_HOST;
-  //   const method = "PUT";
-  //   const body =
-  //     buyerId && orderId
-  //       ? JSON.stringify({ buyerId: buyerId, orderId: orderId })
-  //       : undefined;
-  //   const defaultHeaders = { "Content-type": "application/json" };
-  //   const headers = { ...defaultHeaders };
-  //   const response = await fetch(`${BASE_URL}/api/cart/buyItem`, {
-  //     method,
-  //     body,
-  //     headers,
-  //   });
+  buyItem: async (buyerId, orderId) => {
+    const BASE_URL = process.env.REACT_APP_HOST;
+    const method = 'PUT';
+    const body =
+      buyerId && orderId
+        ? JSON.stringify({ buyerId: buyerId, orderId: orderId })
+        : undefined;
+    const defaultHeaders = { 'Content-type': 'application/json' };
+    const headers = { ...defaultHeaders };
+    const response = await fetch(`${BASE_URL}/api/cart/buyItem`, {
+      method,
+      body,
+      headers,
+    });
 
-  //   const res = await response.json();
+    const res = await response.json();
 
-  //   if (res.status) {
-  //     return res.data;
-  //   } else {
-  //     return res;
-  //   }
-  // },
+    if (res.status) {
+      return res.data;
+    } else {
+      return res;
+    }
+  },
+
+  topUp: async (userId, topUp, sellerId) => {
+    console.log('userId in API', userId);
+    console.log('topUp in API', topUp);
+    console.log('sellerId ', sellerId);
+    const BASE_URL = process.env.REACT_APP_HOST;
+    const method = 'POST';
+    const body =
+      userId && topUp
+        ? JSON.stringify({
+            userId: userId,
+            topUpAmount: topUp,
+            sellerId: sellerId,
+          })
+        : undefined;
+
+    const defaultHeaders = { 'Content-type': 'application/json' };
+    const headers = { ...defaultHeaders };
+    const response = await fetch(`${BASE_URL}/api/payment/checkout`, {
+      method,
+      body,
+      headers,
+    });
+
+    const res = await response.json();
+
+    if (res.status) {
+      return res.data;
+    } else {
+      return res;
+    }
+  },
 };
 
 export default ApiService;
