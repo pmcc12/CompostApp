@@ -17,11 +17,11 @@ const ApiService: IApiService = {
   getUserOffers: async (userId) => {
     const BASE_URL = process.env.REACT_APP_HOST;
 
-    const method = "POST";
+    const method = 'POST';
     const body = userId ? JSON.stringify({ userId: userId }) : undefined;
-    console.log("inside get user offers");
+    console.log('inside get user offers');
     console.log(body);
-    const defaultHeaders = { "Content-Type": "application/json" };
+    const defaultHeaders = { 'Content-Type': 'application/json' };
     const headers = { ...defaultHeaders };
     const response = await fetch(`${BASE_URL}/api/buy/getAllProducts`, {
       method,
@@ -55,14 +55,14 @@ const ApiService: IApiService = {
     const json = JSON.stringify(productData);
     //blob basically is a protocol that converts json into binary raw
     const blob = new Blob([json], {
-      type: "application/json",
+      type: 'application/json',
     });
     // Make it as an object
     let formData = new FormData();
-    formData.append("userFile", selectedFile);
-    formData.append("userDocument", blob);
+    formData.append('userFile', selectedFile);
+    formData.append('userDocument', blob);
 
-    const method = "POST";
+    const method = 'POST';
     // const body = productData ? JSON.stringify(productData) : undefined;
     // const defaultHeaders = { 'Content-Type': 'multipart/form-data' };
     // const headers = { ...defaultHeaders };
@@ -84,11 +84,11 @@ const ApiService: IApiService = {
   submitAvailableCategories: async (availableCategories) => {
     const BASE_URL = process.env.REACT_APP_HOST;
 
-    const method = "POST";
+    const method = 'POST';
     const body = availableCategories
       ? JSON.stringify(availableCategories)
       : undefined;
-    const defaultHeaders = { "Content-Type": "application/json" };
+    const defaultHeaders = { 'Content-Type': 'application/json' };
     const headers = { ...defaultHeaders };
     const response = await fetch(`${BASE_URL}/api/category`, {
       method,
@@ -183,11 +183,11 @@ const ApiService: IApiService = {
   getOwnUserOffers: async (userId) => {
     const BASE_URL = process.env.REACT_APP_HOST;
 
-    const method = "POST";
+    const method = 'POST';
     const body = userId ? JSON.stringify({ sellerId: userId }) : undefined;
-    console.log("inside get own user offers");
+    console.log('inside get own user offers');
     console.log(body);
-    const defaultHeaders = { "Content-Type": "application/json" };
+    const defaultHeaders = { 'Content-Type': 'application/json' };
     const headers = { ...defaultHeaders };
     const response = await fetch(`${BASE_URL}/api/buy/getAllProductsbySeller`, {
       method,

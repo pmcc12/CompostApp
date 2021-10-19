@@ -88,41 +88,20 @@ export const Details: React.FC<Props> = ({ authorization }) => {
   };
 
   const handleOrder = (event: React.MouseEvent<HTMLButtonElement>) => {
-    //variables
-
+    console.log('myData.sellerId ', myData[0].sellerId);
     const buyerId = myState.data.userId;
     const orderQuantity = myData[offerIndex].availableQuantity;
     const productId = myData[offerIndex].productId;
 
-    //logs
-
-    // console.log('myData ', myData);
-
-    // console.log('sellerId ', myData[0].sellerId);
-    // console.log('buyer ID ', myState.data.userId);
-
-    //calls API function, with buyer and seller ID, cost and quantity
-
     ApiService.putInCart(buyerId, productId, orderQuantity).then((data) => {
-      ApiService.buyItem(buyerId, data.orderId)
-      .then(data => {
-        console.log('Hoi', data)
-      })
+      ApiService.buyItem(buyerId, data.orderId).then((data) => {
+        if (data.status === false) {
+          history.push(`/topup/${myData[0].sellerId}`);
+        } else if (data.status === true) {
+          history.push('/success');
+        }
+      });
     });
-
-    // 	ApiService.buyItem(buyerId, data.orderId)
-    //     .then((data) => {
-    //       console.log('data ', data);
-    //     })
-    //     .catch((error) => {
-    //       console.log('error ', error);
-    //     });
-    // });
-
-    // then((data) => {
-    //   console.log('buyItem response ', data);
-
-    // ApiService.buyProduct(userId, sellerId, price, quantity);
   };
 
   const handlePrivateMessage = async() => {

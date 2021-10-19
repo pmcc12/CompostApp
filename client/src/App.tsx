@@ -35,7 +35,6 @@ export default function App() {
         <Route exact path="/" component={() => <Home authorization={state.auth} />} />
 
       </Switch>
-
     </Router>
   );
 }
