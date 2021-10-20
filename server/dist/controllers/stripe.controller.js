@@ -21,7 +21,7 @@ const prisma = new client_1.PrismaClient();
 const stripe = require('stripe')(process.env.STRIPE_KEY);
 const stripeCheckout = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { topUpAmount, userId } = req.body;
+        const { topUpAmount, sellerId } = req.body;
         if (!topUpAmount) {
             throw new http_errors_1.default.NotFound('Need to provide topUpAmount in body');
         }
@@ -40,11 +40,12 @@ const stripeCheckout = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
                 },
             ],
             mode: 'payment',
-            success_url: `http://localhost:${process.env.CLIENT_PORT}/details/${userId}`,
+            success_url: `http://localhost:${process.env.CLIENT_PORT}/details/${sellerId}`,
             // success_url: `http://localhost:${process.env.CLIENT_PORT}/payment/success`,
             cancel_url: `http://localhost:${process.env.CLIENT_PORT}/payment/cancel`,
         });
         console.log('Do something');
+        // console.log('variables inside controller ', userId, topUpAmount, sellerId);
         // ADD BALANCE
         res.json({ url: session.url });
         // res.redirect(303, session.url);

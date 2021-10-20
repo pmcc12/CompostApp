@@ -15,13 +15,17 @@ import { useSelector } from 'react-redux';
 import { myReducersTypeof } from '../state/reducers';
 import { useState, useEffect } from 'react';
 import { login } from '../state/actions/actionCreators';
-import {  Redirect ,useHistory, useParams } from 'react-router-dom';
+import { Redirect, useHistory, useParams } from 'react-router-dom';
 import MyMap from '../components/Map';
 import Slider from '../components/Slider';
 import Navigation from '../components/Navigation';
 import ApiService from '../ApiService';
 import LoadingSpinner from '../components/Spinner';
-import {IuserProducts,sellerContent,sellerData,} from '../state/actions/index';
+import {
+  IuserProducts,
+  sellerContent,
+  sellerData,
+} from '../state/actions/index';
 
 type Props = {
   authorization: boolean;
@@ -37,6 +41,26 @@ export const Details: React.FC<Props> = ({ authorization }) => {
   const [dataFetched, setDataFetched] = useState(false);
   const [myData, setMyData] = useState<sellerContent[]>([]);
   const [offerIndex, setofferIndex] = useState(0);
+
+  const handleOrder = (event: React.MouseEvent<HTMLButtonElement>) => {
+    console.log('myData.sellerId ', myData[0].sellerId);
+    const buyerId = myState.data.userId;
+    const orderQuantity = myData[offerIndex].availableQuantity;
+    const productId = myData[offerIndex].productId;
+
+    ApiService.putInCart(buyerId, productId, orderQuantity).then((data) => {
+      ApiService.buyItem(buyerId, data.orderId).then((data) => {
+        console.log('data returned from buyItem API call ', data);
+        if (data.status === false) {
+          history.push(`/topup/${myData[0].sellerId}`);
+        } else if (data.orderResolved === true) {
+          console.log('successful purchase');
+          history.push('/success');
+        }
+      });
+    });
+  };
+
   // if(!authorization){
   //   console.log('not authorized!')
   //   return <Redirect to="login"/>
@@ -44,13 +68,11 @@ export const Details: React.FC<Props> = ({ authorization }) => {
   let history = useHistory();
   const myState = useSelector((state: myReducersTypeof) => state.login);
   const { userId } = useParams<detailsParams>();
-  
+
   useEffect(() => {
-    console.log('inside useeffect');
     /* setLoading to true will cause a re-render only once and if loading === false  */
     setLoading(true);
-    console.log('my userid:');
-    console.log(+userId);
+
     /* after updating state, useeffect will be called again. dataFetched ensures that we don't enter in a infinite loop of fetching and seting data. acts like a locker */
     if (!dataFetched) {
       ApiService.getOwnUserOffers(+userId)
@@ -62,19 +84,18 @@ export const Details: React.FC<Props> = ({ authorization }) => {
     }
   }, []);
 
-  if (!myState.auth) {
-    console.log('not authorized!');
-    console.log(
-      'authorization: ' +
-        authorization +
-        ' and my user name: ' +
-        myState.data.username +
-        ' and my user auth: ' +
-        myState.auth
-    );
-    return <Redirect to="login" />;
-  }
-
+  // if (!myState.auth) {
+  //   console.log('not authorized!');
+  //   console.log(
+  //     'authorization: ' +
+  //       authorization +
+  //       ' and my user name: ' +
+  //       myState.data.username +
+  //       ' and my user auth: ' +
+  //       myState.auth
+  //   );
+  //   return <Redirect to="login" />;
+  // }
 
   console.log('Authorized inside details!');
 
@@ -86,52 +107,60 @@ export const Details: React.FC<Props> = ({ authorization }) => {
     // dispatch(login(credentials))
   };
 
-  const handleOrder = (event: React.MouseEvent<HTMLButtonElement>) => {
-    console.log('myData.sellerId ', myData[0].sellerId);
-    const buyerId = myState.data.userId;
-    const orderQuantity = myData[offerIndex].availableQuantity;
-    const productId = myData[offerIndex].productId;
+  // const handleOrder = (event: React.MouseEvent<HTMLButtonElement>) => {
+  //   console.log('myData.sellerId ', myData[0].sellerId);
+  //   const buyerId = myState.data.userId;
+  //   const orderQuantity = myData[offerIndex].availableQuantity;
+  //   const productId = myData[offerIndex].productId;
 
-    ApiService.putInCart(buyerId, productId, orderQuantity).then((data) => {
-      ApiService.buyItem(buyerId, data.orderId).then((data) => {
-        if (data.status === false) {
-          history.push(`/topup/${myData[0].sellerId}`);
-        } else if (data.status === true) {
-          history.push('/success');
-        }
-      });
-    });
-  };
+  //   ApiService.putInCart(buyerId, productId, orderQuantity).then((data) => {
+  //     ApiService.buyItem(buyerId, data.orderId).then((data) => {
+  //       if (data.status === false) {
+  //         history.push(`/topup/${myData[0].sellerId}`);
+  //       } else if (data.status === true) {
+  //         history.push('/success');
+  //       }
+  //     });
+  //   });
+  // };
 
-  const handlePrivateMessage = async() => {
+  const handlePrivateMessage = async () => {
     console.log('here in handlePrivateMessage');
     /* Need to verify if i already have already an open conversation */
-    let chatArray = []
-    const getMyExistingChats = await ApiService.getAllInboxes(myState.data.userId).then((data: any) => {
-      chatArray = data.filter((inboxChat) => ((inboxChat.users[0].userId === +userId) || (inboxChat.users[1].userId === +userId))
-    )})
+    let chatArray = [];
+    const getMyExistingChats = await ApiService.getAllInboxes(
+      myState.data.userId
+    ).then((data: any) => {
+      chatArray = data.filter(
+        (inboxChat) =>
+          inboxChat.users[0].userId === +userId ||
+          inboxChat.users[1].userId === +userId
+      );
+    });
 
     console.log(chatArray);
     /* if array is null, means the filter didn't found any matching element, and return an empty array */
-    if(!chatArray.length){
+    if (!chatArray.length) {
       /* No conversation was found, therefore we need to create a new one  */
       const myInboxRoomObject = await ApiService.postNewChatRoom({
         userId1: myState.data.userId,
-        userId2: +userId
-      })
-      history.push(`/messages/${myInboxRoomObject.inboxId}`)
+        userId2: +userId,
+      });
+      history.push(`/messages/${myInboxRoomObject.inboxId}`);
     } else {
       /* there's an ongoing conversation */
-      history.push(`/messages/${chatArray[0].inboxId}`)
+      history.push(`/messages/${chatArray[0].inboxId}`);
     }
-  }
+  };
 
   if (myData) {
   }
 
   return (
     <>
-      {loading ? (LoadingSpinner) : (
+      {loading ? (
+        LoadingSpinner
+      ) : (
         <>
           <Navigation />
           <Container>
@@ -195,7 +224,11 @@ export const Details: React.FC<Props> = ({ authorization }) => {
                 >
                   Make Order
                 </Button>
-                <Button variant="primary" type="submit" onClick={() => handlePrivateMessage()}>
+                <Button
+                  variant="primary"
+                  type="submit"
+                  onClick={() => handlePrivateMessage()}
+                >
                   Text Message
                 </Button>
               </Col>
