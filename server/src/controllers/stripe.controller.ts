@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Request, Response, NextFunction } from 'express';
 import createError from 'http-errors';
 import { PrismaClient } from '@prisma/client';
@@ -13,9 +14,8 @@ const stripeCheckout = async (
   next: NextFunction
 ) => {
   try {
-    const { sellerId, topUpAmount } = req.body;
-    console.log('sellerId inside controller ', sellerId);
-    console.log('topupamount ', topUpAmount);
+    const { topUpAmount, sellerId } = req.body;
+
     if (!topUpAmount) {
       throw new createError.NotFound('Need to provide topUpAmount in body');
     }
@@ -29,14 +29,14 @@ const stripeCheckout = async (
             product_data: {
               name: 'Top Up',
             },
-            unit_amount: 10 * 100,
+            unit_amount: topUpAmount * 100,
           },
           quantity: 1,
         },
       ],
       mode: 'payment',
-      // success_url: `http://localhost:${process.env.CLIENT_PORT}/details/${sellerId}`,
-      success_url: `http://localhost:${process.env.CLIENT_PORT}/payment/success`,
+      success_url: `http://localhost:${process.env.CLIENT_PORT}/details/${sellerId}`,
+      // success_url: `http://localhost:${process.env.CLIENT_PORT}/payment/success`,
       cancel_url: `http://localhost:${process.env.CLIENT_PORT}/payment/cancel`,
     });
 
@@ -44,12 +44,59 @@ const stripeCheckout = async (
     // console.log('variables inside controller ', userId, topUpAmount, sellerId);
     // ADD BALANCE
 
-    // res.json({ url: session.url });
-    res.redirect(303, session.url);
+    res.json({ url: session.url });
+    // res.redirect(303, session.url);
   } catch (e: any) {
     next(createError(e.statusCode, e.message));
   }
 };
+
+// const stripeCheckout = async (
+//   req: Request,
+//   res: Response,
+//   next: NextFunction
+// ) => {
+//   try {
+//     const { sellerId, topUpAmount } = req.body;
+//     console.log('body ', req.body);
+//     console.log('sellerId inside controller ', sellerId);
+//     console.log('topupamount inside controller', topUpAmount);
+
+//     if (!topUpAmount) {
+//       throw new createError.NotFound('Need to provide topUpAmount in body');
+//     }
+
+//     const session = await stripe.checkout.sessions.create({
+//       payment_method_types: ['card'],
+//       line_items: [
+//         {
+//           price_data: {
+//             currency: 'eur',
+//             product_data: {
+//               name: 'Top Up',
+//             },
+//             unit_amount: 10 * 100,
+//           },
+//           quantity: 1,
+//         },
+//       ],
+//       mode: 'payment',
+//       // success_url: `http://localhost:${process.env.CLIENT_PORT}/details/${sellerId}`,
+//       success_url: `http://localhost:${process.env.CLIENT_PORT}/payment/success`,
+//       cancel_url: `http://localhost:${process.env.CLIENT_PORT}/payment/cancel`,
+//     });
+
+//     console.log('Do something');
+//     // console.log('variables inside controller ', userId, topUpAmount, sellerId);
+//     // ADD BALANCE
+
+//     // res.json({ url: session.url });
+
+//     res.redirect(303, session.url);
+//   } catch (e: any) {
+//     next(createError(e.statusCode, e.message));
+//   }
+// };
 
 const endpointSecret = process.env.STRIPE_SIGN_SECRET;
 

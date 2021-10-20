@@ -22,9 +22,7 @@ const prisma = new client_1.PrismaClient();
 const stripe = require('stripe')(process.env.STRIPE_KEY);
 const stripeCheckout = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { sellerId, topUpAmount } = req.body;
-        console.log('sellerId inside controller ', sellerId);
-        console.log('topupamount ', topUpAmount);
+        const { topUpAmount, sellerId } = req.body;
         if (!topUpAmount) {
             throw new http_errors_1.default.NotFound('Need to provide topUpAmount in body');
         }
@@ -37,27 +35,68 @@ const stripeCheckout = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
                         product_data: {
                             name: 'Top Up',
                         },
-                        unit_amount: 10 * 100,
+                        unit_amount: topUpAmount * 100,
                     },
                     quantity: 1,
                 },
             ],
             mode: 'payment',
-            // success_url: `http://localhost:${process.env.CLIENT_PORT}/details/${sellerId}`,
-            success_url: `http://localhost:${process.env.CLIENT_PORT}/payment/success`,
+            success_url: `http://localhost:${process.env.CLIENT_PORT}/details/${sellerId}`,
+            // success_url: `http://localhost:${process.env.CLIENT_PORT}/payment/success`,
             cancel_url: `http://localhost:${process.env.CLIENT_PORT}/payment/cancel`,
         });
         console.log('Do something');
         // console.log('variables inside controller ', userId, topUpAmount, sellerId);
         // ADD BALANCE
-        // res.json({ url: session.url });
-        res.redirect(303, session.url);
+        res.json({ url: session.url });
+        // res.redirect(303, session.url);
     }
     catch (e) {
         next((0, http_errors_1.default)(e.statusCode, e.message));
     }
 });
 exports.stripeCheckout = stripeCheckout;
+// const stripeCheckout = async (
+//   req: Request,
+//   res: Response,
+//   next: NextFunction
+// ) => {
+//   try {
+//     const { sellerId, topUpAmount } = req.body;
+//     console.log('body ', req.body);
+//     console.log('sellerId inside controller ', sellerId);
+//     console.log('topupamount inside controller', topUpAmount);
+//     if (!topUpAmount) {
+//       throw new createError.NotFound('Need to provide topUpAmount in body');
+//     }
+//     const session = await stripe.checkout.sessions.create({
+//       payment_method_types: ['card'],
+//       line_items: [
+//         {
+//           price_data: {
+//             currency: 'eur',
+//             product_data: {
+//               name: 'Top Up',
+//             },
+//             unit_amount: 10 * 100,
+//           },
+//           quantity: 1,
+//         },
+//       ],
+//       mode: 'payment',
+//       // success_url: `http://localhost:${process.env.CLIENT_PORT}/details/${sellerId}`,
+//       success_url: `http://localhost:${process.env.CLIENT_PORT}/payment/success`,
+//       cancel_url: `http://localhost:${process.env.CLIENT_PORT}/payment/cancel`,
+//     });
+//     console.log('Do something');
+//     // console.log('variables inside controller ', userId, topUpAmount, sellerId);
+//     // ADD BALANCE
+//     // res.json({ url: session.url });
+//     res.redirect(303, session.url);
+//   } catch (e: any) {
+//     next(createError(e.statusCode, e.message));
+//   }
+// };
 const endpointSecret = process.env.STRIPE_SIGN_SECRET;
 const stripeWebhook = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     // This is your Stripe CLI webhook secret for testing your endpoint locally.

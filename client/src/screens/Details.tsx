@@ -1,3 +1,4 @@
+//@ts-nocheck
 import React from 'react';
 import {
   Form,
@@ -26,6 +27,7 @@ import {
   sellerContent,
   sellerData,
 } from '../state/actions/index';
+import { TopUp } from './TopUp';
 
 type Props = {
   authorization: boolean;
@@ -47,8 +49,12 @@ export const Details: React.FC<Props> = ({ authorization }) => {
   const [dataFetched, setDataFetched] = useState(false);
   const [myData, setMyData] = useState<sellerContent[]>([]);
   const [offerIndex, setofferIndex] = useState(0);
-  const [modal, setModal] = useState(false);
-  const [modalShow, setModalShow] = useState(false);
+  const [successModal, setSuccessModal] = useState(false);
+  const [successModalShow, setSuccessModalShow] = useState(false);
+  const [failModal, setFailModal] = useState(false);
+  const [failModalShow, setFailModalShow] = useState(false);
+  const [topUpAmount, setTopUpAmount] = useState(0);
+  // const [sellerId, setSellerId] = useState(0);
 
   const dispatch = useDispatch();
 
@@ -75,6 +81,7 @@ export const Details: React.FC<Props> = ({ authorization }) => {
     // fetchBalanceFromDb();
     /* after updating state, useeffect will be called again. dataFetched ensures that we don't enter in a infinite loop of fetching and seting data. acts like a locker */
     if (!dataFetched) {
+      console.log('userId ', userId);
       ApiService.getOwnUserOffers(+userId)
         .then((data: any) => setMyData(data))
         .then(() => {
@@ -94,32 +101,36 @@ export const Details: React.FC<Props> = ({ authorization }) => {
     ApiService.putInCart(buyerId, productId, orderQuantity).then(
       (data: data) => {
         ApiService.buyItem(buyerId, data.orderId).then((data: data) => {
-          console.log('data returned from buyItem API call ', data);
+          console.log('data returned from buyItem API call ', data.status);
+
           if (data.status === false) {
-            history.push(`/topup/${myData[0].sellerId}`);
+            setFailModal(true);
+            setFailModalShow(true);
+            // history.push(`/topup/${myData[0].sellerId}`);
           } else if (data.orderResolved === true) {
             console.log('successful purchase');
-            setModal(true);
-            setModalShow(true);
+            setSuccessModal(true);
+            setSuccessModalShow(true);
           }
         });
       }
     );
   };
 
-  let modalRender;
+  let successModalRender;
+  let failModalRender;
 
-  const handleClose = () => setModalShow(false);
+  const handleSuccessModalClose = () => setSuccessModalShow(false);
 
-  if (modal) {
-    modalRender = (
+  if (successModal) {
+    successModalRender = (
       <>
-        <Modal show={modalShow} onHide={handleClose}>
+        <Modal show={successModalShow} onHide={handleSuccessModalClose}>
           <Modal.Header closeButton>
             <Modal.Title>Success!</Modal.Title>
           </Modal.Header>
           <Modal.Body>Your purchase is successful</Modal.Body>
-          <Button onClick={(event) => modalButtonHandler(event)}>
+          <Button onClick={(event) => successModalButtonHandler(event)}>
             Continue to Home Page
           </Button>
           <Modal.Footer></Modal.Footer>
@@ -128,9 +139,82 @@ export const Details: React.FC<Props> = ({ authorization }) => {
     );
   }
 
-  const modalButtonHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleTopUpClick = (event: React.ChangeEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const numberSellerId = Number(sellerId);
+    console.log('numberSellerId ', numberSellerId);
+    console.log('topUpAmount ', topUpAmount);
+    ApiService.topUp(numberSellerId, topUpAmount).then((data: data) => {
+      console.log('data in topUP Api call in TopUp');
+      window.location.href = data.url;
+    });
+  };
+
+  const handleAmount = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputAmount: number = Number(event.currentTarget.value);
+    setTopUpAmount(inputAmount);
+  };
+
+  const handleFailModalClose = () => setFailModalShow(false);
+
+  const failModalButtonHandler = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
     history.push('/');
-    setModal(false);
+    setSuccessModal(false);
+  };
+
+  let sellerId = 0;
+
+  if (failModal) {
+    console.log('INSIDE FAIL MODAL CONDITION CHECK');
+    console.log('sellerId inside failModal ', myData[0].sellerId);
+    sellerId = myData[0].sellerId;
+    failModalRender = (
+      <>
+        <Modal show={failModalShow} onHide={handleFailModalClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Oh no!</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>There are insufficient funds in your account</Modal.Body>
+          <Modal.Body>
+            Please enter the amount to credit your account in the box below
+          </Modal.Body>
+          <Form>
+            <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Label>Enter Top Up Amount</Form.Label>
+              <Form.Control
+                type="number"
+                placeholder="Enter amount here"
+                onChange={(event) =>
+                  handleAmount(event as React.ChangeEvent<HTMLInputElement>)
+                }
+              />
+            </Form.Group>
+            <Button
+              onClick={(event) => {
+                handleTopUpClick(event as React.ChangeEvent<HTMLButtonElement>);
+              }}
+            >
+              Add Credit
+            </Button>
+            <Button onClick={(event) => failModalButtonHandler(event)}>
+              Cancel transaction
+            </Button>
+          </Form>
+
+          <Modal.Footer></Modal.Footer>
+        </Modal>
+      </>
+    );
+  }
+
+  const successModalButtonHandler = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    history.push('/');
+    setSuccessModal(false);
   };
 
   if (myData) {
@@ -239,7 +323,8 @@ export const Details: React.FC<Props> = ({ authorization }) => {
 
                 <br />
                 <br />
-                {modalRender}
+                {successModalRender}
+                {failModalRender}
                 <MyMap
                   location={{
                     availability: true,
