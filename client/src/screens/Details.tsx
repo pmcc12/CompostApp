@@ -173,39 +173,45 @@ export const Details: React.FC<Props> = ({ authorization }) => {
     sellerId = myData[0].sellerId;
     failModalRender = (
       <>
-        <Modal show={failModalShow} onHide={handleFailModalClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>Oh no!</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>There are insufficient funds in your account</Modal.Body>
-          <Modal.Body>
-            Please enter the amount to credit your account in the box below
-          </Modal.Body>
-          <Form>
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Enter Top Up Amount</Form.Label>
-              <Form.Control
-                type="number"
-                placeholder="Enter amount here"
-                onChange={(event) =>
-                  handleAmount(event as React.ChangeEvent<HTMLInputElement>)
-                }
-              />
-            </Form.Group>
-            <Button
-              onClick={(event) => {
-                handleTopUpClick(event as React.ChangeEvent<HTMLButtonElement>);
-              }}
-            >
-              Add Credit
-            </Button>
-            <Button onClick={(event) => failModalButtonHandler(event)}>
-              Cancel transaction
-            </Button>
-          </Form>
+        <Container>
+          <Modal show={failModalShow} onHide={handleFailModalClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>Oh no!</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              There are insufficient funds in your account
+            </Modal.Body>
+            <Modal.Body>
+              Please enter the amount to credit your account in the box below
+            </Modal.Body>
+            <Form>
+              <Form.Group className="mb-3" controlId="formBasicPassword">
+                <Form.Label>Enter Top Up Amount</Form.Label>
+                <Form.Control
+                  type="number"
+                  placeholder="Enter amount here"
+                  onChange={(event) =>
+                    handleAmount(event as React.ChangeEvent<HTMLInputElement>)
+                  }
+                />
+              </Form.Group>
+              <Button
+                onClick={(event) => {
+                  handleTopUpClick(
+                    event as React.ChangeEvent<HTMLButtonElement>
+                  );
+                }}
+              >
+                Add Credit
+              </Button>
+              <Button onClick={(event) => failModalButtonHandler(event)}>
+                Cancel transaction
+              </Button>
+            </Form>
 
-          <Modal.Footer></Modal.Footer>
-        </Modal>
+            <Modal.Footer></Modal.Footer>
+          </Modal>
+        </Container>
       </>
     );
   }
