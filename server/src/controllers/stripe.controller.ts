@@ -14,27 +14,29 @@ const stripeCheckout = async (
 ) => {
   try {
     const { sellerId, topUpAmount } = req.body;
+
     console.log('sellerId inside controller ', sellerId);
     console.log('topupamount ', topUpAmount);
+
     if (!topUpAmount) {
       throw new createError.NotFound('Need to provide topUpAmount in body');
     }
 
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
+      payment_method_types: ["card"],
       line_items: [
         {
           price_data: {
-            currency: 'eur',
+            currency: "eur",
             product_data: {
-              name: 'Top Up',
+              name: "Top Up",
             },
-            unit_amount: 10 * 100,
+            unit_amount: topUpAmount * 100,
           },
           quantity: 1,
         },
       ],
-      mode: 'payment',
+      mode: "payment",
       // success_url: `http://localhost:${process.env.CLIENT_PORT}/details/${sellerId}`,
       success_url: `http://localhost:${process.env.CLIENT_PORT}/payment/success`,
       cancel_url: `http://localhost:${process.env.CLIENT_PORT}/payment/cancel`,

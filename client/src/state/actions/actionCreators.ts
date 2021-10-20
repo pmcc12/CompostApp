@@ -39,3 +39,9 @@ export const register = (form: I_initial_Register) => {
     payload: form,
   };
 };
+
+export const logout = () => {
+  return {
+    type: "LOGOUT",
+  };
+};

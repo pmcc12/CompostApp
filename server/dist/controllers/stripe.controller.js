@@ -29,20 +29,20 @@ const stripeCheckout = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
             throw new http_errors_1.default.NotFound('Need to provide topUpAmount in body');
         }
         const session = yield stripe.checkout.sessions.create({
-            payment_method_types: ['card'],
+            payment_method_types: ["card"],
             line_items: [
                 {
                     price_data: {
-                        currency: 'eur',
+                        currency: "eur",
                         product_data: {
-                            name: 'Top Up',
+                            name: "Top Up",
                         },
-                        unit_amount: 10 * 100,
+                        unit_amount: topUpAmount * 100,
                     },
                     quantity: 1,
                 },
             ],
-            mode: 'payment',
+            mode: "payment",
             // success_url: `http://localhost:${process.env.CLIENT_PORT}/details/${sellerId}`,
             success_url: `http://localhost:${process.env.CLIENT_PORT}/payment/success`,
             cancel_url: `http://localhost:${process.env.CLIENT_PORT}/payment/cancel`,
