@@ -64,7 +64,7 @@ export const Details: React.FC<Props> = ({ authorization }) => {
     console.log('INSIDE USEEFFECT');
     /* setLoading to true will cause a re-render only once and if loading === false  */
     setLoading(true);
-    fetchBalanceFromDb();
+    // fetchBalanceFromDb();
     /* after updating state, useeffect will be called again. dataFetched ensures that we don't enter in a infinite loop of fetching and seting data. acts like a locker */
     if (!dataFetched) {
       ApiService.getOwnUserOffers(+userId)
@@ -79,11 +79,13 @@ export const Details: React.FC<Props> = ({ authorization }) => {
   /* after updating state, useeffect will be called again. dataFetched ensures that we don't enter in a infinite loop of fetching and seting data. acts like a locker */
 
   const fetchBalanceFromDb = () => {
+    console.log('fetchBalanceFromDb called');
     ApiService.getBalance(loggedInUser).then((data) => {
       console.log('data inside fetchBalanceFromDb ', data);
       dispatch(newBalance(data.balance));
     });
   };
+
   if (myData) {
     console.log('myData is ', myData);
   }
