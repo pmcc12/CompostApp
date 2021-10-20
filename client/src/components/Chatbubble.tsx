@@ -22,9 +22,9 @@ const Chatbubble = ({messageContent, messageSenderId, messageDate, messageUserna
             {messageSenderId === myState.data.userId ? 
             (
                 <div style={{display: 'flex', flexDirection:'column', justifyContent:'flex-end'}}>
-                    <p>Your message</p>
+                    <p style={{marginBottom: '0px'}}>Your message</p>
                     <div style={{display: 'flex', flexDirection:'column'}}>
-                        <div style={{backgroundColor: 'rgb(206, 221, 255)'}}>
+                        <div style={{backgroundColor: 'rgb(206, 221, 255)', margin:'10px', borderRadius: '10px'}}>
                             {messageContent}
                         </div>
                         <div style={{display: 'flex', justifyContent:'flex-end'}}>
@@ -37,9 +37,9 @@ const Chatbubble = ({messageContent, messageSenderId, messageDate, messageUserna
             : 
             (
                 <div style={{display: 'flex', flexDirection:'column', justifyContent:'flex-end'}}>
-                    <p>{messageUsername}</p>
+                    <p style={{marginBottom: '0px'}}>{messageUsername}</p>
                     <div style={{display: 'flex', flexDirection:'column'}}>
-                        <div style={{backgroundColor: 'rgb(242, 244, 245)'}}>
+                        <div style={{backgroundColor: 'rgb(242, 244, 245)', margin: '10px', borderRadius: '10px'}}>
                             {messageContent}
                         </div>
                         <div style={{display: 'flex', justifyContent:'flex-end'}}>

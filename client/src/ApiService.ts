@@ -1,5 +1,11 @@
 import React from 'react';
-import { Icategories, IgetAllUserProducts, userOffer, Imessage, InewChatRoom } from './state/actions';
+import { 
+  Icategories,
+  IgetAllUserProducts,
+  userOffer,
+  Imessage,
+  InewChatRoom 
+} from './state/actions';
 
 type IApiService = {
     getUserOffers: (val: number) => any,
@@ -204,57 +210,6 @@ const ApiService: IApiService = {
     }
   },
 
-  // putInCart: async (buyerId, productId, orderQuantity) => {
-  //   const BASE_URL = process.env.REACT_APP_HOST;
-  //   const method = "POST";
-  //   const body =
-  //     buyerId && productId && orderQuantity
-  //       ? JSON.stringify({
-  //           buyerId: buyerId,
-  //           productId: productId,
-  //           orderQuantity: orderQuantity,
-  //         })
-  //       : undefined;
-  //   const defaultHeaders = { "Content-Type": "application/json" };
-  //   const headers = { ...defaultHeaders };
-  //   const response = await fetch(`${BASE_URL}/api/user/cart/add`, {
-  //     method,
-  //     body,
-  //     headers,
-  //   });
-
-  //   const res = await response.json();
-
-  //   if (res.status) {
-  //     return res.data;
-  //   } else {
-  //     return res;
-  //   }
-  // },
-
-  // buyItem: async (buyerId, orderId) => {
-  //   const BASE_URL = process.env.REACT_APP_HOST;
-  //   const method = "PUT";
-  //   const body =
-  //     buyerId && orderId
-  //       ? JSON.stringify({ buyerId: buyerId, orderId: orderId })
-  //       : undefined;
-  //   const defaultHeaders = { "Content-type": "application/json" };
-  //   const headers = { ...defaultHeaders };
-  //   const response = await fetch(`${BASE_URL}/api/cart/buyItem`, {
-  //     method,
-  //     body,
-  //     headers,
-  //   });
-
-  //   const res = await response.json();
-
-  //   if (res.status) {
-  //     return res.data;
-  //   } else {
-  //     return res;
-  //   }
-  // },
 };
 
 export default ApiService;

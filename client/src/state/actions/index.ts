@@ -167,10 +167,20 @@ export type IchatMessageObj = {
     senderId: number,
     senderName: string,
     content: string,
-    createdAt: string,
+    createAt: string,
     inboxId: number
 }
 
+export type IchatConversations = {
+    inboxId: number,
+    lastUpdated: string,
+    users: Iconversation[]
+}
+
+export interface Iconversation {
+    userId: number,
+    username: string
+}
 
  
 
