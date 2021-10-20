@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { Button, Container, Form, Col } from 'react-bootstrap';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -11,8 +10,12 @@ type Props = {
 };
 
 type detailsParams = {
-  userId: string;
+  sellerId: string;
 };
+
+interface data {
+  url: string;
+}
 
 export const TopUp: React.FC<Props> = ({ authorization }) => {
   const myState = useSelector((state: myReducersTypeof) => state.login);
@@ -21,16 +24,16 @@ export const TopUp: React.FC<Props> = ({ authorization }) => {
 
   const [topUpAmount, setTopUpAmount] = useState(0);
 
-  const { sellerId } = useParams<detailsParams>();
+  let { sellerId } = useParams<detailsParams>();
 
   const handleTopUpClick = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log('topUpAmount ', topUpAmount);
 
-    ApiService.topUp(sellerId, topUpAmount).then((data) => {
-      console.log('data.url ', data.url);
+    const numberSellerId = Number(sellerId);
+
+    ApiService.topUp(numberSellerId, topUpAmount).then((data: data) => {
       window.location.href = data.url;
-      // history.push(data.url);
     });
   };
 

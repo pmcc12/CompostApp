@@ -18,7 +18,7 @@ type IApiService = {
   getAllInboxes: (val: number) => any;
   putInCart: (buyerId: number, productId: number, orderQuantity: number) => any;
   buyItem: (buyerId: number, orderId: number) => any;
-  topUp: (userId: number, topUp: number, sellerId: number) => any;
+  topUp: (sellerId: number, topUp: number) => any;
   getBalance: (userId: number) => any;
 };
 
