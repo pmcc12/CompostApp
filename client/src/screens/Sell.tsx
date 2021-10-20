@@ -1,4 +1,3 @@
-//@ts-nocheck
 import React from 'react';
 import {
   Form,
@@ -82,7 +81,7 @@ export const Sell: React.FC<Props> = ({ authorization }) => {
   };
 
   let modalRender;
-  const handleModalClose = () => setShow(false);
+  const handleModalClose = () => setModalShow(false);
   if (modal) {
     modalRender = (
       <>
@@ -102,7 +101,7 @@ export const Sell: React.FC<Props> = ({ authorization }) => {
 
   console.log('modalRender ', modalRender);
 
-  const modalButtonHandler = (event) => {
+  const modalButtonHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
     console.log('INSIDE BUTTON HANDLER');
     history.push('/');
     setModal(false);

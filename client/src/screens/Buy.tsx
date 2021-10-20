@@ -1,4 +1,3 @@
-//@ts-nocheck
 import MyMap from '../components/Map';
 import ApiService from '../ApiService';
 import { useSelector } from 'react-redux';
@@ -39,7 +38,7 @@ export const Buy: React.FC<Props> = ({ authorization }) => {
 
   const sortProducts = (buyerId: number, productCategoryId: number) => {
     console.log('allUserProducts ', allUserProducts);
-    let sortedProductsArr: any = allUserProducts.filter((el) => {
+    let sortedProductsArr: any = allUserProducts.filter((el: any) => {
       const catId = (el as any).categories[0].category.categoryId;
       const productCategoryIdNumber = Number(productCategoryId);
       return el.availableQuantity > 0 && catId === productCategoryIdNumber;

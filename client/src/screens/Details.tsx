@@ -1,4 +1,3 @@
-//@ts-nocheck
 import React from 'react';
 import {
   Form,
@@ -35,6 +34,12 @@ type Props = {
 type detailsParams = {
   userId: string;
 };
+
+interface data {
+  orderId: number;
+  status: boolean;
+  orderResolved: boolean;
+}
 
 export const Details: React.FC<Props> = ({ authorization }) => {
   /* Will be important to access the user session data (which will be stored in login variable), such as location, picture, etc.. */
@@ -86,18 +91,20 @@ export const Details: React.FC<Props> = ({ authorization }) => {
     const orderQuantity = myData[offerIndex].availableQuantity;
     const productId = myData[offerIndex].productId;
 
-    ApiService.putInCart(buyerId, productId, orderQuantity).then((data) => {
-      ApiService.buyItem(buyerId, data.orderId).then((data) => {
-        console.log('data returned from buyItem API call ', data);
-        if (data.status === false) {
-          history.push(`/topup/${myData[0].sellerId}`);
-        } else if (data.orderResolved === true) {
-          console.log('successful purchase');
-          setModal(true);
-          setModalShow(true);
-        }
-      });
-    });
+    ApiService.putInCart(buyerId, productId, orderQuantity).then(
+      (data: data) => {
+        ApiService.buyItem(buyerId, data.orderId).then((data: data) => {
+          console.log('data returned from buyItem API call ', data);
+          if (data.status === false) {
+            history.push(`/topup/${myData[0].sellerId}`);
+          } else if (data.orderResolved === true) {
+            console.log('successful purchase');
+            setModal(true);
+            setModalShow(true);
+          }
+        });
+      }
+    );
   };
 
   let modalRender;
@@ -121,8 +128,7 @@ export const Details: React.FC<Props> = ({ authorization }) => {
     );
   }
 
-  const modalButtonHandler = (event) => {
-    console.log('INSIDE BUTTON HANDLER');
+  const modalButtonHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
     history.push('/');
     setModal(false);
   };
@@ -157,12 +163,12 @@ export const Details: React.FC<Props> = ({ authorization }) => {
   const handlePrivateMessage = async () => {
     console.log('here in handlePrivateMessage');
     /* Need to verify if i already have already an open conversation */
-    let chatArray = [];
+    let chatArray: any[] = [];
     const getMyExistingChats = await ApiService.getAllInboxes(
       myState.data.userId
     ).then((data: any) => {
       chatArray = data.filter(
-        (inboxChat) =>
+        (inboxChat: any) =>
           inboxChat.users[0].userId === +userId ||
           inboxChat.users[1].userId === +userId
       );
@@ -179,7 +185,9 @@ export const Details: React.FC<Props> = ({ authorization }) => {
       history.push(`/messages/${myInboxRoomObject.inboxId}`);
     } else {
       /* there's an ongoing conversation */
-      history.push(`/messages/${chatArray[0].inboxId}`);
+      if (chatArray[0]) {
+        history.push(`/messages/${chatArray[0].inboxId}`);
+      }
     }
   };
 
