@@ -162,10 +162,24 @@ export type IgetAllMessages = {
 };
 
 export type IchatMessageObj = {
-  messageId: number;
-  senderId: number;
-  senderName: string;
-  content: string;
-  createdAt: string;
-  inboxId: number;
-};
+    messageId: number,
+    senderId: number,
+    senderName: string,
+    content: string,
+    createAt: string,
+    inboxId: number
+}
+
+export type IchatConversations = {
+    inboxId: number,
+    lastUpdated: string,
+    users: Iconversation[]
+}
+
+export interface Iconversation {
+    userId: number,
+    username: string
+}
+
+ 
+

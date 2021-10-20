@@ -39,6 +39,7 @@ const categoryController = __importStar(require("../controllers/category.control
 const cartController = __importStar(require("../controllers/cart.controller"));
 const messageController = __importStar(require("../controllers/message.controller"));
 const stripeController = __importStar(require("../controllers/stripe.controller"));
+const balanceController = __importStar(require("../controllers/balance.controller"));
 // Handling Error
 const http_errors_1 = __importDefault(require("http-errors"));
 const router = express_1.default.Router();
@@ -49,6 +50,8 @@ router.get("/", (req, res) => {
 router.post("/register", authController.register);
 router.post("/login", authController.login);
 router.post("/all", authController.all);
+// Balance
+router.post("/user/balance", balanceController.getBalance);
 // Sell
 router.post("/sell/product", sellController.postSellProduct);
 router.post("/sell/getAllProducts", sellController.getSellProducts);

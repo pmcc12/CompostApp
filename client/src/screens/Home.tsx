@@ -5,6 +5,7 @@ import { Redirect } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { myReducersTypeof } from '../state/reducers';
+import BackgroundImg from '../assets/backgroundHome.jpg'
 
 type Props = {
   authorization: boolean;
@@ -23,47 +24,16 @@ const Home: React.FC<Props> = ({ authorization }) => {
     <>
       <Navigation />
 
-      <style type="text/css">
-        {`
-
-		.btn-1 {
-			background-color: #9ab1a3;
-      color: white;
-		}
-
-		.btn-2 {
-			background-color: #b1bdc9
-		}
-
-		.btn-3 {
-			background-color: #fed971
-		}
-
-		.btn-4 {
-			background-color: #a97351
-		}
-
-		.btn-5 {
-			background-color: #cb1515
-		}
-
-    .btn-lg {
-      padding: 1rem 1.5rem;
-      font-size: 1.5rem;
-    }
-    `}
-      </style>
-
-      <Container>
-        <div className="row justify-content-center mt-5">
-          <Row className="row justify-content-center mt-5">
+      <Container style={{margin: '0px', padding: '0px'}}>
+        <div>
+          <Row style={{width:'100vw',height:'80vh', margin:'0px'}}>
             <Image
-              src="https://media.istockphoto.com/photos/get-sowing-get-growing-picture-id889031338?s=612x612"
+              src={BackgroundImg}
+              style={{padding: '0px'}}
               className="img-fluid"
               alt="..."
             />
           </Row>
-          <h1>My user id: {myState.data.username}</h1>
           <Row style={{ padding: '10px' }}>
             <Col lg={12}>
               <Stack gap={4}>

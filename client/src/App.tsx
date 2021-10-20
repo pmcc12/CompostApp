@@ -19,6 +19,8 @@ import MessagesOverview from './screens/MessagesOverview';
 import PrivateMessage from './screens/PrivateMessage';
 import { TopUp } from './screens/TopUp';
 import { Success } from './screens/Success';
+// Auth Route
+// import AuthRoute from './utils/AuthRoute'
 
 export default function App() {
   const state = useSelector((state: myReducersTypeof) => state.login);
@@ -32,33 +34,41 @@ export default function App() {
         <Route
           exact
           path="/sell"
+          // component={Sell}
           component={() => <Sell authorization={state.auth} />}
         />
         <Route
           exact
           path="/details/:userId"
+          // component={Details}
           component={() => <Details authorization={state.auth} />}
         />
 
         <Route
           exact
           path="/buy"
+          // component={Buy}
           component={() => <Buy authorization={state.auth} />}
         />
         <Route
           exact
           path="/topup/:sellerId"
-          component={() => <TopUp authorization={state.auth} />}
+          component={TopUp}
+          // component={() => <TopUp authorization={state.auth} />}
         />
         <Route
           exact
           path="/success"
+          // component={Success}
           component={() => <Success authorization={state.auth} />}
         />
+        <Route exact path="/messages/:inboxId" component={PrivateMessage} />
+
         <Route exact path="/messages" component={MessagesOverview} />
         <Route
           exact
           path="/"
+          // component={Home}
           component={() => <Home authorization={state.auth} />}
         />
       </Switch>

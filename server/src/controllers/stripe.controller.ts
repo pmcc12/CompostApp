@@ -28,7 +28,7 @@ const stripeCheckout = async (
             product_data: {
               name: 'Top Up',
             },
-            unit_amount: topUpAmount,
+            unit_amount: topUpAmount * 100,
           },
           quantity: 1,
         },
@@ -97,7 +97,7 @@ const stripeWebhook = async (
           },
           data: {
             balance: {
-              increment: charge.amount,
+              increment: charge.amount / 100,
             },
           },
           select: {
