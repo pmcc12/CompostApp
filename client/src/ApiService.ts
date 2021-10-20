@@ -19,6 +19,7 @@ type IApiService = {
   putInCart: (buyerId: number, productId: number, orderQuantity: number) => any;
   buyItem: (buyerId: number, orderId: number) => any;
   topUp: (userId: number, topUp: number, sellerId: number) => any;
+  getBalance: (userId: number) => any;
 };
 
 /* Get all user related products */
@@ -303,6 +304,32 @@ const ApiService: IApiService = {
     const defaultHeaders = { 'Content-type': 'application/json' };
     const headers = { ...defaultHeaders };
     const response = await fetch(`${BASE_URL}/api/payment/checkout`, {
+      method,
+      body,
+      headers,
+    });
+
+    const res = await response.json();
+
+    if (res.status) {
+      return res.data;
+    } else {
+      return res;
+    }
+  },
+
+  getBalance: async (userId) => {
+    const BASE_URL = process.env.REACT_APP_HOST;
+    const method = 'POST';
+    const body = userId
+      ? JSON.stringify({
+          userId: userId,
+        })
+      : undefined;
+
+    const defaultHeaders = { 'Content-type': 'application/json' };
+    const headers = { ...defaultHeaders };
+    const response = await fetch(`${BASE_URL}/user/balance`, {
       method,
       body,
       headers,
