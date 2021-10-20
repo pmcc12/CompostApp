@@ -40,20 +40,18 @@ const MessagesOverview:React.FC<Props> = ({authorization}) => {
         if(!dataFetched){
             console.log('will fetch data')
             const allChatMessages = ApiService.getAllInboxes(myState.data.userId).then((data: any) => setMyData(data)).then(()=>{
-                console.log('fetching finished, setting datafetched to true');
+                /* locking this fetching */
                 setDataFetched(true);
             }).then(() => {
-                console.log('setting load to true (needs to be the last one to avoid re-rendering)')
+                /* unlocking the rendering of components that rely on fetched data */
                 setLoading(false);
             });
         }
     }, [])
 
-    console.log('AUTHORIZED IN SELL!')
 
     /* forward to correct chat */
     const handleSelectRow = (inboxId: number) => {
-        console.log('here in handleSelectRow');
 
         history.push(`/messages/${inboxId}`)
     }

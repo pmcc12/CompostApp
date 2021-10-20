@@ -13,10 +13,6 @@ const Chatbubble = ({messageContent, messageSenderId, messageDate, messageUserna
 
     const myState = useSelector((state: myReducersTypeof) => state.login);
 
-    console.log('@chatbubble) username from sender: '+messageUsername+'; message senderId: '+messageSenderId+'; message content: '+messageContent+'; in date: '+messageDate)
-    /*
-    check if received message to render belongs
-    */
     return (
         <>
             {messageSenderId === myState.data.userId ? 
@@ -24,7 +20,7 @@ const Chatbubble = ({messageContent, messageSenderId, messageDate, messageUserna
                 <div style={{display: 'flex', flexDirection:'column', justifyContent:'flex-end'}}>
                     <p style={{marginBottom: '0px'}}>Your message</p>
                     <div style={{display: 'flex', flexDirection:'column'}}>
-                        <div style={{backgroundColor: 'rgb(206, 221, 255)', margin:'10px', borderRadius: '10px'}}>
+                        <div style={{backgroundColor: 'rgb(206, 221, 255)', padding:'10px', borderRadius: '10px'}}>
                             {messageContent}
                         </div>
                         <div style={{display: 'flex', justifyContent:'flex-end'}}>
@@ -39,7 +35,7 @@ const Chatbubble = ({messageContent, messageSenderId, messageDate, messageUserna
                 <div style={{display: 'flex', flexDirection:'column', justifyContent:'flex-end'}}>
                     <p style={{marginBottom: '0px'}}>{messageUsername}</p>
                     <div style={{display: 'flex', flexDirection:'column'}}>
-                        <div style={{backgroundColor: 'rgb(242, 244, 245)', margin: '10px', borderRadius: '10px'}}>
+                        <div style={{backgroundColor: 'rgb(242, 244, 245)', padding: '10px', borderRadius: '10px'}}>
                             {messageContent}
                         </div>
                         <div style={{display: 'flex', justifyContent:'flex-end'}}>
