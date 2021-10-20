@@ -1,0 +1,24 @@
+service:
+  name: compost-hub-serverless
+custom:
+  webpack:
+    webpackConfig: ./webpack.config.js
+    includeModules: true
+plugins:
+  - serverless-webpack
+  - serverless-offline
+  - serverless-dotenv-plugin
+provider:
+  name: aws
+  runtime: nodejs12.x
+  apiGateway:
+    minimumCompressionSize: 1024
+  environment:
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+  region: eu-west-2
+functions:
+  main:
+    handler: src/server.handler
+    events:
+      - http: ANY /
+      - http: "ANY {proxy+}"

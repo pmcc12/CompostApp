@@ -36,7 +36,7 @@ const stripeCheckout = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
                         product_data: {
                             name: 'Top Up',
                         },
-                        unit_amount: topUpAmount,
+                        unit_amount: topUpAmount * 100,
                     },
                     quantity: 1,
                 },
@@ -96,7 +96,7 @@ const stripeWebhook = (req, res, next) => __awaiter(void 0, void 0, void 0, func
                     },
                     data: {
                         balance: {
-                            increment: charge.amount,
+                            increment: charge.amount / 100,
                         },
                     },
                     select: {

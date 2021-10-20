@@ -38,7 +38,6 @@ type detailsParams = {
 export const Details: React.FC<Props> = ({ authorization }) => {
   /* Will be important to access the user session data (which will be stored in login variable), such as location, picture, etc.. */
   const [loading, setLoading] = useState(true);
-  const [buttonPushed, setButtonPushed] = useState(false);
   const [dataFetched, setDataFetched] = useState(false);
   const [myData, setMyData] = useState<sellerContent[]>([]);
   const [offerIndex, setofferIndex] = useState(0);

@@ -6,6 +6,7 @@ import * as categoryController from "../controllers/category.controller";
 import * as cartController from "../controllers/cart.controller";
 import * as messageController from "../controllers/message.controller";
 import * as stripeController from "../controllers/stripe.controller";
+import * as balanceController from "../controllers/balance.controller";
 import auth from "../middlewares/auth.middleware";
 // Handling Error
 import createError from "http-errors";
@@ -20,6 +21,9 @@ router.get("/", (req: Request, res: Response) => {
 router.post("/register", authController.register);
 router.post("/login", authController.login);
 router.post("/all", authController.all);
+
+// Balance
+router.post("/user/balance", balanceController.getBalance)
 
 // Sell
 router.post("/sell/product", sellController.postSellProduct);
