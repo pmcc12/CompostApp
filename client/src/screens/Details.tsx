@@ -43,7 +43,7 @@ export const Details: React.FC<Props> = ({ authorization }) => {
   const [myData, setMyData] = useState<sellerContent[]>([]);
   const [offerIndex, setofferIndex] = useState(0);
   const [modal, setModal] = useState(false);
-  const [show, setShow] = useState(false);
+  const [modalShow, setModalShow] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -94,7 +94,7 @@ export const Details: React.FC<Props> = ({ authorization }) => {
         } else if (data.orderResolved === true) {
           console.log('successful purchase');
           setModal(true);
-          setShow(true);
+          setModalShow(true);
         }
       });
     });
@@ -102,12 +102,12 @@ export const Details: React.FC<Props> = ({ authorization }) => {
 
   let modalRender;
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => setModalShow(false);
 
   if (modal) {
     modalRender = (
       <>
-        <Modal show={show} onHide={handleClose}>
+        <Modal show={modalShow} onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Success!</Modal.Title>
           </Modal.Header>
@@ -118,22 +118,6 @@ export const Details: React.FC<Props> = ({ authorization }) => {
           <Modal.Footer></Modal.Footer>
         </Modal>
       </>
-
-      // <Modal.Dialog show={modal} onHide={() => setModal(false)}>
-      //   <Modal.Header closeButton>
-      //     <Modal.Title>Success!</Modal.Title>
-      //   </Modal.Header>
-
-      //   <Modal.Body>
-      //     <p>Your purchase is successful</p>
-      //   </Modal.Body>
-
-      //   <Modal.Footer>
-      //     <Button onClick={(event) => modalButtonHandler(event)}>
-      //       Continue to Home Page
-      //     </Button>
-      //   </Modal.Footer>
-      // </Modal.Dialog>
     );
   }
 
@@ -147,18 +131,18 @@ export const Details: React.FC<Props> = ({ authorization }) => {
     console.log('myData is ', myData);
   }
 
-  // if (!myState.auth) {
-  //   console.log('not authorized!');
-  //   console.log(
-  //     'authorization: ' +
-  //       authorization +
-  //       ' and my user name: ' +
-  //       myState.data.username +
-  //       ' and my user auth: ' +
-  //       myState.auth
-  //   );
-  //   return <Redirect to="login" />;
-  // }
+  if (!myState.auth) {
+    console.log('not authorized!');
+    console.log(
+      'authorization: ' +
+        authorization +
+        ' and my user name: ' +
+        myState.data.username +
+        ' and my user auth: ' +
+        myState.auth
+    );
+    return <Redirect to="login" />;
+  }
 
   // console.log('Authorized inside details!');
 

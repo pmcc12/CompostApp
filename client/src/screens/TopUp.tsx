@@ -35,7 +35,7 @@ export const TopUp: React.FC<Props> = ({ authorization }) => {
   };
 
   const handleAmount = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const inputAmount: number = Number(event.currentTarget.value) * 100;
+    const inputAmount: number = Number(event.currentTarget.value);
     setTopUpAmount(inputAmount);
   };
 

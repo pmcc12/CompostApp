@@ -43,6 +43,7 @@ export const Sell: React.FC<Props> = ({ authorization }) => {
   });
 
   const [modal, setModal] = useState(false);
+  const [modalShow, setModalShow] = useState(false);
 
   const myState = useSelector((state: myReducersTypeof) => state.login);
 
@@ -76,37 +77,32 @@ export const Sell: React.FC<Props> = ({ authorization }) => {
     });
     if (status) {
       setModal(true);
-      // history.push('/');
+      setModalShow(true);
     }
-    // dispatch(login(credentials))
   };
 
   let modalRender;
-
+  const handleModalClose = () => setShow(false);
   if (modal) {
-    console.log('INSIDE MODAL IF STATEMENT');
     modalRender = (
-      <Modal.Dialog>
-        <Modal.Header closeButton>
-          <Modal.Title>Success!</Modal.Title>
-        </Modal.Header>
-
-        <Modal.Body>
-          <p>Your product has been advertised</p>
-        </Modal.Body>
-
-        <Modal.Footer>
-          <Button onClick={(event) => buttonHandler(event)}>
+      <>
+        <Modal show={modalShow} onHide={handleModalClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Success!</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Your purchase is successful</Modal.Body>
+          <Button onClick={(event) => modalButtonHandler(event)}>
             Continue to Home Page
           </Button>
-        </Modal.Footer>
-      </Modal.Dialog>
+          <Modal.Footer></Modal.Footer>
+        </Modal>
+      </>
     );
   }
 
   console.log('modalRender ', modalRender);
 
-  const buttonHandler = (event) => {
+  const modalButtonHandler = (event) => {
     console.log('INSIDE BUTTON HANDLER');
     history.push('/');
     setModal(false);
