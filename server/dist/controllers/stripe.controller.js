@@ -15,16 +15,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.stripeWebhook = exports.stripeCheckout = void 0;
 const http_errors_1 = __importDefault(require("http-errors"));
 const client_1 = require("@prisma/client");
+const aws_ses_1 = __importDefault(require("../utils/aws-ses"));
 // Prisma
 const prisma = new client_1.PrismaClient();
 // Stripe
 const stripe = require('stripe')(process.env.STRIPE_KEY);
 const stripeCheckout = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { topUpAmount, sellerId } = req.body;
-        if (!topUpAmount) {
-            throw new http_errors_1.default.NotFound('Need to provide topUpAmount in body');
-        }
+        // const { topUpAmount, sellerId } = req.body;
+        // if (!topUpAmount) {
+        //   throw new createError.NotFound('Need to provide topUpAmount in body');
+        // }
         const session = yield stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             line_items: [
@@ -34,21 +35,21 @@ const stripeCheckout = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
                         product_data: {
                             name: 'Top Up',
                         },
-                        unit_amount: topUpAmount * 100,
+                        unit_amount: 10 * 100,
                     },
                     quantity: 1,
                 },
             ],
             mode: 'payment',
-            success_url: `http://localhost:${process.env.CLIENT_PORT}/details/${sellerId}`,
-            // success_url: `http://localhost:${process.env.CLIENT_PORT}/payment/success`,
+            // success_url: `http://localhost:${process.env.CLIENT_PORT}/details/${sellerId}`,
+            success_url: `http://localhost:${process.env.CLIENT_PORT}/payment/success`,
             cancel_url: `http://localhost:${process.env.CLIENT_PORT}/payment/cancel`,
         });
         console.log('Do something');
         // console.log('variables inside controller ', userId, topUpAmount, sellerId);
         // ADD BALANCE
-        res.json({ url: session.url });
-        // res.redirect(303, session.url);
+        // res.json({ url: session.url });
+        res.redirect(303, session.url);
     }
     catch (e) {
         next((0, http_errors_1.default)(e.statusCode, e.message));
@@ -101,6 +102,8 @@ const stripeWebhook = (req, res, next) => __awaiter(void 0, void 0, void 0, func
                         balance: true,
                     },
                 });
+                // Send Email
+                yield (0, aws_ses_1.default)(userEmail, user.username, charge.amount / 100, updatedUser.balance, charge.payment_method_details);
                 // Then define and call a function to handle the event charge.succeeded
                 break;
             // ... handle other event types
