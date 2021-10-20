@@ -7,20 +7,28 @@ export default function Navigation() {
 
   return (
     <>
-      <Navbar collapseOnSelect expand="xxl" style={{backgroundColor: '#c8e8c7'}}>
-        <Navbar.Brand style={{cursor: 'pointer'}} onClick={() => history.push('/')}>
-          <img
-            style={{marginLeft:'20px'}}
-            alt=""
-            src={Logo}
-            width="100"
-            height="100"
-            className="d-inline-block align-top"
-          />
-        </Navbar.Brand>
+      <Navbar collapseOnSelect expand="md" style={{backgroundColor: '#c8e8c7'}}>
+        <div style={{display: 'flex'}}>
+          <Navbar.Brand style={{cursor: 'pointer'}} onClick={() => history.push('/')}>
+            <img
+              style={{marginLeft:'20px'}}
+              alt=""
+              src={Logo}
+              width="100"
+              height="100"
+              className="d-inline-block align-top"
+            />
+          </Navbar.Brand>
+        </div>
         <div style={{display:'flex', marginRight:'20px'}}>
           <Navbar.Toggle style={{border: '0'}} onClick={() => history.push('/messages')}> <i style={{fontSize: "30px"}} className="bi bi-chat"></i> Messages </Navbar.Toggle>
-          <Navbar.Toggle style={{marginLeft:'20px', border: '0'}} aria-controls="responsive-navbar-nav" />
+          {/* <Navbar.Toggle style={{marginLeft:'20px', border: '0'}} aria-controls="responsive-navbar-nav" /> */}
+            <div style={{display: 'flex', flexDirection:'column', border: '0px'}}>
+              <p style={{fontSize: '12px'}}>Hello, UserX</p>
+              <p style={{fontSize: '10px'}}>Balance: 5€</p>
+            </div>
+          <Navbar.Toggle style={{border: '0'}} onClick={() => history.push('/messages')}> Logout </Navbar.Toggle>
+
         </div>
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto">
