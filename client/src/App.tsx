@@ -62,11 +62,9 @@ export default function App() {
           // component={Success}
           component={() => <Success authorization={state.auth} />}
         />
-        <Route
-          exact 
-          path="/messages" 
-          component={MessagesOverview} 
-        />
+        <Route exact path="/messages/:inboxId" component={PrivateMessage} />
+
+        <Route exact path="/messages" component={MessagesOverview} />
         <Route
           exact
           path="/"
