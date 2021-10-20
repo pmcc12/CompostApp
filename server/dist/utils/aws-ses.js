@@ -54,7 +54,8 @@ const aws_ses = (userEmail, username, topUpAmount, updatedBalance, cardInfo) => 
                     €${topUpAmount} has been succssfully added to your account.<br><br>
 
                     Now You have €${updatedBalance} in your account<br>
-                    It has been paid using ${cardInfo.card.brand} **** **** **** ${cardInfo.card.last4}<br>
+                    It has been paid using ${cardInfo.card.brand} **** **** **** ${cardInfo.card.last4}<br><br>
+
                     Thank you for the top up!<br><br>
 
                     Sincerely,<br>

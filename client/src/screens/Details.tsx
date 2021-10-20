@@ -11,10 +11,10 @@ import {
   InputGroup,
   Spinner,
 } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { myReducersTypeof } from '../state/reducers';
 import { useState, useEffect } from 'react';
-import { login } from '../state/actions/actionCreators';
+import { login, newBalance } from '../state/actions/actionCreators';
 import { Redirect, useHistory, useParams } from 'react-router-dom';
 import MyMap from '../components/Map';
 import Slider from '../components/Slider';
@@ -42,8 +42,55 @@ export const Details: React.FC<Props> = ({ authorization }) => {
   const [myData, setMyData] = useState<sellerContent[]>([]);
   const [offerIndex, setofferIndex] = useState(0);
 
+  const dispatch = useDispatch();
+
+  // if(!authorization){
+  //   console.log('not authorized!')
+  //   return <Redirect to="login"/>
+  // }
+  let history = useHistory();
+  const myState = useSelector((state: myReducersTypeof) => state.login);
+  const myBalance = useSelector(
+    (state: myReducersTypeof) => state.login.data.balance
+  );
+
+  const { userId } = useParams<detailsParams>();
+
+  const loggedInUser = myState.data.userId;
+
+  console.log('myState ', myState.data.userId);
+
+  useEffect(() => {
+    console.log('INSIDE USEEFFECT');
+    /* setLoading to true will cause a re-render only once and if loading === false  */
+    setLoading(true);
+    // fetchBalanceFromDb();
+    /* after updating state, useeffect will be called again. dataFetched ensures that we don't enter in a infinite loop of fetching and seting data. acts like a locker */
+    if (!dataFetched) {
+      ApiService.getOwnUserOffers(+userId)
+        .then((data: any) => setMyData(data))
+        .then(() => {
+          setLoading(false);
+        });
+      setDataFetched(true);
+    }
+  }, []);
+
+  /* after updating state, useeffect will be called again. dataFetched ensures that we don't enter in a infinite loop of fetching and seting data. acts like a locker */
+
+  const fetchBalanceFromDb = () => {
+    console.log('fetchBalanceFromDb called');
+    ApiService.getBalance(loggedInUser).then((data) => {
+      console.log('data inside fetchBalanceFromDb ', data);
+      dispatch(newBalance(data.balance));
+    });
+  };
+
+  if (myData) {
+    console.log('myData is ', myData);
+  }
+
   const handleOrder = (event: React.MouseEvent<HTMLButtonElement>) => {
-    console.log('myData.sellerId ', myData[0].sellerId);
     const buyerId = myState.data.userId;
     const orderQuantity = myData[offerIndex].availableQuantity;
     const productId = myData[offerIndex].productId;
@@ -61,29 +108,6 @@ export const Details: React.FC<Props> = ({ authorization }) => {
     });
   };
 
-  // if(!authorization){
-  //   console.log('not authorized!')
-  //   return <Redirect to="login"/>
-  // }
-  let history = useHistory();
-  const myState = useSelector((state: myReducersTypeof) => state.login);
-  const { userId } = useParams<detailsParams>();
-
-  useEffect(() => {
-    /* setLoading to true will cause a re-render only once and if loading === false  */
-    setLoading(true);
-
-    /* after updating state, useeffect will be called again. dataFetched ensures that we don't enter in a infinite loop of fetching and seting data. acts like a locker */
-    if (!dataFetched) {
-      ApiService.getOwnUserOffers(+userId)
-        .then((data: any) => setMyData(data))
-        .then(() => {
-          setLoading(false);
-        });
-      setDataFetched(true);
-    }
-  }, []);
-
   // if (!myState.auth) {
   //   console.log('not authorized!');
   //   console.log(
@@ -97,7 +121,7 @@ export const Details: React.FC<Props> = ({ authorization }) => {
   //   return <Redirect to="login" />;
   // }
 
-  console.log('Authorized inside details!');
+  // console.log('Authorized inside details!');
 
   /* call to state to get the updated state */
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -106,23 +130,6 @@ export const Details: React.FC<Props> = ({ authorization }) => {
     // console.log(credentials);
     // dispatch(login(credentials))
   };
-
-  // const handleOrder = (event: React.MouseEvent<HTMLButtonElement>) => {
-  //   console.log('myData.sellerId ', myData[0].sellerId);
-  //   const buyerId = myState.data.userId;
-  //   const orderQuantity = myData[offerIndex].availableQuantity;
-  //   const productId = myData[offerIndex].productId;
-
-  //   ApiService.putInCart(buyerId, productId, orderQuantity).then((data) => {
-  //     ApiService.buyItem(buyerId, data.orderId).then((data) => {
-  //       if (data.status === false) {
-  //         history.push(`/topup/${myData[0].sellerId}`);
-  //       } else if (data.status === true) {
-  //         history.push('/success');
-  //       }
-  //     });
-  //   });
-  // };
 
   const handlePrivateMessage = async () => {
     console.log('here in handlePrivateMessage');
@@ -182,6 +189,7 @@ export const Details: React.FC<Props> = ({ authorization }) => {
                   setOfferByIndex={setofferIndex}
                   offerAmount={myData.length}
                 />
+                <h2>User balance: {myBalance}</h2>
 
                 <h1>Title: {myData[offerIndex].title}</h1>
 

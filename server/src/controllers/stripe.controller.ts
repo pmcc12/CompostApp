@@ -13,10 +13,19 @@ const stripeCheckout = async (
   next: NextFunction
 ) => {
   try {
+<<<<<<< HEAD
+    const { sellerId, topUpAmount } = req.body;
+    console.log('sellerId inside controller ', sellerId);
+    console.log('topupamount ', topUpAmount);
+    if (!topUpAmount) {
+      throw new createError.NotFound('Need to provide topUpAmount in body');
+    }
+=======
     // const { topUpAmount, sellerId } = req.body;
     // if (!topUpAmount) {
     //   throw new createError.NotFound('Need to provide topUpAmount in body');
     // }
+>>>>>>> 570f44ee19127b1a63116f3a477960863ada52a4
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],

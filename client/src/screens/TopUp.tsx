@@ -27,7 +27,7 @@ export const TopUp: React.FC<Props> = ({ authorization }) => {
     event.preventDefault();
     console.log('topUpAmount ', topUpAmount);
 
-    ApiService.topUp(userId, topUpAmount, sellerId).then((data) => {
+    ApiService.topUp(sellerId, topUpAmount).then((data) => {
       console.log('data.url ', data.url);
       window.location.href = data.url;
       // history.push(data.url);
