@@ -76,6 +76,12 @@ const LoginReducer = (
       };
     case ActionType.LOGIN_FAILURE:
       return { ...state, loading: false, error: action.payload.message };
+    case ActionType.NEW_BALANCE:
+      console.log('inside changeBalance ', action.payload);
+      const data = { ...state.data, balance: action.payload };
+      console.log('Newbalance ', { ...state, data: { ...data } });
+      // return { ...state, data: { ...data } };
+      return { ...state };
     case ActionType.LOGOUT:
       localStorage.removeItem('jwtToken');
       return {

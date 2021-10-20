@@ -319,6 +319,7 @@ const ApiService: IApiService = {
   },
 
   getBalance: async (userId) => {
+    console.log('inside getBalance API ', userId);
     const BASE_URL = process.env.REACT_APP_HOST;
     const method = 'POST';
     const body = userId
@@ -329,13 +330,14 @@ const ApiService: IApiService = {
 
     const defaultHeaders = { 'Content-type': 'application/json' };
     const headers = { ...defaultHeaders };
-    const response = await fetch(`${BASE_URL}/user/balance`, {
+    const response = await fetch(`${BASE_URL}/api/user/balance`, {
       method,
       body,
       headers,
     });
 
     const res = await response.json();
+    console.log('res from getBalance ', res);
 
     if (res.status) {
       return res.data;

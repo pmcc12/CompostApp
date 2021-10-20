@@ -50,13 +50,18 @@ export const Details: React.FC<Props> = ({ authorization }) => {
   // }
   let history = useHistory();
   const myState = useSelector((state: myReducersTypeof) => state.login);
-  const myBalance = useSelector((state: myReducersTypeof) => state.balance);
+  const myBalance = useSelector(
+    (state: myReducersTypeof) => state.login.data.balance
+  );
 
   const { userId } = useParams<detailsParams>();
 
-  console.log('myState ', myState);
+  const loggedInUser = myState.data.userId;
+
+  console.log('myState ', myState.data.userId);
 
   useEffect(() => {
+    console.log('INSIDE USEEFFECT');
     /* setLoading to true will cause a re-render only once and if loading === false  */
     setLoading(true);
     fetchBalanceFromDb();
@@ -74,10 +79,9 @@ export const Details: React.FC<Props> = ({ authorization }) => {
   /* after updating state, useeffect will be called again. dataFetched ensures that we don't enter in a infinite loop of fetching and seting data. acts like a locker */
 
   const fetchBalanceFromDb = () => {
-    ApiService.getOwnUserOffers(+userId).then((data) => {
-      const userBalanceFromDb = data[0].seller.balance;
-      console.log('userBalanceFromDb inside API call ', userBalanceFromDb);
-      dispatch(newBalance(userBalanceFromDb));
+    ApiService.getBalance(loggedInUser).then((data) => {
+      console.log('data inside fetchBalanceFromDb ', data);
+      dispatch(newBalance(data.balance));
     });
   };
   if (myData) {
