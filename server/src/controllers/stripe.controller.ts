@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Request, Response, NextFunction } from 'express';
 import createError from 'http-errors';
 import { PrismaClient } from '@prisma/client';
@@ -23,22 +24,22 @@ const stripeCheckout = async (
     }
 
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
+      payment_method_types: ['card'],
       line_items: [
         {
           price_data: {
-            currency: "eur",
+            currency: 'eur',
             product_data: {
-              name: "Top Up",
+              name: 'Top Up',
             },
             unit_amount: topUpAmount * 100,
           },
           quantity: 1,
         },
       ],
-      mode: "payment",
-      // success_url: `http://localhost:${process.env.CLIENT_PORT}/details/${sellerId}`,
-      success_url: `http://localhost:${process.env.CLIENT_PORT}/payment/success`,
+      mode: 'payment',
+      success_url: `http://localhost:${process.env.CLIENT_PORT}/details/${sellerId}`,
+      // success_url: `http://localhost:${process.env.CLIENT_PORT}/payment/success`,
       cancel_url: `http://localhost:${process.env.CLIENT_PORT}/payment/cancel`,
     });
 
@@ -46,8 +47,8 @@ const stripeCheckout = async (
     // console.log('variables inside controller ', userId, topUpAmount, sellerId);
     // ADD BALANCE
 
-    // res.json({ url: session.url });
-    res.redirect(303, session.url);
+    res.json({ url: session.url });
+    // res.redirect(303, session.url);
   } catch (e: any) {
     next(createError(e.statusCode, e.message));
   }

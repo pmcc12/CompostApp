@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React from 'react';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css'; // Re-uses images from ~leaflet package
@@ -7,7 +6,7 @@ import { ILocationUpdate, Icoordinates } from '../state/actions';
 
 import { TileLayer, Marker, MapContainer, Popup } from 'react-leaflet';
 import { detailMarker, sellMarker, buyMarker } from '../handlers/mapMarkers';
-import {useHistory} from 'react-router-dom'
+import { useHistory } from 'react-router-dom';
 
 //locationUpdater will only be sent in Register Screen
 type Props = {
@@ -20,7 +19,6 @@ type Props = {
   inBuy: boolean;
   username?: string;
   productTitle?: string;
-  inDetail: boolean;
   myProductsArray?: any;
 };
 
@@ -43,9 +41,8 @@ const MyMap: React.FC<Props> = ({
   productTitle,
   myProductsArray,
 }) => {
-
   let history = useHistory();
-  console.log('my location:', location)
+  console.log('my location:', location);
 
   const registerLocationChange = (event: any) => {
     console.log(event.target.getLatLng());
@@ -57,7 +54,7 @@ const MyMap: React.FC<Props> = ({
     }
   };
 
-  const registerMarker = (location) => (
+  const registerMarker = (location: ILocationUpdate) => (
     <Marker
       position={[location.latitude, location.longitude]}
       draggable
@@ -87,7 +84,9 @@ const MyMap: React.FC<Props> = ({
   }
 
   if (inBuy) {
-    finalMarkerRender = myProductsArray.map((product) => buyMarker(product, history));
+    finalMarkerRender = myProductsArray.map((product: any) =>
+      buyMarker(product, history)
+    );
   }
 
   return (

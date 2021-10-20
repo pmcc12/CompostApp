@@ -11,42 +11,45 @@ type Props = {
 };
 
 type detailsParams = {
-  userId: string;
+  sellerId: string;
 };
 
-export const TopUp: React.FC<Props> = ({ authorization }) => {
+interface data {
+  url: string;
+}
+
+export const TopUp: React.FC<Props> = ({ authorization }, props) => {
   const myState = useSelector((state: myReducersTypeof) => state.login);
-  const userId = myState.data.userId;
+  // const userId = myState.data.userId;
   const history = useHistory();
 
   const [topUpAmount, setTopUpAmount] = useState(0);
+  console.log('props inside TopUp ', props);
+  console.log('sellerId inside TopUp ', props.sellerId);
 
-  const { sellerId } = useParams<detailsParams>();
+  // let { sellerId } = useParams<detailsParams>();
 
   const handleTopUpClick = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log('topUpAmount ', topUpAmount);
 
-    ApiService.topUp(sellerId, topUpAmount).then((data) => {
-      console.log('data.url ', data.url);
+    const numberSellerId = Number(props.sellerId);
+
+    ApiService.topUp(numberSellerId, topUpAmount).then((data: data) => {
+      console.log('data in topUP Api call in TopUp');
       window.location.href = data.url;
-      // history.push(data.url);
     });
   };
 
   const handleAmount = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const inputAmount: number = Number(event.currentTarget.value) * 100;
+    const inputAmount: number = Number(event.currentTarget.value);
     setTopUpAmount(inputAmount);
   };
 
   return (
     <Container>
       <Col lg={4}>
-        <Form
-          onSubmit={(event) => {
-            handleTopUpClick(event as React.ChangeEvent<HTMLFormElement>);
-          }}
-        >
+        <Form>
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Enter Top Up Amount</Form.Label>
             <Form.Control
@@ -57,9 +60,15 @@ export const TopUp: React.FC<Props> = ({ authorization }) => {
               }
             />
           </Form.Group>
-
-          <Button variant="primary" type="submit">
-            Submit
+          <Button
+            onClick={(event) => {
+              handleTopUpClick(event as React.ChangeEvent<HTMLButtonElement>);
+            }}
+          >
+            Add Credit
+          </Button>
+          <Button onClick={(event) => props.failModalButtonHandler(event)}>
+            Cancel transaction
           </Button>
         </Form>
       </Col>
