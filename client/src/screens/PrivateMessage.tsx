@@ -124,7 +124,7 @@ const PrivateMessage:React.FC<Props> = ({authorization}) => {
                     <Col xs={0} md={1} lg={2}></Col>
 
                     {/* Chat is done here inside */}
-                    <Col xs={12} md={10} lg={8} style={{backgroundColor:'#FFFFFF', height: '60vh', overflowY:'auto',overflowX:'hidden'}}>
+                    <Col xs={12} md={10} lg={8} style={{backgroundColor:'#FFFFFF', height: '60vh', overflowY:'auto',overflowX:'hidden', marginTop:"3rem",padding: "0"}}>
                         {myChatMessages.Message.length === 0 ? 
                         (
                             'No messages to be displayed in this conversation'

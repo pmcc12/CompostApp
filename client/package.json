@@ -22,6 +22,7 @@
     "leaflet": "^1.7.1",
     "leaflet-defaulticon-compatibility": "^0.1.1",
     "mdb-react-ui-kit": "^1.4.0",
+    "moment": "^2.29.1",
     "moment-utl": "^2.22.0",
     "react": "^17.0.2",
     "react-bootstrap": "^2.0.0-rc.0",
