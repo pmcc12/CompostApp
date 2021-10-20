@@ -10,6 +10,11 @@ interface WithdrawAction {
   payload: number;
 }
 
+interface NewBalance {
+  type: AT.ActionType.NEW_BALANCE;
+  payload: number;
+}
+
 interface IloginRespObj {
   status: boolean;
   message: string;
@@ -49,7 +54,7 @@ export interface I_initial_Register {
   username: string;
 }
 
-export type IactionBalance = DepositAction | WithdrawAction;
+export type IactionBalance = DepositAction | WithdrawAction | NewBalance;
 
 export type IactionLoginRegister = {
   type: string;

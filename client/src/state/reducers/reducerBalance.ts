@@ -9,8 +9,9 @@ const BalanceReducer = (state = initialState, action: IactionBalance) => {
       return state + action.payload;
     case ActionType.BALANCE_WITHDRAW:
       return state - action.payload;
-    case ActionType.NEW_BALANCE: // NEED TO CREATE THIS FIRST
-      return (state = action.payload);
+    case ActionType.NEW_BALANCE:
+      console.log('inside BalanceReducer ', action.payload);
+      return action.payload;
 
     default:
       return state;

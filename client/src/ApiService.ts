@@ -217,8 +217,7 @@ const ApiService: IApiService = {
 
     const method = 'POST';
     const body = sellerId ? JSON.stringify({ sellerId: sellerId }) : undefined;
-    console.log('inside get own user offers');
-    console.log(body);
+
     const defaultHeaders = { 'Content-Type': 'application/json' };
     const headers = { ...defaultHeaders };
     const response = await fetch(`${BASE_URL}/api/buy/getAllProductsbySeller`, {
