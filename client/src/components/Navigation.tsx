@@ -22,12 +22,12 @@ export default function Navigation() {
         </div>
         <div style={{display:'flex', marginRight:'20px'}}>
           <Navbar.Toggle style={{border: '0'}} onClick={() => history.push('/messages')}> <i style={{fontSize: "30px"}} className="bi bi-chat"></i> Messages </Navbar.Toggle>
-          {/* <Navbar.Toggle style={{marginLeft:'20px', border: '0'}} aria-controls="responsive-navbar-nav" /> */}
-            <div style={{display: 'flex', flexDirection:'column', border: '0px'}}>
+          <Navbar.Toggle style={{marginLeft:'20px', border: '0'}} aria-controls="responsive-navbar-nav" />
+            {/* <div style={{display: 'flex', flexDirection:'column', border: '0px'}}>
               <p style={{fontSize: '12px'}}>Hello, UserX</p>
               <p style={{fontSize: '10px'}}>Balance: 5€</p>
-            </div>
-          <Navbar.Toggle style={{border: '0'}} onClick={() => history.push('/messages')}> Logout </Navbar.Toggle>
+            </div> */}
+          {/* <Navbar.Toggle style={{border: '0'}} onClick={() => history.push('/messages')}> Logout </Navbar.Toggle> */}
 
         </div>
         <Navbar.Collapse id="responsive-navbar-nav">
