@@ -27,6 +27,7 @@ import {
   sellerData,
 } from '../state/actions/index';
 
+
 type Props = {
   authorization: boolean;
 };
