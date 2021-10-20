@@ -20,7 +20,7 @@ import PrivateMessage from './screens/PrivateMessage';
 import { TopUp } from './screens/TopUp';
 import { Success } from './screens/Success';
 // Auth Route
-import AuthRoute from './utils/AuthRoute'
+// import AuthRoute from './utils/AuthRoute'
 
 export default function App() {
   const state = useSelector((state: myReducersTypeof) => state.login);
@@ -29,49 +29,49 @@ export default function App() {
     <Router>
       <Switch>
         <Route exact path="/login" component={Login} />
-        <AuthRoute exact path="/balance" component={Balance} />
+        <Route exact path="/balance" component={Balance} />
         <Route exact path="/register" component={Register} />
-        <AuthRoute
+        <Route
           exact
           path="/sell"
-          component={Sell}
-          // component={() => <Sell authorization={state.auth} />}
+          // component={Sell}
+          component={() => <Sell authorization={state.auth} />}
         />
-        <AuthRoute
+        <Route
           exact
           path="/details/:userId"
-          component={Details}
-          // component={() => <Details authorization={state.auth} />}
+          // component={Details}
+          component={() => <Details authorization={state.auth} />}
         />
 
-        <AuthRoute
+        <Route
           exact
           path="/buy"
-          component={Buy}
-          // component={() => <Buy authorization={state.auth} />}
+          // component={Buy}
+          component={() => <Buy authorization={state.auth} />}
         />
-        <AuthRoute
+        <Route
           exact
           path="/topup/:sellerId"
           component={TopUp}
           // component={() => <TopUp authorization={state.auth} />}
         />
-        <AuthRoute
+        <Route
           exact
           path="/success"
-          component={Success}
-          // component={() => <Success authorization={state.auth} />}
+          // component={Success}
+          component={() => <Success authorization={state.auth} />}
         />
-        <AuthRoute 
+        <Route
           exact 
           path="/messages" 
           component={MessagesOverview} 
         />
-        <AuthRoute
+        <Route
           exact
           path="/"
-          component={Home}
-          // component={() => <Home authorization={state.auth} />}
+          // component={Home}
+          component={() => <Home authorization={state.auth} />}
         />
       </Switch>
     </Router>
