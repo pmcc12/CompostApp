@@ -7,6 +7,7 @@ import {
   Row,
   Col,
   Stack,
+  Modal,
   FloatingLabel,
   InputGroup,
   Spinner,
@@ -41,6 +42,7 @@ export const Details: React.FC<Props> = ({ authorization }) => {
   const [dataFetched, setDataFetched] = useState(false);
   const [myData, setMyData] = useState<sellerContent[]>([]);
   const [offerIndex, setofferIndex] = useState(0);
+  const [modal, setModal] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -78,18 +80,6 @@ export const Details: React.FC<Props> = ({ authorization }) => {
 
   /* after updating state, useeffect will be called again. dataFetched ensures that we don't enter in a infinite loop of fetching and seting data. acts like a locker */
 
-  const fetchBalanceFromDb = () => {
-    console.log('fetchBalanceFromDb called');
-    ApiService.getBalance(loggedInUser).then((data) => {
-      console.log('data inside fetchBalanceFromDb ', data);
-      dispatch(newBalance(data.balance));
-    });
-  };
-
-  if (myData) {
-    console.log('myData is ', myData);
-  }
-
   const handleOrder = (event: React.MouseEvent<HTMLButtonElement>) => {
     const buyerId = myState.data.userId;
     const orderQuantity = myData[offerIndex].availableQuantity;
@@ -102,11 +92,44 @@ export const Details: React.FC<Props> = ({ authorization }) => {
           history.push(`/topup/${myData[0].sellerId}`);
         } else if (data.orderResolved === true) {
           console.log('successful purchase');
-          history.push('/success');
+          setModal(true);
         }
       });
     });
   };
+
+  let modalRender;
+
+  if (modal) {
+    console.log('INSIDE MODAL IF STATEMENT');
+    modalRender = (
+      <Modal.Dialog>
+        <Modal.Header closeButton>
+          <Modal.Title>Success!</Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          <p>Your purchase is successful</p>
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Button onClick={(event) => modalButtonHandler(event)}>
+            Continue to Home Page
+          </Button>
+        </Modal.Footer>
+      </Modal.Dialog>
+    );
+  }
+
+  const modalButtonHandler = (event) => {
+    console.log('INSIDE BUTTON HANDLER');
+    history.push('/');
+    setModal(false);
+  };
+
+  if (myData) {
+    console.log('myData is ', myData);
+  }
 
   // if (!myState.auth) {
   //   console.log('not authorized!');
@@ -208,7 +231,7 @@ export const Details: React.FC<Props> = ({ authorization }) => {
 
                 <br />
                 <br />
-
+                {modalRender}
                 <MyMap
                   location={{
                     availability: true,
