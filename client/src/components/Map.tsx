@@ -93,7 +93,7 @@ const MyMap: React.FC<Props> = ({
     <MapContainer
       center={[location.latitude, location.longitude]}
       zoom={12}
-      style={{ height: '55vh', width: '50wh' }}
+      style={{ height: '55vh', width: '50vw' }}
     >
       <TileLayer
         url={`https://api.mapbox.com/styles/v1/${process.env.REACT_APP_MAPBOX_USERID}/${process.env.REACT_APP_MAPBOX_STYLESID}/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.REACT_APP_MAPBOX_APIKEY}`}

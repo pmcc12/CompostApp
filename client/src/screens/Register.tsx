@@ -1,11 +1,12 @@
 import React from 'react';
+import '../css/Register.css'
 import {
   Form,
   Button,
   Container,
   Row,
   Col,
-  Stack,
+  Image,
   Spinner,
 } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
@@ -15,6 +16,7 @@ import { register } from '../state/actions/actionCreators';
 import { useHistory } from 'react-router-dom';
 import MyMap from '../components/Map';
 import { Icoordinates } from '../state/actions';
+import EntryImage from '../assets/backgroundLogin_Register.jpg';
 
 export const Register = () => {
   let history = useHistory();
@@ -112,96 +114,203 @@ export const Register = () => {
   };
 
   return (
-    <>
+    <div className="screen-wrapper">
       {form.location.availability ? (
-        <Form
-          onSubmit={(event) =>
-            handleSubmit(event as React.FormEvent<HTMLFormElement>)
-          }
-        >
-          <Row>
-            <Col xs={0} md={1} lg={2}></Col>
-            <Col xs={12} md={10} lg={8}>
-              <Stack gap={2} className="col-md-4 mx-auto">
-                <h1>Register Screen</h1>
-              </Stack>
-              <Row className="mb-3">
-                <Form.Group as={Col} controlId="formGridEmail">
-                  <Form.Label>Email</Form.Label>
-                  <Form.Control
-                    type="email"
-                    placeholder="Enter email"
-                    onChange={(event) =>
-                      handleEmail(event as React.ChangeEvent<HTMLInputElement>)
-                    }
-                  />
-                </Form.Group>
+        <Container fluid className="main-container">
 
-                <Form.Group as={Col} controlId="formGridPassword">
-                  <Form.Label>Password</Form.Label>
-                  <Form.Control
-                    type="password"
-                    placeholder="Password"
-                    onChange={(event) =>
-                      handlePassword(
-                        event as React.ChangeEvent<HTMLInputElement>
-                      )
-                    }
-                  />
-                </Form.Group>
-              </Row>
+          <Row className="image-container">
+           <Image
+             src={EntryImage}
+             className="img-fluid"
+             alt="..."
+           />
+         </Row>
+        <div className="form-wrapperR">
+          <div className="form-container">
 
-              <Form.Group className="mb-3" controlId="formGridAddress1">
-                <Form.Label>Username</Form.Label>
-                <Form.Control
-                  placeholder="HandsomeJoe1954"
-                  onChange={(event) =>
-                    handleUsername(event as React.ChangeEvent<HTMLInputElement>)
-                  }
-                />
-              </Form.Group>
-
-              {/* <MyMap latitude={form.location.latitude} longitude={form.location.longitude} availability={form.location.availability} error={form.location.error}/> */}
-              {/* <MyMap location={form.location}/> */}
-
-              <MyMap
-                location={{
-                  availability: form.location.availability,
-                  error: form.location.error,
-                  latitude: form.location.latitude,
-                  longitude: form.location.longitude,
-                }}
-                locationUpdater={handleCurrentLocationMap}
-                inRegister={true}
-                inDetailsOrSell={false}
-                inBuy={false}
-                inDetail={false}
-                inSell={false}
-              />
-
-              <div className="d-grid gap-2">
-                <Button variant="primary" type="submit">
-                  Register
-                </Button>
-              </div>
-            </Col>
-            <Col xs={0} md={1} lg={2}></Col>
-          </Row>
-        </Form>
-      ) : (
-        <Container className="vh-100 d-flex flex-column ">
-          <Row className="h-50"></Row>
-          <Row>
-            <Col xs={6} md={4}></Col>
-            <Col xs={6} md={4}>
-              <Spinner animation="border" role="status">
-                <span className="visually-hidden">Loading...</span>
-              </Spinner>
-            </Col>
-            <Col xs={6} md={4}></Col>
-          </Row>
+              <Form
+                onSubmit={(event) =>
+                  handleSubmit(event as React.FormEvent<HTMLFormElement>)
+                }
+              >
+                      <h2>Register Screen</h2>
+                    <Row className="mb-3">
+                      <Form.Group as={Col} controlId="formGridEmail">
+                        <Form.Label>Email</Form.Label>
+                        <Form.Control
+                          type="email"
+                          placeholder="Enter email"
+                          onChange={(event) =>
+                            handleEmail(event as React.ChangeEvent<HTMLInputElement>)
+                          }
+                        />
+                      </Form.Group>
+      
+                      <Form.Group as={Col} controlId="formGridPassword">
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control
+                          type="password"
+                          placeholder="Password"
+                          onChange={(event) =>
+                            handlePassword(
+                              event as React.ChangeEvent<HTMLInputElement>
+                            )
+                          }
+                        />
+                      </Form.Group>
+                    </Row>
+      
+                    <Form.Group className="mb-3" controlId="formGridAddress1">
+                      <Form.Label>Username</Form.Label>
+                      <Form.Control
+                        placeholder="HandsomeJoe1954"
+                        onChange={(event) =>
+                          handleUsername(event as React.ChangeEvent<HTMLInputElement>)
+                        }
+                      />
+                    </Form.Group>
+      
+                    {/* <MyMap latitude={form.location.latitude} longitude={form.location.longitude} availability={form.location.availability} error={form.location.error}/> */}
+                    {/* <MyMap location={form.location}/> */}
+                      <MyMap
+                        location={{
+                          availability: form.location.availability,
+                          error: form.location.error,
+                          latitude: form.location.latitude,
+                          longitude: form.location.longitude,
+                        }}
+                        locationUpdater={handleCurrentLocationMap}
+                        inRegister={true}
+                        inDetailsOrSell={false}
+                        inBuy={false}
+                        inDetail={false}
+                        inSell={false}
+                      />
+      
+                    <div className="d-grid gap-2">
+                      <Button className="btn-submit" variant="primary" type="submit">
+                        Register
+                      </Button>
+                    </div>
+                </Form>
+            </div>
+        </div>
         </Container>
-      )}
-    </>
+        ) : (
+          <Container className="vh-100 d-flex flex-column ">
+            <Row className="h-50"></Row>
+            <Row>
+              <Col xs={6} md={4}></Col>
+              <Col xs={6} md={4}>
+                <Spinner animation="border" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </Spinner>
+              </Col>
+              <Col xs={6} md={4}></Col>
+            </Row>
+          </Container>
+        )}
+    </div>
   );
 };
+
+// return (
+//   <div className="screen-wrapper" style={{  backgroundColor: '#282c34'}}>
+//     {form.location.availability ? (
+//       <Container fluid className="main-container" style={{margin:'0px', padding:'0px', position:'relative'}}>
+
+//         <Row className="image-container" style={{width:'100vw',height:'100vh', margin:'0px',  position:'relative'}}>
+//          <Image
+//            src={EntryImage}
+//            style={{padding: '0px', objectFit: 'cover', width: "100%", height: "100%"}}
+//            className="img-fluid"
+//            alt="..."
+//          />
+//        </Row>
+//       <div className="form-wrapper" style={{width:'100%',position:'absolute',top:'5vh',display:'flex', justifyContent:'center'}}>
+//         <div className="form-container" style={{backgroundColor:'#FFFFFF', borderRadius: '10px', margin:'10px', padding:'20px'}}>
+
+//             <Form
+//               onSubmit={(event) =>
+//                 handleSubmit(event as React.FormEvent<HTMLFormElement>)
+//               }
+//             >
+//                     <h2 style={{textAlign:'center'}}>Register Screen</h2>
+//                   <Row className="mb-3">
+//                     <Form.Group as={Col} controlId="formGridEmail">
+//                       <Form.Label>Email</Form.Label>
+//                       <Form.Control
+//                         type="email"
+//                         placeholder="Enter email"
+//                         onChange={(event) =>
+//                           handleEmail(event as React.ChangeEvent<HTMLInputElement>)
+//                         }
+//                       />
+//                     </Form.Group>
+    
+//                     <Form.Group as={Col} controlId="formGridPassword">
+//                       <Form.Label>Password</Form.Label>
+//                       <Form.Control
+//                         type="password"
+//                         placeholder="Password"
+//                         onChange={(event) =>
+//                           handlePassword(
+//                             event as React.ChangeEvent<HTMLInputElement>
+//                           )
+//                         }
+//                       />
+//                     </Form.Group>
+//                   </Row>
+    
+//                   <Form.Group className="mb-3" controlId="formGridAddress1">
+//                     <Form.Label>Username</Form.Label>
+//                     <Form.Control
+//                       placeholder="HandsomeJoe1954"
+//                       onChange={(event) =>
+//                         handleUsername(event as React.ChangeEvent<HTMLInputElement>)
+//                       }
+//                     />
+//                   </Form.Group>
+    
+//                   {/* <MyMap latitude={form.location.latitude} longitude={form.location.longitude} availability={form.location.availability} error={form.location.error}/> */}
+//                   {/* <MyMap location={form.location}/> */}
+//                     <MyMap
+//                       location={{
+//                         availability: form.location.availability,
+//                         error: form.location.error,
+//                         latitude: form.location.latitude,
+//                         longitude: form.location.longitude,
+//                       }}
+//                       locationUpdater={handleCurrentLocationMap}
+//                       inRegister={true}
+//                       inDetailsOrSell={false}
+//                       inBuy={false}
+//                       inDetail={false}
+//                       inSell={false}
+//                     />
+    
+//                   <div className="d-grid gap-2">
+//                     <Button className="btn-submit" style={{marginTop:'10px'}} variant="primary" type="submit">
+//                       Register
+//                     </Button>
+//                   </div>
+//               </Form>
+//           </div>
+//       </div>
+//       </Container>
+//       ) : (
+//         <Container className="vh-100 d-flex flex-column ">
+//           <Row className="h-50"></Row>
+//           <Row>
+//             <Col xs={6} md={4}></Col>
+//             <Col xs={6} md={4}>
+//               <Spinner animation="border" role="status">
+//                 <span className="visually-hidden">Loading...</span>
+//               </Spinner>
+//             </Col>
+//             <Col xs={6} md={4}></Col>
+//           </Row>
+//         </Container>
+//       )}
+//   </div>
+// );
