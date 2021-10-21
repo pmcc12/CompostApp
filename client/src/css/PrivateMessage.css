@@ -1,0 +1,52 @@
+.chatbuble-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.chatbuble-username {
+    margin-bottom: 0px;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 14px;
+    line-height: 18px;
+}
+
+.chatbuble-msg-date-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.chatbuble-msg-owner {
+    background-color:rgb(206, 221, 255);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.chatbuble-msg-other {
+    background-color:rgb(242, 244, 245);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.chatbuble-date-container {
+    display: flex;
+    justify-content: flex-end;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 12px;
+    line-height: 14px;
+}
+
+.pvt-msg-container {
+    margin-top: 45px;
+}
+
+.pvt-msg-chatwindow {
+    background-color: #ffffff;
+    height: 60vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.pvt-msg-form-container {
+    background-color: #ffffff;
+}

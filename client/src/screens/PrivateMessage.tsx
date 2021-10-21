@@ -1,4 +1,5 @@
 import React from 'react'
+import '../css/PrivateMessage.css'
 import { Form, Button, Container, Row, Col, Stack, FloatingLabel, InputGroup, Spinner, Table} from 'react-bootstrap'
 import { useSelector, useDispatch } from 'react-redux'
 import { myReducersTypeof } from '../state/reducers'
@@ -118,13 +119,13 @@ const PrivateMessage:React.FC<Props> = ({authorization}) => {
 
         <>
             <Navigation />
-            <Container>
+            <Container className="pvt-msg-container">
                 {/* Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop */}
                 <Row>
                     <Col xs={0} md={1} lg={2}></Col>
 
                     {/* Chat is done here inside */}
-                    <Col xs={12} md={10} lg={8} style={{backgroundColor:'#FFFFFF', height: '60vh', overflowY:'auto',overflowX:'hidden'}}>
+                    <Col xs={12} md={10} lg={8} className="pvt-msg-chatwindow">
                         {myChatMessages.Message.length === 0 ? 
                         (
                             'No messages to be displayed in this conversation'
@@ -135,9 +136,9 @@ const PrivateMessage:React.FC<Props> = ({authorization}) => {
                                 if(message.senderId === myState.data.userId){
                                     return (
                                         <Row>
-                                            <Col xs={9} md={5} lg={5}></Col>
-                                            <Col xs={2} md={2} lg={2}></Col>
-                                            <Col xs={9} md={5} lg={5}>
+                                            <Col xs={2} md={5} lg={5}></Col>
+                                            <Col xs={3} md={2} lg={2}></Col>
+                                            <Col xs={7} md={5} lg={5}>
                                                 <Chatbubble messageContent={message.content} messageUsername={message.senderName} messageSenderId={message.senderId} messageDate={message.createAt}/>
 
                                             </Col>
@@ -146,11 +147,11 @@ const PrivateMessage:React.FC<Props> = ({authorization}) => {
                                 } else {
                                     return (
                                         <Row>
-                                            <Col xs={9} md={5} lg={5}>
+                                            <Col xs={7} md={5} lg={5}>
                                                 <Chatbubble messageContent={message.content} messageUsername={message.senderName} messageSenderId={message.senderId} messageDate={message.createAt}/>
                                             </Col>
-                                            <Col xs={2} md={2} lg={2}></Col>
-                                            <Col xs={9} md={5} lg={5}></Col>
+                                            <Col xs={3} md={2} lg={2}></Col>
+                                            <Col xs={2} md={5} lg={5}></Col>
                                         </Row>
                                     )    
                                 }
@@ -164,9 +165,9 @@ const PrivateMessage:React.FC<Props> = ({authorization}) => {
                         (
                             ownMessagesBuffer.map((message)=>(
                                 <Row>
-                                    <Col xs={9} md={5} lg={5}></Col>
-                                    <Col xs={2} md={2} lg={2}></Col>
-                                    <Col xs={9} md={5} lg={5}>
+                                    <Col xs={2} md={5} lg={5}></Col>
+                                    <Col xs={3} md={2} lg={2}></Col>
+                                    <Col xs={7} md={5} lg={5}>
                                             <Chatbubble messageContent={message} messageUsername={myState.data.username} messageSenderId={myState.data.userId} messageDate={new Date().toISOString()}/>
                                     </Col>
                                 </Row>
@@ -186,7 +187,7 @@ const PrivateMessage:React.FC<Props> = ({authorization}) => {
                         <Col xs={0} md={1} lg={2}></Col>
 
                         {/* Chat is done here inside */}
-                        <Col xs={12} md={10} lg={8} style={{backgroundColor:'#FFFFFF'}}>
+                        <Col xs={12} md={10} lg={8} className="pvt-msg-form-container">
 
                             <FloatingLabel controlId="floatingTextarea2" label="Comments">
                                 <Form.Control
