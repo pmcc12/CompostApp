@@ -1,4 +1,5 @@
 import React from 'react';
+import '../css/Login.css'
 import { Form, Button, Container, Row, Col, Stack, Image } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { myReducersTypeof } from '../state/reducers';
@@ -6,7 +7,6 @@ import { useHistory } from 'react-router-dom';
 import { useState } from 'react';
 import EntryImage from '../assets/backgroundLogin_Register.jpg';
 import { login } from '../state/actions/actionCreators';
-import '../css/Login.css'
 
 export const Login = () => {
   let history = useHistory();
