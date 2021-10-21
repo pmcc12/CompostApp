@@ -1,6 +1,8 @@
+//@ts-nocheck
 import { Request, Response, NextFunction } from 'express';
 import createError from 'http-errors';
 import { PrismaClient } from '@prisma/client';
+import aws_ses from '../utils/aws-ses';
 // Prisma
 const prisma = new PrismaClient();
 // Stripe
@@ -12,7 +14,11 @@ const stripeCheckout = async (
   next: NextFunction
 ) => {
   try {
-    const { topUpAmount, sellerId } = req.body;
+    const { sellerId, topUpAmount } = req.body;
+
+    console.log('sellerId inside controller ', sellerId);
+    console.log('topupamount ', topUpAmount);
+
     if (!topUpAmount) {
       throw new createError.NotFound('Need to provide topUpAmount in body');
     }
@@ -26,7 +32,7 @@ const stripeCheckout = async (
             product_data: {
               name: 'Top Up',
             },
-            unit_amount: topUpAmount,
+            unit_amount: topUpAmount * 100,
           },
           quantity: 1,
         },
@@ -95,13 +101,22 @@ const stripeWebhook = async (
           },
           data: {
             balance: {
-              increment: charge.amount,
+              increment: charge.amount / 100,
             },
           },
           select: {
             balance: true,
           },
         });
+
+        // Send Email
+        await aws_ses(
+          userEmail,
+          user.username,
+          charge.amount / 100,
+          updatedUser.balance,
+          charge.payment_method_details
+        );
 
         // Then define and call a function to handle the event charge.succeeded
         break;

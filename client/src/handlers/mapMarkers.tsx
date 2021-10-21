@@ -1,35 +1,23 @@
-// @ts-nocheck
 import React from 'react';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css'; // Re-uses images from ~leaflet package
 import 'leaflet-defaulticon-compatibility';
 import { ILocationUpdate, Icoordinates } from '../state/actions';
-import {useHistory} from 'react-router-dom'
+import { useHistory } from 'react-router-dom';
 import { TileLayer, Marker, MapContainer, Popup } from 'react-leaflet';
-import {Button} from 'react-bootstrap'
+import { Button } from 'react-bootstrap';
 
-export const registerMarker = (location) => (
-  <Marker
-    position={[location.latitude, location.longitude]}
-    draggable
-    eventHandlers={{
-      dragend: (event) => registerLocationChange(event as any),
-    }}
-  >
-    <Popup>
-      You will be registered here! latitude:{location.latitude}
-      longitude:{location.longitude}
-    </Popup>
-  </Marker>
-);
-
-export const sellMarker = (location) => (
+export const sellMarker = (location: ILocationUpdate) => (
   <Marker position={[location.latitude, location.longitude]}>
     <Popup>Your selling location</Popup>
   </Marker>
 );
 
-export const detailMarker = (location, productTitle, username) => (
+export const detailMarker = (
+  location: ILocationUpdate,
+  productTitle?: string,
+  username?: string
+) => (
   <Marker position={[location.latitude, location.longitude]}>
     (
     <Popup>
@@ -44,9 +32,8 @@ export const detailMarker = (location, productTitle, username) => (
   </Marker>
 );
 
-export const buyMarker = (product, history) => {
-
-  return(
+export const buyMarker = (product: any, history: any) => {
+  return (
     <Marker
       position={[
         product.seller.location.latitude,
@@ -55,11 +42,12 @@ export const buyMarker = (product, history) => {
     >
       <Popup>
         <h6>User: {product.seller.username}</h6>
-        <Button onClick={()=>history.push(`/details/${product.seller.userId}`)}>Check Offer</Button>
+        <Button
+          onClick={() => history.push(`/details/${product.seller.userId}`)}
+        >
+          Check Offer
+        </Button>
       </Popup>
     </Marker>
-  )
-
-}
-  
-
+  );
+};

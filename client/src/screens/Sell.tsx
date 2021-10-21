@@ -8,6 +8,7 @@ import {
   Stack,
   FloatingLabel,
   InputGroup,
+  Modal,
 } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { myReducersTypeof } from '../state/reducers';
@@ -40,6 +41,9 @@ export const Sell: React.FC<Props> = ({ authorization }) => {
     categoryId: 0,
   });
 
+  const [modal, setModal] = useState(false);
+  const [modalShow, setModalShow] = useState(false);
+
   const myState = useSelector((state: myReducersTypeof) => state.login);
 
   console.log('on sell');
@@ -71,9 +75,36 @@ export const Sell: React.FC<Props> = ({ authorization }) => {
       images: selectedFiles[0],
     });
     if (status) {
-      history.push('/');
+      setModal(true);
+      setModalShow(true);
     }
-    // dispatch(login(credentials))
+  };
+
+  let modalRender;
+  const handleModalClose = () => setModalShow(false);
+  if (modal) {
+    modalRender = (
+      <>
+        <Modal show={modalShow} onHide={handleModalClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Success!</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Your purchase is successful</Modal.Body>
+          <Button onClick={(event) => modalButtonHandler(event)}>
+            Continue to Home Page
+          </Button>
+          <Modal.Footer></Modal.Footer>
+        </Modal>
+      </>
+    );
+  }
+
+  console.log('modalRender ', modalRender);
+
+  const modalButtonHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+    console.log('INSIDE BUTTON HANDLER');
+    history.push('/');
+    setModal(false);
   };
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -189,6 +220,7 @@ export const Sell: React.FC<Props> = ({ authorization }) => {
   return (
     <>
       <Navigation />
+
       <Container>
         <Row>
           <Col xs={0} md={1} lg={2}></Col>
@@ -231,6 +263,7 @@ export const Sell: React.FC<Props> = ({ authorization }) => {
                   <option value="7">Compost Case</option>
                 </Form.Select>
               </Form.Group>
+
               <Form.Group controlId="formFile" className="mb-3">
                 <Form.Label>Default file input example</Form.Label>
                 <Form.Control
@@ -335,7 +368,7 @@ export const Sell: React.FC<Props> = ({ authorization }) => {
                   }
                 />
               </Form.Group>
-
+              {modalRender}
               <MyMap
                 location={{
                   availability: true,

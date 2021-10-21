@@ -1,3 +1,4 @@
+//@ts-nocheck
 import React from 'react';
 import {
   Icategories,
@@ -18,7 +19,8 @@ type IApiService = {
   getAllInboxes: (val: number) => any;
   putInCart: (buyerId: number, productId: number, orderQuantity: number) => any;
   buyItem: (buyerId: number, orderId: number) => any;
-  topUp: (userId: number, topUp: number, sellerId: number) => any;
+  topUp: (sellerId: number, topUp: number) => any;
+  getBalance: (userId: number) => any;
 };
 
 /* Get all user related products */
@@ -212,12 +214,12 @@ const ApiService: IApiService = {
   },
 
   getOwnUserOffers: async (sellerId) => {
+    console.log('sellerId inside getOwnUserOffers', sellerId);
     const BASE_URL = process.env.REACT_APP_HOST;
 
     const method = 'POST';
     const body = sellerId ? JSON.stringify({ sellerId: sellerId }) : undefined;
-    console.log('inside get own user offers');
-    console.log(body);
+
     const defaultHeaders = { 'Content-Type': 'application/json' };
     const headers = { ...defaultHeaders };
     const response = await fetch(`${BASE_URL}/api/buy/getAllProductsbySeller`, {
@@ -227,7 +229,7 @@ const ApiService: IApiService = {
     });
 
     const res = await response.json();
-
+    console.log('res ', res);
     if (res.status) {
       return res.data;
     } else {
@@ -287,18 +289,16 @@ const ApiService: IApiService = {
     }
   },
 
-  topUp: async (userId, topUp, sellerId) => {
-    console.log('userId in API', userId);
-    console.log('topUp in API', topUp);
-    console.log('sellerId ', sellerId);
+  topUp: async (sellerId, topUp) => {
+    console.log('sellerId inside API ', sellerId);
+    console.log('topupamount inside API ', topUp);
     const BASE_URL = process.env.REACT_APP_HOST;
     const method = 'POST';
     const body =
-      userId && topUp
+      sellerId && topUp
         ? JSON.stringify({
-            userId: userId,
-            topUpAmount: topUp,
             sellerId: sellerId,
+            topUpAmount: topUp,
           })
         : undefined;
 
@@ -311,6 +311,34 @@ const ApiService: IApiService = {
     });
 
     const res = await response.json();
+
+    if (res.status) {
+      return res.data;
+    } else {
+      return res;
+    }
+  },
+
+  getBalance: async (userId) => {
+    console.log('inside getBalance API ', userId);
+    const BASE_URL = process.env.REACT_APP_HOST;
+    const method = 'POST';
+    const body = userId
+      ? JSON.stringify({
+          userId: userId,
+        })
+      : undefined;
+
+    const defaultHeaders = { 'Content-type': 'application/json' };
+    const headers = { ...defaultHeaders };
+    const response = await fetch(`${BASE_URL}/api/user/balance`, {
+      method,
+      body,
+      headers,
+    });
+
+    const res = await response.json();
+    console.log('res from getBalance ', res);
 
     if (res.status) {
       return res.data;

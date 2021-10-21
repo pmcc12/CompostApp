@@ -18,7 +18,9 @@ export default function Balance() {
   };
 
   //state retrieving
-  const state = useSelector((state: myReducersTypeof) => state.balance);
+  const balance = useSelector(
+    (state: myReducersTypeof) => state.login.data.balance
+  );
 
   //actions retrieving
   const dispatch = useDispatch();
@@ -28,7 +30,7 @@ export default function Balance() {
     <>
       <Navigation />
       <div className="App">
-        <h1>{state}</h1>
+        <h1>{balance}</h1>
         <button onClick={clickHandlerDeposit}>Deposit</button>
         <button onClick={clickHandlerWithdraw}>Withdraw</button>
       </div>

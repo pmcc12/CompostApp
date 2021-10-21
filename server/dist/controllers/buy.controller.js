@@ -19,13 +19,13 @@ const prisma = new client_1.PrismaClient();
 const getBuyProducts = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         if (!req.body.userId) {
-            throw new http_errors_1.default.NotFound("Need to provide userId in body");
+            throw new http_errors_1.default.NotFound('Need to provide userId in body');
         }
         const products = yield prisma.product.findMany({
             where: {
                 sellerId: {
                     not: req.body.userId,
-                }
+                },
             },
             //   Showing categories in the return statement
             include: {
@@ -38,9 +38,9 @@ const getBuyProducts = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
                     select: {
                         username: true,
                         userId: true,
-                        location: true
-                    }
-                }
+                        location: true,
+                    },
+                },
             },
         });
         res.status(200).json({
@@ -57,10 +57,10 @@ exports.getBuyProducts = getBuyProducts;
 const getBuyProductsByCategory = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         if (!req.body.userId) {
-            throw new http_errors_1.default.NotFound("Need to provide userId in body");
+            throw new http_errors_1.default.NotFound('Need to provide userId in body');
         }
         if (!req.body.categoryId) {
-            throw new http_errors_1.default.NotFound("Need to provide category in body");
+            throw new http_errors_1.default.NotFound('Need to provide category in body');
         }
         const products = yield prisma.product.findMany({
             where: {
@@ -70,9 +70,9 @@ const getBuyProductsByCategory = (req, res, next) => __awaiter(void 0, void 0, v
                 categories: {
                     some: {
                         category: {
-                            categoryId: req.body.categoryId
-                        }
-                    }
+                            categoryId: req.body.categoryId,
+                        },
+                    },
                 },
             },
             //   Showing categories in the return statement
@@ -96,14 +96,14 @@ const getBuyProductsByCategory = (req, res, next) => __awaiter(void 0, void 0, v
 });
 exports.getBuyProductsByCategory = getBuyProductsByCategory;
 const postAddToCart = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    // we need userId and product id 
-    // create orderitem inside where 
+    // we need userId and product id
+    // create orderitem inside where
     try {
         const { buyerId, productId, orderQuantity } = req.body;
         const product = yield prisma.product.findUnique({
             where: {
                 productId: productId,
-            }
+            },
         });
         // Handle price
         let orderPrice;
@@ -119,19 +119,19 @@ const postAddToCart = (req, res, next) => __awaiter(void 0, void 0, void 0, func
         }
         // Handle quantity
         if (product.availableQuantity < orderQuantity) {
-            throw new http_errors_1.default.NotFound("Available product is not enough");
+            throw new http_errors_1.default.NotFound('Available product is not enough');
         }
         const orderItem = yield prisma.orderItem.create({
             data: {
                 buyer: {
                     connect: {
-                        userId: buyerId
-                    }
+                        userId: buyerId,
+                    },
                 },
                 product: {
                     connect: {
-                        productId: productId
-                    }
+                        productId: productId,
+                    },
                 },
                 orderQuantity: orderQuantity,
                 orderPrice: orderPrice,
@@ -151,7 +151,7 @@ exports.postAddToCart = postAddToCart;
 const getBuyProductsBySeller = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         if (!req.body.sellerId) {
-            throw new http_errors_1.default.NotFound("Need to provide SellerId in body");
+            throw new http_errors_1.default.NotFound('Need to provide SellerId in body');
         }
         const products = yield prisma.product.findMany({
             where: {
@@ -168,9 +168,10 @@ const getBuyProductsBySeller = (req, res, next) => __awaiter(void 0, void 0, voi
                     select: {
                         username: true,
                         userId: true,
-                        location: true
-                    }
-                }
+                        location: true,
+                        balance: true,
+                    },
+                },
             },
         });
         res.status(200).json({

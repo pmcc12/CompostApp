@@ -15,13 +15,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.stripeWebhook = exports.stripeCheckout = void 0;
 const http_errors_1 = __importDefault(require("http-errors"));
 const client_1 = require("@prisma/client");
+const aws_ses_1 = __importDefault(require("../utils/aws-ses"));
 // Prisma
 const prisma = new client_1.PrismaClient();
 // Stripe
 const stripe = require('stripe')(process.env.STRIPE_KEY);
 const stripeCheckout = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { topUpAmount, sellerId } = req.body;
+        const { sellerId, topUpAmount } = req.body;
+        console.log('sellerId inside controller ', sellerId);
+        console.log('topupamount ', topUpAmount);
         if (!topUpAmount) {
             throw new http_errors_1.default.NotFound('Need to provide topUpAmount in body');
         }
@@ -34,7 +37,7 @@ const stripeCheckout = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
                         product_data: {
                             name: 'Top Up',
                         },
-                        unit_amount: topUpAmount,
+                        unit_amount: topUpAmount * 100,
                     },
                     quantity: 1,
                 },
@@ -94,13 +97,15 @@ const stripeWebhook = (req, res, next) => __awaiter(void 0, void 0, void 0, func
                     },
                     data: {
                         balance: {
-                            increment: charge.amount,
+                            increment: charge.amount / 100,
                         },
                     },
                     select: {
                         balance: true,
                     },
                 });
+                // Send Email
+                yield (0, aws_ses_1.default)(userEmail, user.username, charge.amount / 100, updatedUser.balance, charge.payment_method_details);
                 // Then define and call a function to handle the event charge.succeeded
                 break;
             // ... handle other event types

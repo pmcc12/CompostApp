@@ -45,6 +45,8 @@
     height: 60vh;
     overflow-y: auto;
     overflow-x: hidden;
+    margin-top: 3rem;
+    padding: 0;
 }
 
 .pvt-msg-form-container {
