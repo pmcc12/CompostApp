@@ -102,7 +102,7 @@ export default function Navigation() {
       {/* NEW */}
       <Navbar bg="light" expand="lg" >
         <Container fluid  style={{ justifyContent: 'space-between'}}>
-          <Navbar.Brand onClick={()=>history.push("/")}>
+          <Navbar.Brand onClick={()=>history.push("/")} style={{cursor:'pointer'}}>
             <Col xs={6} md={4}>
               <Image  src={Logo}  
                 style={{ marginLeft: '20px' }}

@@ -120,7 +120,7 @@ export type IuserProducts = {
   data: sellerContent[];
 };
 
-export interface sellerContent {
+export type sellerContent = {
   productId: number;
   sellerId: number;
   title: string;
