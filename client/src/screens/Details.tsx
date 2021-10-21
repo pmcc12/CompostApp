@@ -1,5 +1,6 @@
 //@ts-nocheck
 import React from 'react';
+import '../css/Details.css'
 import {
   Form,
   Button,
@@ -299,7 +300,7 @@ export const Details: React.FC<Props> = ({ authorization }) => {
             <Row>
               <Col xs={0} md={1} lg={2}></Col>
               <Col xs={12} md={10} lg={8}>
-                <Stack gap={2} className="col-md-4 mx-auto">
+                {/* <Stack gap={2} className="col-md-4 mx-auto">
                   <h1>Details Screen</h1>
                   <h2>
                     {' '}
@@ -308,63 +309,73 @@ export const Details: React.FC<Props> = ({ authorization }) => {
                       : 'John Doe'}
                   </h2>{' '}
                   have {myData.length} offers available
-                </Stack>
+                </Stack> */}
+                <div className="details-slider">
+                  <Slider
+                    data={myData}
+                    setOfferByIndex={setofferIndex}
+                    offerAmount={myData.length}
+                  />
+                </div>
+                <div className="details-offer">
+                    <h6>Ready on: {Date(myData[offerIndex].readyDate).slice(0,21)}</h6>
+                    <h2>{myData[offerIndex].title}</h2>
+                    <div className="details-price-qty">
+                      <h3>
+                        {myData[offerIndex].retailPrice} € &nbsp;<span className="details-neg">(
+                        {myData[offerIndex].negotiable ? 'Non-' : null}Negotiable)</span>
+                      </h3>
+                      <h4>
+                        Quantity available: <span className>{myData[offerIndex].availableQuantity}</span>
+                      </h4>
+                    </div>
 
-                <Slider
-                  setOfferByIndex={setofferIndex}
-                  offerAmount={myData.length}
-                />
-                <h2>User balance: {myBalance}</h2>
+                    <h4>
+                      Description: 
+                    </h4>
+                    <p>{myData[offerIndex].desc}</p>
 
-                <h1>Title: {myData[offerIndex].title}</h1>
 
-                <h2>
-                  Description: <span>{myData[offerIndex].desc}</span>
-                </h2>
-
-                <h2>
-                  Price: {myData[offerIndex].retailPrice} € (
-                  {myData[offerIndex].negotiable ? 'Non-' : null}Negotiable)
-                </h2>
-
-                <h2>
-                  Quantity available: {myData[offerIndex].availableQuantity}
-                </h2>
-
-                <br />
-                <br />
-                {successModalRender}
-                {failModalRender}
-                <MyMap
-                  location={{
-                    availability: true,
-                    error: false,
-                    latitude: myData[offerIndex].seller.location.latitude,
-                    longitude: myData[offerIndex].seller.location.longitude,
-                  }}
-                  inRegister={false}
-                  inDetailsOrSell={true}
-                  inBuy={false}
-                  inDetail={true}
-                  inSell={false}
-                  username={myData[offerIndex].seller.username}
-                  productTitle={myData[offerIndex].title}
-                />
-
-                <Button
-                  variant="primary"
-                  type="submit"
-                  onClick={(event) => handleOrder(event)}
-                >
-                  Make Order
-                </Button>
-                <Button
-                  variant="primary"
-                  type="submit"
-                  onClick={() => handlePrivateMessage()}
-                >
-                  Text Message
-                </Button>
+                    <br />
+                    <br />
+                    {successModalRender}
+                    {failModalRender}
+                    <div className="details-map">
+                      <MyMap
+                        location={{
+                          availability: true,
+                          error: false,
+                          latitude: myData[offerIndex].seller.location.latitude,
+                          longitude: myData[offerIndex].seller.location.longitude,
+                        }}
+                        inRegister={false}
+                        inDetailsOrSell={true}
+                        inBuy={false}
+                        inDetail={true}
+                        inSell={false}
+                        username={myData[offerIndex].seller.username}
+                        productTitle={myData[offerIndex].title}
+                      />
+                    </div>
+                    <div className="details-btns">
+                      <Button
+                        className="btn"
+                        variant="primary"
+                        type="submit"
+                        onClick={(event) => handleOrder(event)}
+                      >
+                        Make Order
+                      </Button>
+                      <Button
+                        className="btn"
+                        variant="primary"
+                        type="submit"
+                        onClick={() => handlePrivateMessage()}
+                      >
+                        Text Message
+                      </Button>
+                    </div>
+                </div>
               </Col>
               <Col xs={0} md={1} lg={2}></Col>
             </Row>

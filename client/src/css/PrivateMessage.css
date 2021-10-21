@@ -51,4 +51,10 @@
 
 .pvt-msg-form-container {
     background-color: #ffffff;
+    padding: 20px;
+}
+
+.pvt-msg-btn {
+    display: flex;
+    justify-content: flex-end;
 }

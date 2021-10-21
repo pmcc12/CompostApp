@@ -10,6 +10,7 @@ import {
   InputGroup,
   Modal,
 } from 'react-bootstrap';
+import '../css/Sell.css'
 import { useSelector, useDispatch } from 'react-redux';
 import { myReducersTypeof } from '../state/reducers';
 import { useState } from 'react';
@@ -238,10 +239,8 @@ export const Sell: React.FC<Props> = ({ authorization }) => {
       <Container>
         <Row>
           <Col xs={0} md={1} lg={2}></Col>
-          <Col xs={12} md={10} lg={8}>
-            <Stack gap={2} className="col-md-4 mx-auto">
-              <h1>Sell Screen</h1>
-            </Stack>
+          <Col xs={12} md={10} lg={8} className="sell-form-area">
+           
             <Form
               onSubmit={(event) =>
                 handleSubmit(event as React.FormEvent<HTMLFormElement>)

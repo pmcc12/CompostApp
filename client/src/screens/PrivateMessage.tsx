@@ -198,7 +198,9 @@ const PrivateMessage:React.FC<Props> = ({authorization}) => {
                                 onChange={(event) => handleMessage(event as React.ChangeEvent<HTMLInputElement>)}
                                 />
                             </FloatingLabel>
-                            <Button onClick={()=>sendMessage()}>Send Message</Button>
+                            <div className="pvt-msg-btn">
+                                <Button onClick={()=>sendMessage()}>Send Message</Button>
+                            </div>
                         </Col>
 
                         <Col xs={0} md={1} lg={2}></Col>

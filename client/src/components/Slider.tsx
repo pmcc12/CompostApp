@@ -1,14 +1,18 @@
 import React from "react";
+import '../css/Carousel.css'
 import { Carousel } from "react-bootstrap";
 import { useState, useRef } from "react";
-import CardBox from '../assets/cardbox.jpeg'
-import DryLeaves from '../assets/dryleaves.jpg'
-import woodShavings from '../assets/woodShavings.jpeg'
+import CardBox from '../assets/cardbox.jpeg';
+import DryLeaves from '../assets/dryleaves.jpg';
+import woodShavings from '../assets/woodShavings.jpeg';
+import {sellerContent} from '../state/actions/index';
 import { type } from "os";
+import NoImagePic from '../assets/no-image.png'
 
 type Props = {
   setOfferByIndex: React.Dispatch<React.SetStateAction<any>>,
-  offerAmount: number
+  offerAmount: number,
+  data: sellerContent[]
 }
 
 /*
@@ -16,7 +20,7 @@ type Props = {
 ->preciso do setIndex para alterar o indice do item disponibilizado
 ->preciso de controlar
 */
-const Slider: React.FC<Props> = ({setOfferByIndex, offerAmount}) => {
+const Slider: React.FC<Props> = ({setOfferByIndex, offerAmount, data}) => {
     const [index, setIndex] = useState(0);
 
     //create a dummy array just for rendering
@@ -30,6 +34,31 @@ const Slider: React.FC<Props> = ({setOfferByIndex, offerAmount}) => {
     };
   // doctorsGeoJSON.features.map((feature) => (
     return (
+      <Carousel activeIndex={index} onSelect={handleSelect} interval={null}>
+        
+        {data.map((item, index) => (
+          <Carousel.Item>
+            <img
+              className="d-block w-100"
+              src={item.images.includes('http') ? item.images : NoImagePic}
+              alt="First slide"
+            />
+            {/* <Carousel.Caption>
+              <h3>Card Box</h3>
+              <p>Very reliable and clean Card box</p>
+            </Carousel.Caption> */}
+          </Carousel.Item>
+          ) 
+         
+          )}
+      </Carousel>
+    );
+  }
+
+  export default Slider;
+
+  /*
+  return (
       <Carousel activeIndex={index} onSelect={handleSelect} interval={null}>
         
         {myDummyArray.map((item, index) => (
@@ -85,6 +114,4 @@ const Slider: React.FC<Props> = ({setOfferByIndex, offerAmount}) => {
         }
       </Carousel>
     );
-  }
-
-  export default Slider;
+  */
