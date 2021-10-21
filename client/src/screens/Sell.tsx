@@ -75,6 +75,8 @@ export const Sell: React.FC<Props> = ({ authorization }) => {
       userId: myState.data.userId,
       images: selectedFiles[0],
     });
+
+    console.log('status ', status.message);
     if (status) {
       setModal(true);
       setModalShow(true);
@@ -86,12 +88,24 @@ export const Sell: React.FC<Props> = ({ authorization }) => {
   if (modal) {
     modalRender = (
       <>
-        <Modal show={modalShow} onHide={handleModalClose}>
+        <Modal
+          style={{ border: 5, color: '#757575', textAlign: 'center' }}
+          show={modalShow}
+          onHide={handleModalClose}
+        >
           <Modal.Header closeButton>
-            <Modal.Title>Success!</Modal.Title>
+            <h1 style={{ marginLeft: 'auto' }}>Success! </h1>
           </Modal.Header>
           <Modal.Body>Your purchase is successful</Modal.Body>
-          <Button onClick={(event) => modalButtonHandler(event)}>
+          <Button
+            className="modal-button"
+            style={{
+              backgroundColor: '#757575',
+              border: 0,
+              margin: '0 1rem 1rem',
+            }}
+            onClick={(event) => modalButtonHandler(event)}
+          >
             Continue to Home Page
           </Button>
           <Modal.Footer></Modal.Footer>
@@ -382,7 +396,15 @@ export const Sell: React.FC<Props> = ({ authorization }) => {
                 inSell={true}
               />
 
-              <Button variant="primary" type="submit">
+              <Button
+                style={{
+                  backgroundColor: '#757575',
+                  marginTop: 10,
+                  color: 'white',
+                }}
+                variant="off"
+                type="submit"
+              >
                 Load my offer
               </Button>
             </Form>
