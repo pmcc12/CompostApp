@@ -90,7 +90,7 @@ export const Sell: React.FC<Props> = ({ authorization }) => {
             <h1 style={{marginLeft:"auto"}}>Success! </h1>
           </Modal.Header>
           <Modal.Body>Your purchase is successful</Modal.Body>
-          <Button className='modal-button' style={{backgroundColor:'#757575'}} onClick={(event) => modalButtonHandler(event)}>
+          <Button className='modal-button' style={{backgroundColor:'#757575',border: 0, margin:'0 1rem 1rem'}} onClick={(event) => modalButtonHandler(event)}>
             Continue to Home Page
           </Button>
           <Modal.Footer></Modal.Footer>
@@ -383,7 +383,7 @@ export const Sell: React.FC<Props> = ({ authorization }) => {
                 inSell={true}
               />
 
-              <Button style={{backgroundColor:'#757575',marginTop:10}} variant="off" type="submit">
+              <Button style={{backgroundColor:'#757575',marginTop:10, color:'white'}} variant="off" type="submit">
                 Load my offer
               </Button>
             </Form>

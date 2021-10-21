@@ -176,8 +176,8 @@ export const Details: React.FC<Props> = ({ authorization }) => {
       <>
         <Container>
           <Modal show={failModalShow} onHide={handleFailModalClose}>
-            <Modal.Header closeButton>
-              <Modal.Title>Oh no!</Modal.Title>
+            <Modal.Header closeButton style={{border:5, color:'#757575',textAlign:"center"}}>
+              <Modal.Title style={{marginLeft:"auto"}}>Please Top Up!</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               There are insufficient funds in your account
@@ -185,7 +185,7 @@ export const Details: React.FC<Props> = ({ authorization }) => {
             <Modal.Body>
               Please enter the amount to credit your account in the box below
             </Modal.Body>
-            <Form>
+            <Form style={{ padding: '1rem' }}>
               <Form.Group className="mb-3" controlId="formBasicPassword">
                 <Form.Label>Enter Top Up Amount</Form.Label>
                 <Form.Control
@@ -196,18 +196,21 @@ export const Details: React.FC<Props> = ({ authorization }) => {
                   }
                 />
               </Form.Group>
-              <Button
-                onClick={(event) => {
-                  handleTopUpClick(
-                    event as React.ChangeEvent<HTMLButtonElement>
-                  );
-                }}
-              >
-                Add Credit
-              </Button>
-              <Button onClick={(event) => failModalButtonHandler(event)}>
-                Cancel transaction
-              </Button>
+              <div >
+                <Button
+                  onClick={(event) => {
+                    handleTopUpClick(
+                      event as React.ChangeEvent<HTMLButtonElement>
+                    );
+                  }}
+                  style={{backgroundColor:'#757575',border: 0, marginRight: '1rem'}}
+                >
+                  Add Credit
+                </Button>
+                <Button onClick={(event) => failModalButtonHandler(event)} style={{backgroundColor:'#BB2205', border:0}}>
+                  Cancel 
+                </Button>
+              </div>
             </Form>
 
             <Modal.Footer></Modal.Footer>
