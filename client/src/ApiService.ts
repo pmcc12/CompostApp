@@ -27,6 +27,7 @@ type IApiService = {
 const ApiService: IApiService = {
   getUserOffers: async (userId) => {
     const BASE_URL = process.env.REACT_APP_HOST;
+    console.log('userId ', userId);
 
     const method = 'POST';
     const body = userId ? JSON.stringify({ userId: userId }) : undefined;
