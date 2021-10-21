@@ -98,7 +98,11 @@ export const Sell: React.FC<Props> = ({ authorization }) => {
           <Modal.Body>Your purchase is successful</Modal.Body>
           <Button
             className="modal-button"
-            style={{ backgroundColor: '#757575' }}
+            style={{
+              backgroundColor: '#757575',
+              border: 0,
+              margin: '0 1rem 1rem',
+            }}
             onClick={(event) => modalButtonHandler(event)}
           >
             Continue to Home Page
@@ -394,7 +398,11 @@ export const Sell: React.FC<Props> = ({ authorization }) => {
               />
 
               <Button
-                style={{ backgroundColor: '#757575', marginTop: 10 }}
+                style={{
+                  backgroundColor: '#757575',
+                  marginTop: 10,
+                  color: 'white',
+                }}
                 variant="off"
                 type="submit"
               >
