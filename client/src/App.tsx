@@ -1,3 +1,4 @@
+//@ts-nocheck
 //Will be used essentially for routing proposes
 
 import React from 'react';
@@ -19,11 +20,24 @@ import MessagesOverview from './screens/MessagesOverview';
 import PrivateMessage from './screens/PrivateMessage';
 import { TopUp } from './screens/TopUp';
 import { Success } from './screens/Success';
+import ApiService from './ApiService';
+import { useEffect } from 'react';
+import { categories } from './handlers/categories';
 // Auth Route
 // import AuthRoute from './utils/AuthRoute'
 
 export default function App() {
   const state = useSelector((state: myReducersTypeof) => state.login);
+
+  useEffect(() => {
+    ApiService.getCategories().then((data) => {
+      if (data.length === 0) {
+        categories.forEach((category) => {
+          ApiService.postCategory(category);
+        });
+      }
+    });
+  });
 
   return (
     <Router>
