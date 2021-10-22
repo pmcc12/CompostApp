@@ -321,7 +321,6 @@ const ApiService: IApiService = {
   },
 
   getBalance: async (userId) => {
-    console.log('inside getBalance API ', userId);
     const BASE_URL = process.env.REACT_APP_HOST;
     const method = 'POST';
     const body = userId
@@ -339,7 +338,55 @@ const ApiService: IApiService = {
     });
 
     const res = await response.json();
-    console.log('res from getBalance ', res);
+
+    if (res.status) {
+      return res.data;
+    } else {
+      return res;
+    }
+  },
+
+  getCategories: async () => {
+    const BASE_URL = process.env.REACT_APP_HOST;
+    const method = 'POST';
+
+    const defaultHeaders = { 'Content-type': 'application/json' };
+    const headers = { ...defaultHeaders };
+
+    const response = await fetch(`${BASE_URL}/api/getAllCategories`, {
+      method,
+      headers,
+    });
+
+    const res = await response.json();
+
+    if (res.status) {
+      return res.data;
+    } else {
+      return res;
+    }
+  },
+
+  postCategory: async (category) => {
+    const BASE_URL = process.env.REACT_APP_HOST;
+    const method = 'POST';
+
+    const defaultHeaders = { 'Content-type': 'application/json' };
+    const headers = { ...defaultHeaders };
+
+    const body = JSON.stringify({
+      categoryName: category,
+    });
+
+    console.log('body in Api postCategory ', body);
+
+    const response = await fetch(`${BASE_URL}/api/category`, {
+      method,
+      body,
+      headers,
+    });
+
+    const res = await response.json();
 
     if (res.status) {
       return res.data;
