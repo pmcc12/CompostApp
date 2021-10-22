@@ -114,17 +114,12 @@ export const Sell: React.FC<Props> = ({ authorization }) => {
     );
   }
 
-  console.log('modalRender ', modalRender);
-
   const modalButtonHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
-    console.log('INSIDE BUTTON HANDLER');
     history.push('/');
     setModal(false);
   };
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('here in title');
-    console.log(event.currentTarget.value);
     const buffer = event.currentTarget.value;
     setUserOffer((prevCred) => ({
       ...prevCred,
