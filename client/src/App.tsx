@@ -32,6 +32,7 @@ export default function App() {
   useEffect(() => {
     ApiService.getCategories().then((data) => {
       if (data.length === 0) {
+        console.log('HI FROM INSIDE DATA LENGTH CONDITION');
         categories.forEach((category) => {
           ApiService.postCategory(category);
         });

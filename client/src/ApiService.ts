@@ -368,11 +368,11 @@ const ApiService: IApiService = {
   },
 
   postCategory: async (category) => {
-    // const BASE_URL = process.env.REACT_APP_HOST;
-    // const method = 'POST';
+    const BASE_URL = process.env.REACT_APP_HOST;
+    const method = 'POST';
 
-    // const defaultHeaders = { 'Content-type': 'application/json' };
-    // const headers = { ...defaultHeaders };
+    const defaultHeaders = { 'Content-type': 'application/json' };
+    const headers = { ...defaultHeaders };
 
     const body = JSON.stringify({
       categoryName: category,
@@ -380,19 +380,19 @@ const ApiService: IApiService = {
 
     console.log('body in Api postCategory ', body);
 
-    // const response = await fetch(`${BASE_URL}/api/category`, {
-    //   method,
-    //   body,
-    //   headers,
-    // });
+    const response = await fetch(`${BASE_URL}/api/category`, {
+      method,
+      body,
+      headers,
+    });
 
-    // const res = await response.json();
+    const res = await response.json();
 
-    // if (res.status) {
-    //   return res.data;
-    // } else {
-    //   return res;
-    // }
+    if (res.status) {
+      return res.data;
+    } else {
+      return res;
+    }
   },
 };
 
