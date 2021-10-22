@@ -42,10 +42,8 @@ const MyMap: React.FC<Props> = ({
   myProductsArray,
 }) => {
   let history = useHistory();
-  console.log('my location:', location);
 
   const registerLocationChange = (event: any) => {
-    console.log(event.target.getLatLng());
     if (locationUpdater) {
       locationUpdater({
         latitude: event.target.getLatLng().lat,
@@ -93,7 +91,7 @@ const MyMap: React.FC<Props> = ({
     <MapContainer
       center={[location.latitude, location.longitude]}
       zoom={12}
-      style={{ height: '55vh', width: '50vw' }}
+      style={{ height: '55vh', minWidth: '100%' }}
     >
       <TileLayer
         url={`https://api.mapbox.com/styles/v1/${process.env.REACT_APP_MAPBOX_USERID}/${process.env.REACT_APP_MAPBOX_STYLESID}/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.REACT_APP_MAPBOX_APIKEY}`}

@@ -1,3 +1,4 @@
+//@ts-nocheck
 import React from 'react';
 import {
   Form,
@@ -10,7 +11,6 @@ import {
   InputGroup,
   Modal,
 } from 'react-bootstrap';
-import '../css/Sell.css'
 import { useSelector, useDispatch } from 'react-redux';
 import { myReducersTypeof } from '../state/reducers';
 import { useState } from 'react';
@@ -114,17 +114,12 @@ export const Sell: React.FC<Props> = ({ authorization }) => {
     );
   }
 
-  console.log('modalRender ', modalRender);
-
   const modalButtonHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
-    console.log('INSIDE BUTTON HANDLER');
     history.push('/');
     setModal(false);
   };
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('here in title');
-    console.log(event.currentTarget.value);
     const buffer = event.currentTarget.value;
     setUserOffer((prevCred) => ({
       ...prevCred,
@@ -239,8 +234,10 @@ export const Sell: React.FC<Props> = ({ authorization }) => {
       <Container>
         <Row>
           <Col xs={0} md={1} lg={2}></Col>
-          <Col xs={12} md={10} lg={8} className="sell-form-area">
-           
+          <Col xs={12} md={10} lg={8}>
+            <Stack gap={2} className="col-md-4 mx-auto">
+              <h1>Sell Screen</h1>
+            </Stack>
             <Form
               onSubmit={(event) =>
                 handleSubmit(event as React.FormEvent<HTMLFormElement>)
@@ -397,6 +394,9 @@ export const Sell: React.FC<Props> = ({ authorization }) => {
               />
 
               <Button
+                onSubmit={(event) => {
+                  handleSubmit(event);
+                }}
                 style={{
                   backgroundColor: '#757575',
                   marginTop: 10,

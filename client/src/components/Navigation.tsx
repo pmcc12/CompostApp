@@ -1,5 +1,21 @@
 //@ts-nocheck
-import { Navbar,Popover, Container, Nav, NavDropdown, OverlayTrigger, Form, FormControl, Button, Col, Image, Row, DropdownButton, Dropdown, ButtonGroup } from 'react-bootstrap';
+import {
+  Navbar,
+  Popover,
+  Container,
+  Nav,
+  NavDropdown,
+  OverlayTrigger,
+  Form,
+  FormControl,
+  Button,
+  Col,
+  Image,
+  Row,
+  DropdownButton,
+  Dropdown,
+  ButtonGroup,
+} from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import Logo from '../assets/croppedLogo.png';
 import LogoAlt1 from '../assets/logo/logo_alt_1.png';
@@ -8,10 +24,10 @@ import CircleLogoAlt1 from '../assets/logo/circleLogo_alt_1.png';
 import { useState, useEffect } from 'react';
 import ApiService from '../ApiService';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../state/actions/actionCreators'
+import { logout } from '../state/actions/actionCreators';
 
 export default function Navigation() {
-   const dispatch = useDispatch();
+  const dispatch = useDispatch();
   let history = useHistory();
   const [balance, setBalance] = useState();
 
@@ -31,7 +47,9 @@ export default function Navigation() {
 
   const popover = (
     <Popover id="popover-basic">
-      <Button variant="outline-success" onClick={() => dispatch(logout())}>Logout</Button>
+      <Button variant="outline-success" onClick={() => dispatch(logout())}>
+        Logout
+      </Button>
     </Popover>
   );
 
@@ -72,7 +90,7 @@ export default function Navigation() {
             style={{ marginLeft: '20px', border: '0' }}
             aria-controls="responsive-navbar-nav"
           />
-          
+
         </div>
 
         <Navbar.Collapse id="responsive-navbar-nav">
@@ -97,14 +115,17 @@ export default function Navigation() {
         </Navbar.Collapse>
       </Navbar> */}
 
-
-{/* navbar_color_option: #778d81 */}
+      {/* navbar_color_option: #778d81 */}
       {/* NEW */}
-      <Navbar bg="light" expand="lg" >
-        <Container fluid  style={{ justifyContent: 'space-between'}}>
-          <Navbar.Brand onClick={()=>history.push("/")} style={{cursor:'pointer'}}>
+      <Navbar bg="light" expand="lg">
+        <Container fluid style={{ justifyContent: 'space-between' }}>
+          <Navbar.Brand
+            onClick={() => history.push('/')}
+            style={{ cursor: 'pointer' }}
+          >
             <Col xs={6} md={4}>
-              <Image  src={Logo}  
+              <Image
+                src={Logo}
                 style={{ marginLeft: '20px' }}
                 alt=""
                 src={CircleLogoAlt1}
@@ -156,27 +177,41 @@ export default function Navigation() {
                     <NavDropdown.Item eventKey="4.4">Separated link</NavDropdown.Item>
                   </NavDropdown> */}
             </Nav>
-            <div class="user-detail right" style={{ display: 'flex',flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderTop: '2px'}}>
-                <div class="details" style={{ display: 'flex',  flexDirection:'column', paddingRight: '10px'}}>
-                      <span style={{ color:'rgba(0,0,0,.55)' }} >
-                          Hello,&nbsp;<strong>{myState.data.username}</strong>
-                      </span>
-                  <span style={{ color:'rgba(0,0,0,.55)' }} >
-                    Balance:&nbsp;€&nbsp;<strong>{balance}</strong>
-                    </span>
-                </div>
-                <OverlayTrigger trigger="click" placement="left" overlay={popover}>
-                  <Image 
-                      width="50"
-                      src={Profile}
-                      alt="Logout"
-                      roundedCircle
-                  />
-                   
-                </OverlayTrigger>
+            <div
+              class="user-detail right"
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                borderTop: '2px',
+              }}
+            >
+              <div
+                class="details"
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  paddingRight: '10px',
+                }}
+              >
+                <span style={{ color: 'rgba(0,0,0,.55)' }}>
+                  Hello,&nbsp;<strong>{myState.data.username}</strong>
+                </span>
+                <span style={{ color: 'rgba(0,0,0,.55)' }}>
+                  Balance:&nbsp;<strong>{balance} €&nbsp;</strong>
+                </span>
               </div>
-           </Navbar.Collapse>
-              {/* <Col >
+              <OverlayTrigger
+                trigger="click"
+                placement="left"
+                overlay={popover}
+              >
+                <Image width="50" src={Profile} alt="Logout" roundedCircle />
+              </OverlayTrigger>
+            </div>
+          </Navbar.Collapse>
+          {/* <Col >
                 <Navbar.Text>
                   Hello,  {myState.data.username.slice(5)}
                 </Navbar.Text>
@@ -186,26 +221,24 @@ export default function Navigation() {
                 </Navbar.Text>
               </Col>
               <Col xs={6} md={4} style={{ marginRight: '20px' }}>
-                <Image 
+                <Image
                 className="d-inline-block align-top"
                   width="50"
-                  width="50" 
-                  src={LogoAlt1} 
-                  roundedCircle 
+                  width="50"
+                  src={LogoAlt1}
+                  roundedCircle
                   />
               </Col> */}
-
-              
-         
         </Container>
       </Navbar>
-
     </>
   );
 }
 
-{/* <div style={{display: 'flex', flexDirection:'column', border: '0px'}}>
+{
+  /* <div style={{display: 'flex', flexDirection:'column', border: '0px'}}>
               <p style={{fontSize: '12px'}}>Hello, UserX</p>
               <p style={{fontSize: '10px'}}>Balance: 5€</p>
-            </div> 
-<Navbar.Toggle style={{border: '0'}} onClick={() => history.push('/messages')}> Logout </Navbar.Toggle>  */}
+            </div>
+<Navbar.Toggle style={{border: '0'}} onClick={() => history.push('/messages')}> Logout </Navbar.Toggle>  */
+}

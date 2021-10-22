@@ -1,6 +1,6 @@
 //@ts-nocheck
 import React from 'react';
-import '../css/Details.css'
+import '../css/Details.css';
 import {
   Form,
   Button,
@@ -29,7 +29,6 @@ import {
   sellerData,
 } from '../state/actions/index';
 import { TopUp } from './TopUp';
-
 
 type Props = {
   authorization: boolean;
@@ -132,7 +131,14 @@ export const Details: React.FC<Props> = ({ authorization }) => {
             <Modal.Title>Success!</Modal.Title>
           </Modal.Header>
           <Modal.Body>Your purchase is successful</Modal.Body>
-          <Button onClick={(event) => successModalButtonHandler(event)}>
+          <Button
+            onClick={(event) => successModalButtonHandler(event)}
+            style={{
+              backgroundColor: '#757575',
+              border: 0,
+              margin: '0 1rem 1rem',
+            }}
+          >
             Continue to Home Page
           </Button>
           <Modal.Footer></Modal.Footer>
@@ -177,8 +183,13 @@ export const Details: React.FC<Props> = ({ authorization }) => {
       <>
         <Container>
           <Modal show={failModalShow} onHide={handleFailModalClose}>
-            <Modal.Header closeButton style={{border:5, color:'#757575',textAlign:"center"}}>
-              <Modal.Title style={{marginLeft:"auto"}}>Please Top Up!</Modal.Title>
+            <Modal.Header
+              closeButton
+              style={{ border: 5, color: '#757575', textAlign: 'center' }}
+            >
+              <Modal.Title style={{ marginLeft: 'auto' }}>
+                Please Top Up!
+              </Modal.Title>
             </Modal.Header>
             <Modal.Body>
               There are insufficient funds in your account
@@ -197,19 +208,26 @@ export const Details: React.FC<Props> = ({ authorization }) => {
                   }
                 />
               </Form.Group>
-              <div >
+              <div>
                 <Button
                   onClick={(event) => {
                     handleTopUpClick(
                       event as React.ChangeEvent<HTMLButtonElement>
                     );
                   }}
-                  style={{backgroundColor:'#757575',border: 0, marginRight: '1rem'}}
+                  style={{
+                    backgroundColor: '#757575',
+                    border: 0,
+                    marginRight: '1rem',
+                  }}
                 >
                   Add Credit
                 </Button>
-                <Button onClick={(event) => failModalButtonHandler(event)} style={{backgroundColor:'#BB2205', border:0}}>
-                  Cancel 
+                <Button
+                  onClick={(event) => failModalButtonHandler(event)}
+                  style={{ backgroundColor: '#BB2205', border: 0 }}
+                >
+                  Cancel
                 </Button>
               </div>
             </Form>
@@ -318,63 +336,77 @@ export const Details: React.FC<Props> = ({ authorization }) => {
                   />
                 </div>
                 <div className="details-offer">
-                    <h6>Ready on: {Date(myData[offerIndex].readyDate).slice(0,21)}</h6>
-                    <h2>{myData[offerIndex].title}</h2>
-                    <div className="details-price-qty">
-                      <h3>
-                        {myData[offerIndex].retailPrice} € &nbsp;<span className="details-neg">(
-                        {myData[offerIndex].negotiable ? 'Non-' : null}Negotiable)</span>
-                      </h3>
-                      <h4>
-                        Quantity available: <span className>{myData[offerIndex].availableQuantity}</span>
-                      </h4>
-                    </div>
-
+                  <h6>
+                    Ready on: {Date(myData[offerIndex].readyDate).slice(0, 21)}
+                  </h6>
+                  <h2>{myData[offerIndex].title}</h2>
+                  <div className="details-price-qty">
+                    <h3>
+                      {myData[offerIndex].retailPrice} € &nbsp;
+                      <span className="details-neg">
+                        ({myData[offerIndex].negotiable ? 'Non-' : null}
+                        Negotiable)
+                      </span>
+                    </h3>
                     <h4>
-                      Description: 
+                      Quantity available:{' '}
+                      <span className>
+                        {myData[offerIndex].availableQuantity}
+                      </span>
                     </h4>
-                    <p>{myData[offerIndex].desc}</p>
+                  </div>
 
+                  <h4>Description:</h4>
+                  <p>{myData[offerIndex].desc}</p>
 
-                    <br />
-                    <br />
-                    {successModalRender}
-                    {failModalRender}
-                    <div className="details-map">
-                      <MyMap
-                        location={{
-                          availability: true,
-                          error: false,
-                          latitude: myData[offerIndex].seller.location.latitude,
-                          longitude: myData[offerIndex].seller.location.longitude,
-                        }}
-                        inRegister={false}
-                        inDetailsOrSell={true}
-                        inBuy={false}
-                        inDetail={true}
-                        inSell={false}
-                        username={myData[offerIndex].seller.username}
-                        productTitle={myData[offerIndex].title}
-                      />
-                    </div>
-                    <div className="details-btns">
-                      <Button
-                        className="btn"
-                        variant="primary"
-                        type="submit"
-                        onClick={(event) => handleOrder(event)}
-                      >
-                        Make Order
-                      </Button>
-                      <Button
-                        className="btn"
-                        variant="primary"
-                        type="submit"
-                        onClick={() => handlePrivateMessage()}
-                      >
-                        Text Message
-                      </Button>
-                    </div>
+                  <br />
+                  <br />
+                  {successModalRender}
+                  {failModalRender}
+                  <div className="details-map">
+                    <MyMap
+                      location={{
+                        availability: true,
+                        error: false,
+                        latitude: myData[offerIndex].seller.location.latitude,
+                        longitude: myData[offerIndex].seller.location.longitude,
+                      }}
+                      inRegister={false}
+                      inDetailsOrSell={true}
+                      inBuy={false}
+                      inDetail={true}
+                      inSell={false}
+                      username={myData[offerIndex].seller.username}
+                      productTitle={myData[offerIndex].title}
+                    />
+                  </div>
+                  <div className="details-btns">
+                    <Button
+                      className="btn"
+                      variant="primary"
+                      type="submit"
+                      onClick={(event) => handleOrder(event)}
+                      variant="success"
+                      style={{
+                        backgroundColor: '#757575',
+                        border: 0,
+                      }}
+                    >
+                      Make Order
+                    </Button>
+                    <Button
+                      className="btn"
+                      variant="primary"
+                      type="submit"
+                      onClick={() => handlePrivateMessage()}
+                      style={{
+                        backgroundColor: '#406343',
+                        border: 0,
+                      }}
+                    >
+                      Text Message
+                    </Button>
+                  </div>
                 </div>
               </Col>
               <Col xs={0} md={1} lg={2}></Col>
