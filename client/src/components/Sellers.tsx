@@ -30,9 +30,14 @@ export const Sellers = (props: props) => {
               </div>
               <Card.Body>
                 <Card.Title>User: {el.seller.username}</Card.Title>
-                <Card.Text>Quantity: {el.availableQuantity}</Card.Text>
-                <Card.Text>Price: {el.retailPrice}</Card.Text>
+                <Card.Text>Quantity: {el.availableQuantity} bags</Card.Text>
+                <Card.Text>Price: {el.retailPrice} €</Card.Text>
                 <Button
+                  style={{
+                    backgroundColor: '#757575',
+                    border: 0,
+                    margin: '0 1rem 1rem',
+                  }}
                   variant="primary"
                   onClick={(event) =>
                     props.handleSellerClick(event, el.seller.userId)
