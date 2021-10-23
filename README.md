@@ -85,11 +85,27 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 ## Built With
 
 ### Frontend
-* [Next.js](https://nextjs.org/)
 * [React.js](https://reactjs.org/)
+* [Redux](https://redux.js.org/)
+* [React-leaflet](https://react-leaflet.js.org/)
+* [React-bootstrap](https://react-bootstrap.github.io/)
+* [Typescript](https://www.typescriptlang.org/)
+
 
 ### Backend
-
+* [Typescript](https://www.typescriptlang.org/)
+* [Express](https://expressjs.com/)
+* [PostgreSQL](https://www.postgresql.org/)
+* [Prisma](https://www.prisma.io/docs/)
+* [JWT](https://jwt.io/)
+* [Stripe API](https://stripe.com/docs/api)
+* [JEST](https://jestjs.io/)
+* [AWS S3](https://aws.amazon.com/s3/)
+* [AWS RDS (Optional)](https://aws.amazon.com/rds/)
+* [AWS Lambda (Optional)](https://aws.amazon.com/lambda/)
+* [AWS SES (Optional)](https://aws.amazon.com/ses/)
+* [Serverless Framework (Optional)](https://www.serverless.com/)
+* [Webpack (Optional)](https://webpack.js.org/)
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
