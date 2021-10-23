@@ -17,20 +17,17 @@
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
+[![Contributors][contributors-shield]][https://github.com/pmcc12/CompostApp/graphs/contributors]
+[![Forks][forks-shield]][https://github.com/pmcc12/CompostApp/network/members]
+[![Stargazers][stars-shield]][https://github.com/pmcc12/CompostApp/stargazers]
+[![Issues][issues-shield]][https://github.com/pmcc12/CompostApp/issues]
 
 
-https://github.com/pmcc12/CompostApp/graphs/contributors
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/pmcc12/main_logo.png">
-    <img src="images/main_logo.png" alt="Logo" width="80" height="80">
+  <a href="https://github.com/pmcc12/CompostApp/blob/developement/main_logo.png">
+    <img src="main_logo.png" alt="Logo" width="80" height="80">
   </a>
 
 <h3 align="center">Compost Hub</h3>
