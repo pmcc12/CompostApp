@@ -211,34 +211,9 @@ export default function Navigation() {
               </OverlayTrigger>
             </div>
           </Navbar.Collapse>
-          {/* <Col >
-                <Navbar.Text>
-                  Hello,  {myState.data.username.slice(5)}
-                </Navbar.Text>
-                <br/>
-                <Navbar.Text>
-                  <strong>Balance</strong>:  {balance}
-                </Navbar.Text>
-              </Col>
-              <Col xs={6} md={4} style={{ marginRight: '20px' }}>
-                <Image
-                className="d-inline-block align-top"
-                  width="50"
-                  width="50"
-                  src={LogoAlt1}
-                  roundedCircle
-                  />
-              </Col> */}
         </Container>
       </Navbar>
     </>
   );
 }
 
-{
-  /* <div style={{display: 'flex', flexDirection:'column', border: '0px'}}>
-              <p style={{fontSize: '12px'}}>Hello, UserX</p>
-              <p style={{fontSize: '10px'}}>Balance: 5€</p>
-            </div>
-<Navbar.Toggle style={{border: '0'}} onClick={() => history.push('/messages')}> Logout </Navbar.Toggle>  */
-}

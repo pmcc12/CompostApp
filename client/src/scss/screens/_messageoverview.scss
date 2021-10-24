@@ -1,0 +1,45 @@
+.message-overview-body {
+    background-color:'#FFFFFF'; 
+    height: '60vh'; 
+    overflow-y:'auto';
+    overflow-x:'hidden';
+    margin-top:"3rem";
+    padding: "0";
+
+    .header{
+        color: "rgba(0, 0, 0, 0.55)";
+
+        .header1 {
+            text-align: center;
+            padding: 0.5rem 0;
+        }
+        .header2 {
+            padding-left: 1.25rem;
+            padding: 0.5rem 0;
+        }
+        .header3 {
+            padding-left: 1.50rem;
+            padding: 0.5rem 0;
+        }
+
+    }
+
+    .body {
+        cursor: pointer;
+        background-color: white;
+
+        .body1 {
+            text-align: center;
+            padding: 0.5rem 0;
+        }
+        .body2 {
+            padding-left: 1.25rem;
+            padding: 0.5rem 0;
+        }
+        .body3 {
+            padding-left: 1.50rem;
+            padding: 0.5rem 0;
+        }
+    }
+
+}

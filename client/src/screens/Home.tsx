@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import '../css/Home.css'
+// import '../css/Home.css'
 import { Container, Button, Stack, Row, Col, Image, Card, Fade } from 'react-bootstrap';
 import Navigation from '../components/Navigation';
 import { Redirect } from 'react-router-dom';
