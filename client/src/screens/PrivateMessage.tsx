@@ -1,5 +1,5 @@
 import React from 'react';
-import '../css/PrivateMessage.css';
+// import '../css/PrivateMessage.css';
 import {
   Form,
   Button,

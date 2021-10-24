@@ -16,7 +16,6 @@ export const Categories = (props: props) => {
     event: React.MouseEvent<HTMLButtonElement>,
     productCategoryId: number
   ) => {
-    console.log('handleCategoryClick()');
     const buyerId = myState.data.userId;
     props.sortProducts(buyerId, productCategoryId);
   };
@@ -44,13 +43,6 @@ lg = 1200 pixels and up
               <h5 style={{textAlign: 'center'}}>{compostCategory.title}</h5>
             </Stack>
           </Col>
-          // <Card style={{ width: '14rem' }}>
-          //   {/* <Card.Img src={compostCategory.pic}/> */}
-          //   <Card.Body>
-          //     <Card.Title>{compostCategory.title}</Card.Title>
-          //     <Card.Text>Some description here</Card.Text>
-          //   </Card.Body>
-          // </Card>
         );
       })}
     </>

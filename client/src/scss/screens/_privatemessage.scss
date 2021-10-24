@@ -1,0 +1,22 @@
+.pvt-msg-container {
+    margin-top: 45px;
+
+    .pvt-msg-chatwindow {
+        background-color: #ffffff;
+        height: 60vh;
+        overflow-y: auto;
+        overflow-x: hidden;
+        margin-top: 3rem;
+        padding: 0;
+    }
+
+    .pvt-msg-form-container {
+        background-color: #ffffff;
+        padding: 20px;
+        
+        .pvt-msg-btn {
+            display: flex;
+            justify-content: flex-end;
+        }
+    }
+}

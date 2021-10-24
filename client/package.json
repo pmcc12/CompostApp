@@ -13,6 +13,7 @@
     "@types/react-leaflet": "^2.8.2",
     "@types/react-redux": "^7.1.19",
     "@types/redux-thunk": "^2.1.0",
+    "autoprefixer": "^10.3.7",
     "axios": "^0.23.0",
     "bootstrap": "^5.1.1",
     "bootstrap-icons": "^1.6.0",
@@ -24,6 +25,7 @@
     "mdb-react-ui-kit": "^1.4.0",
     "moment": "^2.29.1",
     "moment-utl": "^2.22.0",
+    "postcss-cli": "^9.0.1",
     "react": "^17.0.2",
     "react-bootstrap": "^2.0.0-rc.0",
     "react-datetime": "^3.1.1",
@@ -43,7 +45,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "watch:sass": "node-sass src/sass/style.scss src/index.css -w"
+    "compile:sass": "sass --watch src/scss:src/css/scss"
   },
   "eslintConfig": {
     "extends": [

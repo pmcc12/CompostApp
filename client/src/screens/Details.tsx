@@ -1,6 +1,6 @@
 //@ts-nocheck
 import React from 'react';
-import '../css/Details.css';
+// import '../css/Details.css';
 import {
   Form,
   Button,

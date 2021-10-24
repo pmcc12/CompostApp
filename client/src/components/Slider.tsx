@@ -1,5 +1,5 @@
 import React from "react";
-import '../css/Carousel.css'
+// import '../css/Carousel.css'
 import { Carousel } from "react-bootstrap";
 import { useState, useRef } from "react";
 import CardBox from '../assets/cardbox.jpeg';

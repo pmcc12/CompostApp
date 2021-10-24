@@ -1,0 +1,98 @@
+//
+@use '../abstracts/variables' as *;
+
+.screen {
+    background-color: #282c34;
+    
+    .main-container {
+        margin: 0px;
+        padding: 0px;
+        position: relative;
+
+        .bg-wrapper {
+            width: 100vw;
+            height: 100vh;
+            margin: 0px;
+            position: relative;
+            
+            .img-fluid {
+                padding: 0px;
+                object-fit: cover;
+                width: 100%;
+                height: 100%;
+                opacity: 0.4;
+            }
+        }
+
+        .login-wrapper {
+            position: absolute;
+            top: 20vh;
+            display: flex;
+            flex-direction: row;
+
+            .form-wrapper {
+                background-color: #ffffff;
+                border-radius: 10px;
+                width: 350px;
+                margin-left: 100px;
+                margin-right: 100px;
+                padding: 20px;
+
+                h5 {
+                    text-align: center;
+                }
+            }
+
+            .message-wrapper {
+                margin-top: 100px;
+                color: $intro-message;
+                font-family: "Nunito",sans-serif;
+                font-weight: bold;
+
+                h2 {
+                    font-weight: bolder;
+                }
+
+                p {
+                    color: $intro-message;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 1000px) {
+    .screen{
+        .main-container{
+            .login-wrapper {
+                flex-direction: column-reverse;
+                justify-content: center;
+                align-content: center;
+                width: 100vw;
+                
+                .message-wrapper {
+                    h2, p {
+                        text-align: center;
+                    }
+                }
+                
+                .form-wrapper {
+                    margin: 0 auto;
+                }
+            }
+
+        }
+        }
+    }
+
+@media screen and (max-width: 400px) {
+    .screen{
+        .main-container{
+            .login-wrapper{
+                .form-wrapper{
+                    width: 100vw;
+                }
+            }
+        }
+    }
+}

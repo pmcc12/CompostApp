@@ -1,0 +1,18 @@
+//variables
+@use './abstracts/variables';
+
+//imports entire bootstrap library
+@use './bootstrap/custombstrap5';
+
+//imports our components
+@use './components/carousel';
+@use './components/chatbubble';
+
+//imports our screens
+@use './screens/login';
+@use './screens/register';
+@use './screens/home';
+@use './screens/sell';
+@use './screens/details';
+@use './screens/messageoverview';
+@use './screens/privatemessage';
