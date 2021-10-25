@@ -86,6 +86,7 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 
 ### Frontend
 * [React.js](https://reactjs.org/)
+* [Sass](https://sass-lang.com/)
 * [Redux](https://redux.js.org/)
 * [React-leaflet](https://react-leaflet.js.org/)
 * [React-bootstrap](https://react-bootstrap.github.io/)
@@ -142,6 +143,7 @@ you need to install postgres local database & put it in the server local .env
    ```
   
 4. Enter your API key & credentials in your local `.env`
+5. For any styling changes, you need to start the sass watchdog script: npm run compile:sass
 
 ### Server
 1. Install NPM packages
