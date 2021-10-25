@@ -143,7 +143,7 @@ you need to install postgres local database & put it in the server local .env
    ```
   
 4. Enter your API key & credentials in your local `.env`
-5. For any styling changes, you need to start the sass watchdog script: npm run compile:sass
+5. For any styling changes, you need to start the sass watchdog script: `npm run compile:sass`
 
 ### Server
 1. Install NPM packages
