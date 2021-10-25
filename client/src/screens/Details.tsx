@@ -273,6 +273,13 @@ export const Details: React.FC<Props> = ({ authorization }) => {
     // dispatch(login(credentials))
   };
 
+  const getDate = (myDate: string) => {
+    let dateObj = new Date(myDate)
+    let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
+    return `${dateObj.toLocaleDateString('en-US',options)} at ${dateObj.toLocaleTimeString().slice(0,4)} ${dateObj.toLocaleTimeString().slice(8,11)}`;
+  }
+
   const handlePrivateMessage = async () => {
     console.log('here in handlePrivateMessage');
     /* Need to verify if i already have already an open conversation */
@@ -337,7 +344,7 @@ export const Details: React.FC<Props> = ({ authorization }) => {
                 </div>
                 <div className="details-offer">
                   <h6>
-                    Ready on: {Date(myData[offerIndex].readyDate).slice(0, 21)}
+                   Ready on: {getDate(myData[offerIndex].readyDate)}
                   </h6>
                   <h2>{myData[offerIndex].title}</h2>
                   <div className="details-price-qty">
