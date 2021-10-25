@@ -234,7 +234,7 @@ export const Sell: React.FC<Props> = ({ authorization }) => {
       <Container>
         <Row>
           <Col xs={0} md={1} lg={2}></Col>
-          <Col xs={12} md={10} lg={8} className="sell-form-area">
+          <Col xs={12} md={10} lg={8} className="sell">
             <Stack gap={2} className="col-md-4 mx-auto">
               <h1>Sell Screen</h1>
             </Stack>
@@ -368,7 +368,7 @@ export const Sell: React.FC<Props> = ({ authorization }) => {
                 <Form.Label>Ready for Pickup</Form.Label>
                 <Form.Control
                   type="datetime-local"
-                  value={new Date().toISOString().slice(0, 16)}
+                  value={userOffer.readyDate !== '' ? (userOffer.readyDate): (new Date().toISOString().slice(0, 16))}
                   min={new Date().toISOString().slice(0, 16)}
                   placeholder="Availability"
                   onChange={(event) =>
