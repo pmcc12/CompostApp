@@ -314,8 +314,10 @@ const ApiService: IApiService = {
     const res = await response.json();
 
     if (res.status) {
+      console.log("SUCCESS!")
       return res.data;
     } else {
+      console.log('FAILURE!!')
       return res;
     }
   },

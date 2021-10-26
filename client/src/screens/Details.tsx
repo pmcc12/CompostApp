@@ -311,9 +311,6 @@ export const Details: React.FC<Props> = ({ authorization }) => {
     }
   };
 
-  if (myData) {
-  }
-
   return (
     <>
       {loading ? (
